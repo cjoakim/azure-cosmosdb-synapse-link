@@ -10,27 +10,25 @@ mkdir -p tmp/
 arg_count=$#
 processed=0
 
-delete() {
-    processed=1
-    echo 'deleting cosmos rg: '$cosmos_sql_rg
-    az group delete \
-        --name $cosmos_sql_rg \
-        --subscription $subscription \
-        --yes \
-        > tmp/cosmos_sql_rg_delete.json
-}
-
 create() {
     processed=1
-    echo 'creating cosmos rg: '$cosmos_sql_rg
+    create_rg
+    create_acct
+    create_db
+    create_containers
+}
+
+create_rg() {
+    echo 'creating rg: '$cosmos_sql_rg
     az group create \
         --location $cosmos_sql_region \
         --name $cosmos_sql_rg \
         --subscription $subscription \
         > tmp/cosmos_sql_rg_create.json
+}
 
+create_acct() {
     echo 'creating cosmos acct: '$cosmos_sql_acct_name
-    # https://docs.microsoft.com/en-us/cli/azure/cosmosdb?view=azure-cli-latest#az_cosmosdb_create
     az cosmosdb create \
         --name $cosmos_sql_acct_name \
         --resource-group $cosmos_sql_rg \
@@ -42,37 +40,9 @@ create() {
         --analytical-storage-schema-type FullFidelity \
         --kind $cosmos_sql_acct_kind \
         > tmp/cosmos_sql_acct_create.json
-
-    create_db   
-}
-
-recreate_all() {
-    processed=1
-    delete
-    create
-    info 
-}
-
-recreate_db() {
-    processed=1
-    delete_db
-    create_db  
-    info   
-}
-
-delete_db() {
-    processed=1
-    echo 'deleting cosmos db: '$cosmos_sql_dbname
-    az cosmosdb sql database delete \
-        --resource-group $cosmos_sql_rg \
-        --account-name $cosmos_sql_acct_name \
-        --name $cosmos_sql_dbname \
-        --yes -y \
-        > tmp/cosmos_sql_db_delete.json
 }
 
 create_db() {
-    processed=1
     echo 'creating cosmos db: '$cosmos_sql_dbname
     az cosmosdb sql database create \
         --resource-group $cosmos_sql_rg \
@@ -82,27 +52,18 @@ create_db() {
         > tmp/cosmos_sql_db_create.json
 }
 
-# create_collections() {
-#     processed=1
-#     echo 'creating cosmos collection: '$cosmos_sql_airports_collname
-#     az cosmosdb sql container create \
-#         --resource-group $cosmos_sql_rg \
-#         --account-name $cosmos_sql_acct_name \
-#         --database-name $cosmos_sql_dbname \
-#         --name airports \
-#         --subscription $subscription \
-#         --partition-key-path /pk \
-#         > tmp/cosmos_sql_db_create_airports.json
-
-#     az cosmosdb sql container create \
-#         --resource-group $cosmos_sql_rg \
-#         --account-name $cosmos_sql_acct_name \
-#         --database-name $cosmos_sql_dbname \
-#         --name amtrak \
-#         --subscription $subscription \
-#         --partition-key-path /pk \
-#         > tmp/cosmos_sql_db_create_amtrak.json
-# }
+create_containers() {
+    echo 'creating cosmos container: '$cosmos_sql_cname
+    az cosmosdb sql container create \
+        --resource-group $cosmos_sql_rg \
+        --account-name $cosmos_sql_acct_name \
+        --database-name $cosmos_sql_dbname \
+        --name $cosmos_sql_cname \
+        --subscription $subscription \
+        --partition-key-path $cosmos_sql_pk_path \
+        --analytical-storage-ttl $cosmos_sql_sl_ttl \
+        > tmp/cosmos_sql_container_create.json
+}
 
 info() {
     processed=1
@@ -110,38 +71,33 @@ info() {
     az cosmosdb show \
         --name $cosmos_sql_acct_name \
         --resource-group $cosmos_sql_rg \
-        > tmp/cosmos_sql_db_show.json
+        > tmp/cosmos_sql_acct_show.json
 
     echo 'az cosmosdb keys list - keys ...'
     az cosmosdb keys list \
         --resource-group $cosmos_sql_rg \
         --name $cosmos_sql_acct_name \
         --type keys \
-        > tmp/cosmos_sql_db_keys.json
+        > tmp/cosmos_sql_keys.json
 
     echo 'az cosmosdb keys list - read-only-keys ...'
     az cosmosdb keys list \
         --resource-group $cosmos_sql_rg \
         --name $cosmos_sql_acct_name \
         --type read-only-keys \
-        > tmp/cosmos_sql_db_read_only_keys.json
+        > tmp/cosmos_sql_read_only_keys.json
 
     echo 'az cosmosdb keys list - connection-strings ...'
     az cosmosdb keys list \
         --resource-group $cosmos_sql_rg \
         --name $cosmos_sql_acct_name \
         --type connection-strings \
-        > tmp/cosmos_sql_db_connection_strings.json
-
-    # This command has been deprecated and will be removed in a future release. Use 'cosmosdb keys list' instead.
+        > tmp/cosmos_sql_connection_strings.json
 }
 
 display_usage() {
     echo 'Usage:'
-    echo './cosmos_sql.sh delete'
     echo './cosmos_sql.sh create'
-    echo './cosmos_sql.sh recreate'
-    echo './cosmos_sql.sh recreate_db'
     echo './cosmos_sql.sh info'
 }
 
@@ -151,11 +107,8 @@ if [[ $arg_count -gt 0 ]];
 then
     for arg in $@
     do
-        if [[ $arg == "delete" ]];   then delete; fi 
-        if [[ $arg == "create" ]];   then create; fi 
-        if [[ $arg == "recreate" ]]; then recreate_all; fi 
-        if [[ $arg == "recreate_db" ]]; then recreate_db; fi 
-        if [[ $arg == "info" ]];     then info; fi 
+        if [[ $arg == "create" ]]; then create; fi 
+        if [[ $arg == "info" ]];   then info; fi 
     done
 fi
 
