@@ -154,13 +154,36 @@ as shown below:
 ```
 $ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 999999
 ...
+writing batch 1857 (500) at 1630189781400
+writing batch 1858 (500) at 1630189782972
+writing batch 1859 (500) at 1630189784665
+writing batch 1860 (500) at 1630189786286
+writing batch 1861 (500) at 1630189787900
+writing batch 1862 (308) at 1630189789457
+
+EOJ Totals:
+  Database:             demo
+  Container:            travel
+  Input Filename:       data/air_travel_departures.json
+  Max Batch Count:      999999
+  BulkLoad startEpoch:  1630186765642
+  BulkLoad finishEpoch: 1630189790455
+  BulkLoad elapsedMs:   3024813
+  BulkLoad elapsedSec:  3024.813
+  BulkLoad elapsedMin:  50.41355
+  Batch Size:           500
+  Batch Count:          1862
+  Exceptions:           0
+  Document/Task count:  930808
+  Document per Second:  307.7241469142059
+...
 
 
 ```
 
 This load process can be run several times as necessary, and unique documents will be created
 from the same input data.  This is enabled by this C# code that sets the **id attribute**
-of each new document:
+of each new document to a Guid:
 
 ```
     jsonDoc.id = Guid.NewGuid().ToString();     <-- See Program.cs, method BulkLoadContainer
