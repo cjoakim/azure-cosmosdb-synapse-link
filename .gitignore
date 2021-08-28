@@ -5,9 +5,8 @@ DotnetConsoleApp/data/air_travel_departures.csv
 DotnetConsoleApp/data/air_travel_departures.json
 
 **/.idea/
+**/out/
 **/tmp/
-
-
 
 
 ## Ignore Visual Studio temporary files, build results, and

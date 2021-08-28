@@ -3,11 +3,9 @@
 namespace CosmosSL {
     
     using System;
-    using System.Threading.Tasks;
     using System.Collections.Generic;
     using Microsoft.Azure.Cosmos;
-    using Newtonsoft.Json;
-    
+
     public class CosmosClientFactory {
 
         private CosmosClientFactory() {

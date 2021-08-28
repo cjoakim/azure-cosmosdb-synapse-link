@@ -5,7 +5,6 @@
 
 namespace CosmosSL {
     
-    using System;
     using Microsoft.Azure.Cosmos;
     using Newtonsoft.Json;
     

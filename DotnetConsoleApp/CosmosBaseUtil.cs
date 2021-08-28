@@ -4,11 +4,8 @@ namespace CosmosSL {
     
     using System;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
     using Microsoft.Azure.Cosmos;
-    using Microsoft.Azure.Cosmos.Core;
-    using Newtonsoft.Json;
-    
+
     public abstract class CosmosBaseUtil {
         
         protected CosmosClient client = null;

@@ -4,9 +4,7 @@ namespace CosmosSL {
     
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Net;
-    using Microsoft.Azure.Cosmos;
     using Newtonsoft.Json;
     
     public class QueryResponse {
@@ -56,7 +54,7 @@ namespace CosmosSL {
         }
 
         public override string ToString() {
-            return $"QueryResponse: {queryName} {dbname} {cname} {statusCode} {totalRequestCharge} {ItemCount()} {elapsedMs} {HasException()}";
+            return $"QueryResponse: {queryName} db: {dbname} container: {cname} status: {statusCode} ru: {totalRequestCharge} items: {ItemCount()} excp: {HasException()}";
         }
         public string ToJson(bool pretty=true)
         {

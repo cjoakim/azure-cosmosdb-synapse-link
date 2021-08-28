@@ -6,13 +6,9 @@ namespace CosmosSL {
     using System.Collections.Generic;
     using System.Dynamic;
     using System.IO;
-    using System.Linq;
-    using System.Globalization;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
-    using Azure.Storage.Blobs;
-    using Azure.Storage.Blobs.Models;
     using Microsoft.Azure.Cosmos;
 
     class Program {
@@ -20,9 +16,6 @@ namespace CosmosSL {
         private static string   cliFunction = null;
         private static Config   config = null;
         private static CosmosClient cosmosClient = null;
-
-        // dotnet run load_container demo1 sales_default_idx data_wrangling/data/retail_sales_100k.json 2
-        // dotnet run bulk_load_container demo1 sales_default_idx data_wrangling/data/retail_sales_100k.json 2
         static async Task Main(string[] args) {
             if (args.Length < 1) {
                 PrintCliExamples("Invalid command-line args");
@@ -65,6 +58,9 @@ namespace CosmosSL {
                         break;
                     case "delete_container":
                         await DeleteContainer();
+                        break;
+                    case "delete_route":
+                        await DeleteRoute();
                         break;
                     case "bulk_load_container":
                         await BulkLoadContainer();
@@ -110,15 +106,15 @@ namespace CosmosSL {
             Console.WriteLine("dotnet run truncate_container <dbname> <cname>");
             Console.WriteLine("dotnet run delete_container <dbname> <cname>");
             Console.WriteLine("---");
-            Console.WriteLine("dotnet run load_container <dbname> <cname> <json-rows-infile> <row-count>");
-            Console.WriteLine("dotnet run bulk_load_container <dbname> <cname> <json-rows-infile> <row-count>");
+            Console.WriteLine("dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>");
+            Console.WriteLine("dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1");
             Console.WriteLine("---");
             Console.WriteLine("dotnet run count_documents <dbname> <cname>");
             Console.WriteLine("---");
             Console.WriteLine("dotnet run execute_queries <dbname> <cname> <queries-file>");
+            Console.WriteLine("dotnet run delete_route <dbname> <cname> <route>");
+            Console.WriteLine("dotnet run delete_route demo travel CLT:MBJ");
             Console.WriteLine("");
-            
-            // dotnet run load_container dddd cccc data_wrangling/data/retail_sales_100k.json 100
         }
         private static async Task ListDatabases() {
             cosmosClient = CosmosClientFactory.RegularClient();
@@ -219,6 +215,33 @@ namespace CosmosSL {
             Console.WriteLine($"TruncateContainer {dbname} {cname} -> deleteOperations {deleteOperations}");
         }
         
+        private static async Task DeleteRoute() {
+            string dbname = cliArgs[1];
+            string cname  = cliArgs[2];
+            string route  = cliArgs[3];
+            cosmosClient  = CosmosClientFactory.RegularClient();
+            CosmosQueryUtil util = new CosmosQueryUtil(cosmosClient, config.IsVerbose());
+            await util.SetCurrentDatabase(dbname);
+            await util.SetCurrentContainer(cname);
+            string sql = $"select c.id, c.pk from c where c.route = '{route}'";
+            
+            QueryResponse respObj = await util.ExecuteQuery(sql);
+            string jstr = respObj.ToJson();
+            string outfile = "out/delete_route.json";
+            await File.WriteAllTextAsync(outfile, jstr);
+            Console.WriteLine($"file written: {outfile}");
+
+            for (int i = 0; i < respObj.itemCount; i++) {
+                dynamic item = respObj.items[i];
+                string id = item["id"];
+                string pk = item["pk"];
+                GenericDocument gd = new GenericDocument(id, pk);
+                Console.WriteLine($"deleting {gd.ToJson()}");
+                ItemResponse<GenericDocument> resp = await util.DeleteGenericDocument(gd);
+                Console.WriteLine($"resp, status: {resp.StatusCode} ru: {resp.RequestCharge}");
+            }
+        }
+        
         private static async Task DeleteContainer() {
             string dbname = cliArgs[1];
             string cname  = cliArgs[2];
@@ -247,16 +270,14 @@ namespace CosmosSL {
                 infile = cliArgs[4];
                 maxBatchCount = Int32.Parse(cliArgs[5]);
                 
-                // dotnet run bulk_load_container demo test route data_wrangling/data/air_travel_departures.json 2
-
-                if (infile.StartsWith("/")) {
-                    // use this fully-qualified path without modification
-                }
-                else {
-                    // use a path relative to the root of this GitHub repo location
-                    string repoDir = config.GetDemoRepoDir();
-                    infile  = $"{repoDir}/{infile}";
-                }
+                // if (infile.StartsWith("/")) {
+                //     // use this fully-qualified path without modification
+                // }
+                // else {
+                //     // use a path relative to the root of this GitHub repo location
+                //     string repoDir = config.GetRepoDir();
+                //     infile  = $"{repoDir}/{infile}";
+                // }
 
                 cosmosClient = CosmosClientFactory.BulkLoadingClient();
                 Database  database  = cosmosClient.GetDatabase(dbname);
@@ -388,28 +409,26 @@ namespace CosmosSL {
             
             foreach (string line in File.ReadLines(infile)) {
                 string[] tokens = line.Split("|");
-                if (tokens.Length > 2) {
-                    string   qname  = tokens[0].Trim();
-                    string[] containers= tokens[1].Trim().Split(",");
-                    string sql = tokens[2].Trim();
+                if (tokens.Length > 1) {
+                    string qname = tokens[0].Trim();
+                    string sql   = tokens[1].Trim();
                     if (qname.StartsWith("q")) {
-                        if ((containers[0] == "all") || (containers.Contains(cname))) {
-                            Console.WriteLine("");
-                            Console.WriteLine("================================================================================");
-                            Console.WriteLine($"executing qname: {qname}, db: {dbname}, cname: {cname}, sql: {sql}");
-                            QueryResponse respObj = await util.ExecuteQuery(sql);
-                            respObj.queryName = qname;
-                            respObj.sql = sql;
-                            respObj.dbname = dbname;
-                            respObj.cname  = cname;
-                            respObj.Finish();
-                            Console.WriteLine(respObj.ToString());
-                            string jstr = respObj.ToJson();
-                            if (config.IsVerbose()) {
-                                Console.WriteLine(jstr);
-                            }
-                            await File.WriteAllTextAsync(respObj.filename, jstr);
+                        Console.WriteLine("");
+                        Console.WriteLine("================================================================================");
+                        Console.WriteLine($"executing qname: {qname}, db: {dbname}, cname: {cname}, sql: {sql}");
+                        QueryResponse respObj = await util.ExecuteQuery(sql);
+                        respObj.queryName = qname;
+                        respObj.sql = sql;
+                        respObj.dbname = dbname;
+                        respObj.cname  = cname;
+                        respObj.Finish();
+                        Console.WriteLine(respObj.ToString());
+                        string jstr = respObj.ToJson();
+                        if (config.IsVerbose()) {
+                            Console.WriteLine(jstr);
                         }
+                        await File.WriteAllTextAsync(respObj.filename, jstr);
+                        Console.WriteLine($"file written: {respObj.filename}");
                     }  
                 }
             }

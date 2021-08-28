@@ -3,14 +3,10 @@
 namespace CosmosSL {
     
     using System;
-    using System.Net;
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using Microsoft.Azure.Cosmos;
-    using Microsoft.Azure.Documents;
-    using Microsoft.Azure.Cosmos.Core;
-    using Newtonsoft.Json;
-    
+
     public class CosmosAdminUtil  : CosmosBaseUtil {
         
         public CosmosAdminUtil(CosmosClient client, bool verbose=false) {
