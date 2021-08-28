@@ -402,8 +402,8 @@ namespace CosmosSL {
             await util.SetCurrentDatabase(dbname);
             await util.SetCurrentContainer(cname);
 
-            Console.WriteLine("warming sdk client...");
-            for (int i = 0; i < 4; i++) {
+            // Console.WriteLine("warming sdk client...");
+            for (int i = 0; i < 2; i++) {
                 await util.CountDocuments("");
             }
             

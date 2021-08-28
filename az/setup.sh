@@ -21,10 +21,4 @@ echo 'adding az extensions ...'
 az extension add -n storage-preview
 az extension add --name synapse
 
-# echo 'az login in with service principal ...'
-# az login --service-principal \
-#     --username $AZURE_DEMO22_SP_APP_ID \
-#     --password $AZURE_DEMO22_SP_PASSWORD \
-#     --tenant   $AZURE_DEMO22_SP_TENANT
-
 echo 'done'

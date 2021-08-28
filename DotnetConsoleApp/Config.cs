@@ -11,23 +11,17 @@ namespace CosmosSL {
      * to support either command-line/terminal/shell or Docker container execution.   
      * With Docker, the command-line can be passed in as environment variable 'CLI_ARGS_STRING'.
      */
-    public class Config{
+    public class Config {
+        
         // Constants; environment variable names:
-        public const string AZURE_CSL_REPO_DIR_MAC                = "AZURE_CSL_REPO_DIR_MAC";
-        public const string AZURE_CSL_REPO_DIR_WIN                = "AZURE_CSL_REPO_DIR_WIN";
-        public const string AZURE_CSL_REPO_DIR_LINUX              = "AZURE_CSL_REPO_DIR_LINUX";
-        public const string AZURE_CSL_COSMOSDB_SQLDB_ACCT         = "AZURE_CSL_COSMOSDB_SQLDB_ACCT";
         public const string AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING  = "AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING";
-        public const string AZURE_CSL_COSMOSDB_SQLDB_DBNAME       = "AZURE_CSL_COSMOSDB_SQLDB_DBNAME";
-        public const string AZURE_CSL_COSMOSDB_SQLDB_CNAME        = "AZURE_CSL_COSMOSDB_SQLDB_CNAME";
         public const string AZURE_CSL_COSMOSDB_SQLDB_KEY          = "AZURE_CSL_COSMOSDB_SQLDB_KEY";
         public const string AZURE_CSL_COSMOSDB_SQLDB_URI          = "AZURE_CSL_COSMOSDB_SQLDB_URI";
         public const string AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS = "AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS";
         public const string AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE    = "AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE";
         
         // Constants; command-line and keywords:
-        public const string INFILE_KEYWORD                 = "--infile";
-        public const string VERBOSE_FLAG                   = "--verbose";
+        public const string VERBOSE_FLAG                          = "--verbose";
 
         // Class variables:
         private static Config singleton;
@@ -63,20 +57,6 @@ namespace CosmosSL {
             return cliArgs;
         }
 
-        public string GetRepoDir() {
-            string osNameAndVersion = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
-            Console.WriteLine($"osNameAndVersion: {osNameAndVersion}");
-            if (osNameAndVersion.Contains("Darwin")) {
-                return GetEnvVar(AZURE_CSL_REPO_DIR_MAC, null);  
-            }
-            else if (osNameAndVersion.Contains("Win")) {
-                return GetEnvVar(AZURE_CSL_REPO_DIR_WIN, null);
-            }
-            else {
-                return GetEnvVar(AZURE_CSL_REPO_DIR_LINUX, null);
-            }
-        }
-
         public string GetCosmosConnString() {
             return GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING, null);
         }
@@ -88,11 +68,7 @@ namespace CosmosSL {
         public string GetCosmosKey() {
             return GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_KEY, null);
         }
-
-        public string GetCosmosDbName() {
-            return GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_DBNAME, null);
-        }
-
+        
         public string[] GetCosmosPreferredRegions() {
             string delimList = GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS, null);
             if (delimList == null) {
