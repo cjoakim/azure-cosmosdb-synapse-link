@@ -93,15 +93,17 @@ $ cd az
 
 $ ./create_all.sh
 
-$ cd DotnetConsoleApp
-$ dotnet restore                 <-- install the dotnet packages from NuGet (i.e. - CosmosDB SDK)
-$ dotnet build                   <-- compile the C# code
-
-$ cd data
-... unzip the two zip files      <-- the zip files contain csv and json files too large for GitHub
 $ cd ..
 
-$ dotnet run                     <-- displays the list of commands supported by Program.cs
+$ cd DotnetConsoleApp
+$ dotnet restore               <-- install the dotnet packages from NuGet (i.e. - CosmosDB SDK)
+$ dotnet build                 <-- compile the C# code
+
+$ cd data
+... unzip the two zip files    <-- the zip files contain csv and json files too large for GitHub
+$ cd ..
+
+$ dotnet run                   <-- displays the list of commands supported by Program.cs
 ```
 
 ### Populating CosmosDB with the DotNet Console App
@@ -110,6 +112,28 @@ $ dotnet run                     <-- displays the list of commands supported by 
 $ mkdir out
 
 $ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 2
+...
+ListContainers - count 1
+OK: container travel is present in db: demo
+LoadContainer - db: demo, container: travel, infile: data/air_travel_departures.json, maxBatchCount: 2
+writing batch 1 (500) at 1630186455833
+writing batch 2 (500) at 1630186457831
+
+EOJ Totals:
+  Database:             demo
+  Container:            travel
+  Input Filename:       data/air_travel_departures.json
+  Max Batch Count:      2
+  BulkLoad startEpoch:  1630186455640
+  BulkLoad finishEpoch: 1630186459215
+  BulkLoad elapsedMs:   3575
+  BulkLoad elapsedSec:  3.575
+  BulkLoad elapsedMin:  0.059583333333333335
+  Batch Size:           500
+  Batch Count:          2
+  Exceptions:           0
+  Document/Task count:  1000
+  Document per Second:  279.72027972027973
 ```
 
 The above loads 2 batches (1000 documents) into the database named demo, the container
@@ -118,10 +142,30 @@ the partition key.
 
 Look at your CosmosDB account in Azure Portal to confirm that the documents were added.
 
+You can use the DotNet program to count the documents with this command:
 
 ```
 $ dotnet run count_documents demo travel 
 ```
+
+You can run this process again to load the entire dataset by using a higher batch count
+as shown below:
+
+```
+$ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 999999
+...
+
+
+```
+
+This load process can be run several times as necessary, and unique documents will be created
+from the same input data.  This is enabled by this C# code that sets the **id attribute**
+of each new document:
+
+```
+    jsonDoc.id = Guid.NewGuid().ToString();     <-- See Program.cs, method BulkLoadContainer
+```
+
 
 #### The Air Travel Data
 
