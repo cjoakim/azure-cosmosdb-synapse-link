@@ -4,6 +4,7 @@
 DotnetConsoleApp/data/air_travel_departures.csv
 DotnetConsoleApp/data/air_travel_departures.json
 
+**/.idea/
 **/tmp/
 
 

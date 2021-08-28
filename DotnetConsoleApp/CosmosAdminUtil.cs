@@ -1,6 +1,6 @@
 // Chris Joakim, Microsoft, August 2021
 
-namespace CosmosConsole22 {
+namespace CosmosSL {
     
     using System;
     using System.Net;
@@ -10,7 +10,6 @@ namespace CosmosConsole22 {
     using Microsoft.Azure.Documents;
     using Microsoft.Azure.Cosmos.Core;
     using Newtonsoft.Json;
-    using DocumentFormat.OpenXml.Wordprocessing;
     
     public class CosmosAdminUtil  : CosmosBaseUtil {
         

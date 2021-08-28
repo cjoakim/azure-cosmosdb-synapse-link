@@ -1,11 +1,12 @@
-using System.ComponentModel;
-using System.Net;
-using Microsoft.Azure.Cosmos;
+// Chris Joakim, Microsoft, August 2021
 
-namespace CosmosConsole22 {
+namespace CosmosSL {
     
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Net;
+    using Microsoft.Azure.Cosmos;
     using Newtonsoft.Json;
     
     public class QueryResponse {

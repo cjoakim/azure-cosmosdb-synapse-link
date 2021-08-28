@@ -1,10 +1,9 @@
 // Chris Joakim, Microsoft, August 2021
 
-namespace CosmosConsole22{
+namespace CosmosSL {
 
     using System;
     using Newtonsoft.Json;
-    using DocumentFormat.OpenXml.Wordprocessing;
 
     /**
      * This class is the source of all configuration values for this application -  

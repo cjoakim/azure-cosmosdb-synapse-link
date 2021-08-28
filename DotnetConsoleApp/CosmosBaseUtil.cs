@@ -1,6 +1,6 @@
 // Chris Joakim, Microsoft, August 2021
 
-namespace CosmosConsole22 {
+namespace CosmosSL {
     
     using System;
     using System.Threading.Tasks;

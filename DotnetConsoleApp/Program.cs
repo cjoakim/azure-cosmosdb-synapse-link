@@ -1,13 +1,12 @@
 ﻿// Chris Joakim, Microsoft, August 2021
 
-using System.Linq;
-
-namespace CosmosConsole22 {
+namespace CosmosSL {
     
     using System;
     using System.Collections.Generic;
     using System.Dynamic;
     using System.IO;
+    using System.Linq;
     using System.Globalization;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
