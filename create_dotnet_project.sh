@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Use the dotnet CLI to bootstrap a dotnet solution and project(s).
+# Use the dotnet CLI to bootstrap a dotnet project.
 # Chris Joakim, Microsoft, August 2021
 
 app_name="DotnetConsoleApp"
@@ -24,6 +24,7 @@ cd     DotnetConsoleApp
 echo 'adding packages...'
 dotnet add package Azure.Storage.Blobs
 dotnet add package Microsoft.Azure.Cosmos
+
 # other packages of interest:
 # dotnet add package CsvHelper
 # dotnet add package DocumentFormat.OpenXml 
