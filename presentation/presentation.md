@@ -1,5 +1,11 @@
 
-<p align="center"><img src="img/synapse-analytics-cosmos-db-architecture.png" width="95%"></p>
+<p align="center"><img src="img/csl-demo.png" width="95%"></p>
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
+<p align="center"><img src="img/transactional-analytical-data-stores.png" width="100%"></p>
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
 ---
 
