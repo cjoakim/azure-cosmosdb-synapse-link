@@ -297,7 +297,10 @@ namespace CosmosSL {
                                     //Console.WriteLine(jsonLine);
                                     dynamic jsonDoc = JsonConvert.DeserializeObject<ExpandoObject>(
                                         jsonLine.Trim(), new ExpandoObjectConverter());
-                                    
+
+                                    DateTimeOffset now = DateTimeOffset.UtcNow;
+                                    jsonDoc.doc_epoch = now.ToUnixTimeMilliseconds();
+                                    jsonDoc.doc_time = now.ToString("yyyy/MM/dd-HH:mm:ss");
                                     jsonDoc.id = Guid.NewGuid().ToString();
                                     
                                     switch (pkAttr) {
@@ -328,6 +331,7 @@ namespace CosmosSL {
 
                                     if (tasks.Count == batchSize) {
                                         batchCount++;
+                                        Console.WriteLine(JsonConvert.SerializeObject(jsonDoc));
                                         Console.WriteLine($"writing batch {batchCount} ({tasks.Count}) at {EpochMsTime()}");
                                         await Task.WhenAll(tasks);
                                         tasks = new List<Task>(batchSize);
@@ -387,7 +391,7 @@ namespace CosmosSL {
             CosmosQueryUtil util = new CosmosQueryUtil(cosmosClient, config.IsVerbose());
             await util.SetCurrentDatabase(dbname);
             await util.SetCurrentContainer(cname);
-            int count = (await util.CountDocuments("")).ItemCount();
+            int count = (await util.CountDocuments("")).items[0];
             Console.WriteLine($"CountDocuments {dbname} {cname} -> {count}"); 
         }
 
