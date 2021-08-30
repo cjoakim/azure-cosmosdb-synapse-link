@@ -27,17 +27,6 @@ export cosmos_sql_pk_path="/pk"
 export cosmos_sql_db_throughput="4000"
 export cosmos_sql_sl_ttl="220903200"  # 7-years, in seconds (60 * 60 * 24 * 365.25 * 7)
 #
-export la_wsp_region=$primary_region
-export la_wsp_rg=$primary_rg
-export la_wsp_name="cjoakimcslloganalytics"
-#
-export storage_region=$primary_region
-export storage_rg=$primary_rg
-export storage_name="cjoakimcslstorage"
-export storage_kind="BlobStorage"     # {BlobStorage, BlockBlobStorage, FileStorage, Storage, StorageV2}]
-export storage_sku="Standard_LRS"     # {Premium_LRS, Premium_ZRS, Standard_GRS, Standard_GZRS, , Standard_RAGRS, Standard_RAGZRS, Standard_ZRS]
-export storage_access_tier="Hot"      # Cool, Hot
-#
 export synapse_region=$primary_region
 export synapse_rg=$primary_rg
 export synapse_name="cjoakimcslsynapse"

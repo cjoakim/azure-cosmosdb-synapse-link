@@ -151,34 +151,63 @@ It is recommended that you provision these Azure Resources with either the
   - both the account and the container should have the **Analytical Store Enabled**
 
 - **Azure Synapse**
-  - with a **small spark pool of only 3 nodes**
+  - with a **spark pool of three small nodes**
 
-#### Provisioning with the az CLI
+### Provision Resources with the az CLI
 
-See bash shell script **az/create_all.sh** in this repo, and the instructions below.
-These scripts run on Linux and macOS.  Edit file **config.sh** first!
+**If you provisioned resources in Azure Portal, you can skip this section.**
 
-Alternatively, see PowerShell script **az/create_all.ps1** (in progress).
-
-**Note: The PowerShell scripts for Windows are currently under construction.**
-
-### Environment Varibles
-
-The code in this repo uses the following environment variables.
-You should set these on your system per your Azure resource values.
+#### Setup the az CLI
 
 ```
-AZURE_SUBSCRIPTION_ID
+$ cd az
 
-AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING
-AZURE_CSL_COSMOSDB_SQLDB_KEY
-AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS
-AZURE_CSL_COSMOSDB_SQLDB_URI
+$ az login 
 
-AZURE_SYNAPSE_USER
-AZURE_SYNAPSE_PASS
+$ az account set --subscription <your-subscription-id>
 
-AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE=500
+$ az account show
+
+$ az extension add -n storage-preview
+$ az extension add --name synapse
+```
+
+#### Initial Environment Varibles
+
+Set these on your system as both the az CLI provisioning process,
+and the DotNet program, will use them.
+
+```
+export AZURE_SUBSCRIPTION_ID=<your-specified-username>
+export AZURE_SYNAPSE_USER=<your-specified-username>
+export AZURE_SYNAPSE_PASS=<your-specified-password>
+export AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE=500
+```
+
+#### Provisioning on Linux or macOS with the az CLI in bash scripts
+
+First, edit file **config.sh** - this file specifies your Azure Region,
+Resource Group, and Azure Resource configuration details.
+
+**Please do a change-all on this script to change "cjoakim" to YOUR ID!**
+
+```
+$ ./create_all.sh
+```
+
+#### Provisioning on Windows with the az CLI in PowerShell scripts
+
+**Note: The PowerShell scripts for Windows in this repo are currently under construction.  The az commands, however, are portable across OS platforms.**
+
+### Additional Environment Varibles
+
+After provisioning, see your **CosmosDB account Azure Portal** to get these values.
+
+```
+export AZURE_CSL_COSMOSDB_SQLDB_URI
+export AZURE_CSL_COSMOSDB_SQLDB_KEY
+export AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING
+export AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS=eastus   <-- example value
 ```
 
 ### Configure Azure Synapse
