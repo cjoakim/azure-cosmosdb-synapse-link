@@ -23,6 +23,10 @@ integration via **Synapse Link**
 - Auto-sync latency is usually within 2 minutes, but up to 5 minutes
 - Supported for the **Azure Cosmos DB SQL (Core)** API and **Azure Cosmos DB API for MongoDB** APIs
 
+<p align="center"><img src="presentation/img/transactional-analytical-data-stores.png" width="100%"></p>
+
+<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
+
 ## Synapse Link Details
 
 - **No impact to CosmosDB performance or RU costs**
@@ -53,8 +57,6 @@ integration via **Synapse Link**
       - az cosmosdb create ... --analytical-storage-schema-type "FullFidelity" 
 
 - See https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction
-
-<p align="center"><img src="presentation/img/transactional-analytical-data-stores.png" width="100%"></p>
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
