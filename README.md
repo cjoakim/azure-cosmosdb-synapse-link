@@ -280,19 +280,25 @@ print((df.count(), len(df.columns)))
 ```
 from pyspark.sql.functions import col
 
-# unpack the structs of type string
+# unpack the structs of type string into another dataframe, df2
 df2 = df.select(
     col('route.*'),
+    col('id.*'),
+    col('doc_time.*'),
     col('date.*'),
     col('count.*'),
     col('to_airport_country.*'),
-    col('to_airport_name.*')).filter("_ts > 1630355233").sort("doc_time", ascending=False) 
+    col('to_airport_name.*')).filter("_ts > 1630355233") 
 
-# rename the unpacked columns
-new_column_names = ['route','date','count','to_airport_country','to_airport_name']
+# rename the unpacked columns, into new dataframe df3
+new_column_names = ['route','id','doc_time','date','count','to_airport_country','to_airport_name']
 df3 = df2.toDF(*new_column_names)
 
-df3.show(n=10)
+# create new df4, filtering by route 'ATL:MBJ', sorting by 'doc_time' descending
+df4 = df3.filter("route == 'ATL:MBJ'").sort("doc_time", ascending=False)
+
+# display the first 10 rows
+df4.show(n=10)
 ```
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
@@ -465,3 +471,12 @@ Edit file sql/queries.txt as necessary, to add your own queries.
 
 ### 3.5 Query the Synapse Link Data with a PySpark Notebook in Synapse
 
+#### Before execution
+
+<p align="center"><img src="presentation/img/travel_notebook.png" width="95%"></p>
+
+---
+
+#### After execution
+
+<p align="center"><img src="presentation/img/travel-notebook-executed.png" width="95%"></p>
