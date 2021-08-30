@@ -7,7 +7,7 @@ integration via **Synapse Link**
 
 ### Table of Contents
 
-- [Part 1: Architecture of Synapse Link and this Demonstration App](#part1)
+- [Part 1: Architecture of Synapse Link, and this Demonstration App](#part1)
 - [Part 2: Setup this Demonstration App in Your Azure Subscription](#part2)
 - [Part 3: Demonstration](#part3)
 
@@ -15,7 +15,7 @@ integration via **Synapse Link**
 
 <a name="part1"></a>
 
-## Part 1: Architecture of Synapse Link and this Demonstration App
+## Part 1: Architecture of Synapse Link, and this Demonstration App
 
 - A **net5.0 client program** reads a data file, and Bulk Loads JSON documents to CosmosDB
 - The CosmosDB documents flow into **Synapse Link** in near realtime
@@ -99,6 +99,8 @@ integration via **Synapse Link**
 └── synapse
     └── pyspark           <-- pyspark notebooks for Azure Synapse
 ```
+
+Go to [Part 3: Demonstration](#part3)
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
