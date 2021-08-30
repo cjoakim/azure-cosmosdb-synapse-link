@@ -7,15 +7,52 @@ integration via **Synapse Link**
 
 - A **net5.0 client program** reads a data file, and Bulk Loads JSON documents to CosmosDB
 - The CosmosDB documents flow into **Synapse Link** in near realtime
-- Synapse Link performs **both copy AND data transformation (to columnar format)** 
+- Synapse Link performs **both copy AND data transformation (to columnar format)** operations
 - No other ETL solution is needed (i.e. - Databricks)
 - Query the Synapse Link data with **PySpark Notebooks in Azure Synapse Analytics**
+
 
 <p align="center"><img src="presentation/img/csl-demo.png" width="100%"></p>
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
 ## Synapse Link data movement and transformation
+
+- Synapse Link performs **both copy AND data transformation (to columnar format)** operations
+- The **inserts, updates, and deletes** to your operational data are automatically synced to analytical store
+- Auto-sync latency is usually within 2 minutes, but up to 5 minutes
+- Supported for the **Azure Cosmos DB SQL (Core)** API and **Azure Cosmos DB API for MongoDB** APIs
+
+## Synapse Link Details
+
+- **No impact to CosmosDB performance or RU costs**
+- Is Scalable and Elastic
+- The Synapse Link data can be queried in Azure Synapse Analytics by:
+  - **Azure Synapse Spark pools**
+    - Spark Streaming not yet supported
+  - **Azure Synapse Serverless SQL pools** (not provisioned pools)
+- Pricing consists of **storage and IO operations**
+- Schema constraints:
+  - Only the first 1000 document properties
+  - Only the first 127 document nested levels
+  - No explicit versioning, the schema is inferred
+  - CosmosDB stores JSON
+  - Attribute names are mormalized: {"id": 1, "Name": "fred", "name": "john"}
+  - Addtibute names with odd characters: colons, semicolons, parens, =, etc
+- Two Schema Types:
+  - Well-defined 
+    - Default option for SQL (CORE) API accounts
+    - The schema, with datatypes, grows are documents are added
+      - Non-conforming attributes are ignored
+        - doc1: {"id": "1", "a":123}
+        - doc2: {"id": "2", "a": "str"}   <-- a isn't an integer
+  - Full Fidelity
+    - Default option for Azure Cosmos DB API for MongoDB accounts
+    - None of the above dataname normalization or datatype enforcement
+    - Can be optionally be used by the SQL API
+      - az cosmosdb create ... --analytical-storage-schema-type "FullFidelity" 
+
+- See https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction
 
 <p align="center"><img src="presentation/img/transactional-analytical-data-stores.png" width="100%"></p>
 
@@ -26,6 +63,7 @@ integration via **Synapse Link**
 - [What is Azure Synapse Link for Azure Cosmos DB?](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link)
 - [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
 - [Azure Synapse Analytics](https://azure.microsoft.com/en-us/services/synapse-analytics/)
+- [Analytical Store Pricing](https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#analytical-store-pricing)
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
