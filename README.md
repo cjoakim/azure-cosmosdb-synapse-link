@@ -3,10 +3,19 @@
 Demonstration of **Azure CosmosDB** with **Azure Synapse Analytics**
 integration via **Synapse Link**
 
-**Chris Joakim, Microsoft, Americas Global Black Belt NoSQL/CosmosDB**,
-chjoakim@microsoft.com
+**Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
-## Architecture of Synapse Link and this Demonstration App
+### Table of Contents
+
+- [Part 1: Architecture of Synapse Link and this Demonstration App](#part1)
+- [Part 2: Setup this Demonstration App in Your Azure Subscription](#part2)
+- [Part 3: Demonstration](#part3)
+
+<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
+
+<a name="part1"></a>
+
+## Part 1: Architecture of Synapse Link and this Demonstration App
 
 - A **net5.0 client program** reads a data file, and Bulk Loads JSON documents to CosmosDB
 - The CosmosDB documents flow into **Synapse Link** in near realtime
@@ -93,7 +102,9 @@ chjoakim@microsoft.com
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
-## Running this Demo in Your Azure Subscription
+<a name="part2"></a>
+
+## Part 2: Setup this Demonstration App in Your Azure Subscription
 
 ### Provision Azure Resources
 
@@ -331,4 +342,6 @@ The query responses are written to JSON files in the out/ directory,
 and the response status and RU charges are displayed in the console.
 
 Edit file sql/queries.txt as necessary, to add your own queries.
+
+## Part 3: Demonstration
 
