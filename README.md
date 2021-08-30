@@ -138,6 +138,29 @@ $ cd data
 $ cd ..
 
 $ dotnet run                   <-- displays the list of commands supported by Program.cs
+...
+
+Command-Line Examples:
+dotnet run list_databases
+dotnet run create_database <dbname> <shared-ru | 0>
+dotnet run delete_database <dbname>
+dotnet run update_database_throughput <dbname> <shared-ru>
+---
+dotnet run list_containers <dbname>
+dotnet run create_container <dbname> <cname> <pk> <ru>
+dotnet run update_container_throughput <dbname> <cname> <ru>
+dotnet run update_container_indexing <dbname> <cname> <json-doc-infile>
+dotnet run truncate_container <dbname> <cname>
+dotnet run delete_container <dbname> <cname>
+---
+dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>
+dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1
+---
+dotnet run count_documents <dbname> <cname>
+---
+dotnet run execute_queries <dbname> <cname> <queries-file>
+dotnet run delete_route <dbname> <cname> <route>
+dotnet run delete_route demo travel CLT:MBJ
 ```
 
 ### Provision Azure Resources
@@ -224,12 +247,52 @@ This represents 24-hours, or 1-day (60 * 60 * 24).
 - Create a Linked Service to the CosmosDB Synapse Link Data
 - Right-mouse the CosmosDB Synapse Link Data ""travel" icon
 - Create a Notebook PySpark Notebook that reads that data as a Dataframe
-- Edit the cells of the Notebook to look like the following
+
+<p align="center"><img src="presentation/img/new-notebook-from-synapse-link-data.png" width="95%"></p>
+
+#### Edit the cells of the Notebook to look like the following
+
+**Cell 1**:
 
 ```
+# Read the Cosmos DB analytical store into a Spark DataFrame.
+# Then display the observed schema of the data.
 
-TODO
+df = spark.read\
+    .format("cosmos.olap")\
+    .option("spark.synapse.linkedService", "CosmosDbSynapseLink")\
+    .option("spark.cosmos.container", "travel")\
+    .load()
 
+display(df.printSchema())
+```
+
+**Cell 2**:
+
+```
+# Print the row and column counts of the Dataframe
+
+print((df.count(), len(df.columns)))
+```
+
+**Cell 3**:
+
+```
+from pyspark.sql.functions import col
+
+# unpack the structs of type string
+df2 = df.select(
+    col('route.*'),
+    col('date.*'),
+    col('count.*'),
+    col('to_airport_country.*'),
+    col('to_airport_name.*')).filter("_ts > 1630355233").sort("doc_time", ascending=False) 
+
+# rename the unpacked columns
+new_column_names = ['route','date','count','to_airport_country','to_airport_name']
+df3 = df2.toDF(*new_column_names)
+
+df3.show(n=10)
 ```
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
@@ -279,38 +342,22 @@ logically similar to the following:
 }
 ```
 
+The DotNet program will overlay the **pk (partition key)** attribute,
+**id**, **doc_epoch**, and **doc_time**.
+
+```
+  "pk": "BOS:STR",
+  "id": "62c75c42-cc42-4450-b879-c06553bb5f5b",
+
+  "doc_epoch": 1630355232669,
+  "doc_time": "2021/08/30-20:27:12",
+```
+
+The PySpark Notebook in Synapse (described in section 3.5 below) will query these values and sort on **doc_time***.
+
+---
+
 ### 3.2 Populate CosmosDB with the DotNet Console App
-
-#### See the available commands for Program.cs
-
-```
-$ cd DotnetConsoleApp
-
-$ dotnet run
-...
-
-Command-Line Examples:
-dotnet run list_databases
-dotnet run create_database <dbname> <shared-ru | 0>
-dotnet run delete_database <dbname>
-dotnet run update_database_throughput <dbname> <shared-ru>
----
-dotnet run list_containers <dbname>
-dotnet run create_container <dbname> <cname> <pk> <ru>
-dotnet run update_container_throughput <dbname> <cname> <ru>
-dotnet run update_container_indexing <dbname> <cname> <json-doc-infile>
-dotnet run truncate_container <dbname> <cname>
-dotnet run delete_container <dbname> <cname>
----
-dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>
-dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1
----
-dotnet run count_documents <dbname> <cname>
----
-dotnet run execute_queries <dbname> <cname> <queries-file>
-dotnet run delete_route <dbname> <cname> <route>
-dotnet run delete_route demo travel CLT:MBJ
-```
 
 #### Populate the Database, using the DotNet SDK Bulk Loading functionality 
 
@@ -348,7 +395,7 @@ EOJ Totals:
 ```
 
 The above loads 100 batches (50,000 documents) into the database named demo, 
-the container named travel, using the given json data file and the value of the
+the container named travel, using the given json data file, and the value of the
 route attribute as the partition key.
 
 The last document in each batch (of 500) is logged to the output, and then
@@ -366,6 +413,8 @@ Look at your CosmosDB account in Azure Portal to confirm that the documents were
 
 <p align="center"><img src="presentation/img/documents-in-azure-portal.png" width="95%"></p>
 
+---
+
 ### 3.3 Count the CosmosDB Documents with the DotNet Console App
 
 ```
@@ -373,6 +422,8 @@ $ dotnet run count_documents demo travel
 
 CountDocuments demo travel -> 50000
 ```
+
+---
 
 ### 3.4 Query the CosmosDB Documents with the DotNet Console App
 
