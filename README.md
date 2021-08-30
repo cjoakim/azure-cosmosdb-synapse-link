@@ -3,7 +3,10 @@
 Demonstration of **Azure CosmosDB** with **Azure Synapse Analytics**
 integration via **Synapse Link**
 
-## Architecture of Synapse Link and this Demonstration
+**Chris Joakim, Microsoft, Americas Global Black Belt NoSQL/CosmosDB**,
+chjoakim@microsoft.com
+
+## Architecture of Synapse Link and this Demonstration App
 
 - A **net5.0 client program** reads a data file, and Bulk Loads JSON documents to CosmosDB
 - The CosmosDB documents flow into **Synapse Link** in near realtime
@@ -19,6 +22,7 @@ integration via **Synapse Link**
 ## Synapse Link data movement and transformation
 
 - Synapse Link performs **both copy AND data transformation (to columnar format)** operations
+- A **columnar datastore** is more suitable for analytical query processing
 - The **inserts, updates, and deletes** to your operational data are automatically synced to analytical store
 - Auto-sync latency is usually within 2 minutes, but up to 5 minutes
 - Supported for the **Azure Cosmos DB SQL (Core)** API and **Azure Cosmos DB API for MongoDB** APIs
@@ -48,8 +52,8 @@ integration via **Synapse Link**
     - Default option for SQL (CORE) API accounts
     - The schema, with datatypes, grows are documents are added
       - Non-conforming attributes are ignored
-        - doc1: {"id": "1", "a":123}
-        - doc2: {"id": "2", "a": "str"}   <-- a isn't an integer
+        - doc1: {"id": "1", "a":123}      <-- "a" is an integer, added to schema
+        - doc2: {"id": "2", "a": "str"}   <-- "a" isn't an integer, ignored
   - Full Fidelity
     - Default option for Azure Cosmos DB API for MongoDB accounts
     - None of the above dataname normalization or datatype enforcement
@@ -72,7 +76,7 @@ integration via **Synapse Link**
 ## This GitHub Repository
 
 - https://github.com/cjoakim/azure-cosmosdb-synapse-link
-- **Chris Joakim, Microsoft, chjoakim@microsoft.com, Americas Global Black Belt NoSQL/CosmosDB**
+
 
 ### Directory Structure
 
