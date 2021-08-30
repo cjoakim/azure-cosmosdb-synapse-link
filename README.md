@@ -10,6 +10,9 @@ integration via **Synapse Link**
 - [Part 1: Architecture of Synapse Link, and this Demonstration App](#part1)
 - [Part 2: Setup this Demonstration App in Your Azure Subscription](#part2)
 - [Part 3: Demonstration](#part3)
+  - 3.1 Run DotNet program to populate CosmosDB with International Air Travel Data
+  - 3.2 Query CosmosDB with the DotNet program
+  - 3.3 Query the corresponding Synapse Link data with a PySpark Notebook in Synapse
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
@@ -71,7 +74,7 @@ integration via **Synapse Link**
 
 - See https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction
 
-<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
+---
 
 ## Links / References
 
@@ -80,14 +83,25 @@ integration via **Synapse Link**
 - [Azure Synapse Analytics](https://azure.microsoft.com/en-us/services/synapse-analytics/)
 - [Analytical Store Pricing](https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#analytical-store-pricing)
 
+
+Go to [Part 3: Demonstration](#part3)
+
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
-## This GitHub Repository
+<a name="part2"></a>
 
-- https://github.com/cjoakim/azure-cosmosdb-synapse-link
+## Part 2: Setup this Demonstration App in Your Azure Subscription
 
+### This GitHub Repository
 
-### Directory Structure
+Clone this public GitHub repository to a preferred location on 
+your laptop/workstation/VM.
+
+```
+$ git clone https://github.com/cjoakim/azure-cosmosdb-synapse-link.git
+```
+
+#### Directory Structure of this Repository
 
 ```
 ├── DotnetConsoleApp      <-- net5.0 console application
@@ -100,17 +114,10 @@ integration via **Synapse Link**
     └── pyspark           <-- pyspark notebooks for Azure Synapse
 ```
 
-Go to [Part 3: Demonstration](#part3)
-
-<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
-
-<a name="part2"></a>
-
-## Part 2: Setup this Demonstration App in Your Azure Subscription
-
 ### Provision Azure Resources
 
-Recommended that you provision with either the **Azure Portal** or the **az CLI**.
+It is recommended that you provision these Azure Resources with either the 
+**Azure Portal** or the **az CLI**.  This repo contains working az CLI scripts.
 
 - **Azure CosmosDB Account, SQL API**
   - database named **demo**
@@ -127,10 +134,9 @@ Recommended that you provision with either the **Azure Portal** or the **az CLI*
 
 See script **az/create_all.sh** in this repo, and the instructions below/
 
-Note: this repo currently has bash scripts implemented for linux or macOS.
-Equivalent PowerShell scripts for Windows will be implemented soon.
+**Note: this repo currently has bash scripts implemented for linux or macOS.  Equivalent PowerShell scripts for Windows will be implemented soon.**
 
-### Laptop/Workstation Requirements
+### Laptop/Workstation/VM Requirements
 
 - Either Windows, macOS, or Linux
 - git
@@ -156,7 +162,7 @@ AZURE_SYNAPSE_PASS
 AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE=500
 ```
 
-### Getting Started
+### Clone the Repo, Unzip data files, Compile Code
 
 ```
 $ git clone https://github.com/cjoakim/azure-cosmosdb-synapse-link.git
@@ -175,11 +181,60 @@ $ cd DotnetConsoleApp
 $ dotnet restore               <-- install the dotnet packages from NuGet (i.e. - CosmosDB SDK)
 $ dotnet build                 <-- compile the C# code
 
+$ mkdir out
+
 $ cd data
 ... unzip the two zip files    <-- the zip files contain csv and json files too large for GitHub
 $ cd ..
 
 $ dotnet run                   <-- displays the list of commands supported by Program.cs
+```
+
+<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
+
+<a name="part3"></a>
+
+## Part 3: Demonstration
+
+### The International Air Travel Data
+
+Each line in file data/air_travel_departures.json contains a document that looks
+similar to the following:
+
+```
+{
+  "id": "a7a868a4-ff6f-11eb-96e6-acde48001122",
+  "pk": "GUM:MAJ",
+  "date": "2006/05/01",
+  "year": "2006",
+  "month": "5",
+  "from_iata": "GUM",
+  "to_iata": "MAJ",
+  "airlineid": "20177",
+  "carrier": "PFQ",
+  "count": "10",
+  "route": "GUM:MAJ",
+  "from_airport_name": "Guam Intl",
+  "from_airport_tz": "Pacific/Guam",
+  "from_location": {
+    "type": "Point",
+    "coordinates": [
+      144.795983,
+      13.48345
+    ]
+  },
+  "to_airport_name": "Marshall Islands Intl",
+  "to_airport_country": "Marshall Islands",
+  "to_airport_tz": "Pacific/Majuro",
+  "to_location": {
+    "type": "Point",
+    "coordinates": [
+      171.272022,
+      7.064758
+    ]
+  },
+  "doc_epoch": 1629214058.4217112
+}
 ```
 
 ### Populating CosmosDB with the DotNet Console App
@@ -266,88 +321,13 @@ of each new document to a Guid:
 ```
 
 
-#### The Air Travel Data
-
-Each line in file data/air_travel_departures.json contains a document that looks
-similar to the following:
-
-```
-{
-  "id": "a7a868a4-ff6f-11eb-96e6-acde48001122",
-  "pk": "GUM:MAJ",
-  "date": "2006/05/01",
-  "year": "2006",
-  "month": "5",
-  "from_iata": "GUM",
-  "to_iata": "MAJ",
-  "airlineid": "20177",
-  "carrier": "PFQ",
-  "count": "10",
-  "route": "GUM:MAJ",
-  "from_airport_name": "Guam Intl",
-  "from_airport_tz": "Pacific/Guam",
-  "from_location": {
-    "type": "Point",
-    "coordinates": [
-      144.795983,
-      13.48345
-    ]
-  },
-  "to_airport_name": "Marshall Islands Intl",
-  "to_airport_country": "Marshall Islands",
-  "to_airport_tz": "Pacific/Majuro",
-  "to_location": {
-    "type": "Point",
-    "coordinates": [
-      171.272022,
-      7.064758
-    ]
-  },
-  "doc_epoch": 1629214058.4217112
-}
-```
-
 ### Execute CosmosDB Queries with the DotNet Console App
 
+**dotnet run execute_queries demo travel sql/queries.txt**
+
 ```
-$ mkdir out
 
 $ dotnet run execute_queries demo travel sql/queries.txt
-
-================================================================================
-executing qname: q0, db: demo, cname: travel, sql: SELECT COUNT(1) FROM c
-QueryResponse: q0 db: demo container: travel status: OK ru: 2.89 items: 1 excp: False
-file written: out/q0_demo_travel.json
-
-================================================================================
-executing qname: q1, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
-QueryResponse: q1 db: demo container: travel status: OK ru: 2.79 items: 0 excp: False
-file written: out/q1_demo_travel.json
-
-================================================================================
-executing qname: q2, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
-QueryResponse: q2 db: demo container: travel status: OK ru: 2.79 items: 0 excp: False
-file written: out/q2_demo_travel.json
-
-================================================================================
-executing qname: q3, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ' offset 0 limit 5
-QueryResponse: q3 db: demo container: travel status: OK ru: 2.79 items: 0 excp: False
-file written: out/q3_demo_travel.json
-
-================================================================================
-executing qname: q4, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.to_airport_country = 'Jamaica'
-QueryResponse: q4 db: demo container: travel status: OK ru: 3.21 items: 11 excp: False
-file written: out/q4_demo_travel.json
 ```
 
-The query responses are written to JSON files in the out/ directory,
-and the response status and RU charges are displayed in the console.
-
 Edit file sql/queries.txt as necessary, to add your own queries.
-
-<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
-
-<a name="part3"></a>
-
-## Part 3: Demonstration
-
