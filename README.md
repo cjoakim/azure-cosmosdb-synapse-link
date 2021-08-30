@@ -92,13 +92,21 @@ Go to [Part 3: Demonstration](#part3)
 
 ## Part 2: Setup this Demonstration App in Your Azure Subscription
 
-### This GitHub Repository
+### Laptop/Workstation/VM Requirements
 
-Clone this public GitHub repository to a preferred location on 
-your laptop/workstation/VM.
+- Either the Windows, Linux, or macOS operating system
+- [git](https://git-scm.com/)
+- [dotnet 5](https://dotnet.microsoft.com/download/dotnet/5.0)
+- [az CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)  
+
+### Clone this GitHub Repository
 
 ```
+$ cd <some-parent-directory>
+
 $ git clone https://github.com/cjoakim/azure-cosmosdb-synapse-link.git
+
+$ cd azure-cosmosdb-synapse-link
 ```
 
 #### Directory Structure of this Repository
@@ -114,6 +122,22 @@ $ git clone https://github.com/cjoakim/azure-cosmosdb-synapse-link.git
     └── pyspark           <-- pyspark notebooks for Azure Synapse
 ```
 
+### Compile Code, Unzip Data Files
+
+```
+$ cd DotnetConsoleApp
+$ dotnet restore               <-- install the dotnet packages from NuGet (i.e. - CosmosDB SDK)
+$ dotnet build                 <-- compile the C# code
+
+$ mkdir out
+
+$ cd data
+... unzip the two zip files    <-- the zip files contain csv and json files too large for GitHub
+$ cd ..
+
+$ dotnet run                   <-- displays the list of commands supported by Program.cs
+```
+
 ### Provision Azure Resources
 
 It is recommended that you provision these Azure Resources with either the 
@@ -127,21 +151,14 @@ It is recommended that you provision these Azure Resources with either the
 - **Azure Synapse**
   - with a **small spark pool of only 3 nodes**
 
-- **Azure Storage Account**
-  - this is optional, used by one of the PySpark Notebooks
-
 #### Provisioning with the az CLI
 
-See script **az/create_all.sh** in this repo, and the instructions below/
+See bash shell script **az/create_all.sh** in this repo, and the instructions below.
+These scripts run on Linux and macOS.  Edit file **config.sh** first!
 
-**Note: this repo currently has bash scripts implemented for linux or macOS.  Equivalent PowerShell scripts for Windows will be implemented soon.**
+Alternatively, see PowerShell script **az/create_all.ps1** (in progress).
 
-### Laptop/Workstation/VM Requirements
-
-- Either Windows, macOS, or Linux
-- git
-- dotnet 5
-- az CLI 
+**Note: The PowerShell scripts for Windows are currently under construction.**
 
 ### Environment Varibles
 
@@ -162,32 +179,17 @@ AZURE_SYNAPSE_PASS
 AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE=500
 ```
 
-### Clone the Repo, Unzip data files, Compile Code
+### Configure Azure Synapse
+
+- Create a Linked Service to the CosmosDB Synapse Link Data
+- Right-mouse the CosmosDB Synapse Link Data ""travel" icon
+- Create a Notebook PySpark Notebook that reads that data as a Dataframe
+- Edit the cells of the Notebook to look like the following
 
 ```
-$ git clone https://github.com/cjoakim/azure-cosmosdb-synapse-link.git
 
-$ cd azure-cosmosdb-synapse-link
+TODO
 
-$ cd az
-
-... edit file config.sh, in the az/ directory, to your Azure resource configuration
-
-$ ./create_all.sh
-
-$ cd ..
-
-$ cd DotnetConsoleApp
-$ dotnet restore               <-- install the dotnet packages from NuGet (i.e. - CosmosDB SDK)
-$ dotnet build                 <-- compile the C# code
-
-$ mkdir out
-
-$ cd data
-... unzip the two zip files    <-- the zip files contain csv and json files too large for GitHub
-$ cd ..
-
-$ dotnet run                   <-- displays the list of commands supported by Program.cs
 ```
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
@@ -196,10 +198,10 @@ $ dotnet run                   <-- displays the list of commands supported by Pr
 
 ## Part 3: Demonstration
 
-### The International Air Travel Data
+### 3.1 The International Air Travel Data
 
 Each line in file data/air_travel_departures.json contains a document that looks
-similar to the following:
+logically similar to the following:
 
 ```
 {
@@ -237,96 +239,40 @@ similar to the following:
 }
 ```
 
-### Populating CosmosDB with the DotNet Console App
+### 3.2 Populating CosmosDB with the DotNet Console App
+
+**dotnet run bulk_load_container demo travel route data/air_travel_departures.json 2**
 
 ```
-$ mkdir out
-
 $ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 2
 ...
-ListContainers - count 1
-OK: container travel is present in db: demo
-LoadContainer - db: demo, container: travel, infile: data/air_travel_departures.json, maxBatchCount: 2
-writing batch 1 (500) at 1630186455833
-writing batch 2 (500) at 1630186457831
-
-EOJ Totals:
-  Database:             demo
-  Container:            travel
-  Input Filename:       data/air_travel_departures.json
-  Max Batch Count:      2
-  BulkLoad startEpoch:  1630186455640
-  BulkLoad finishEpoch: 1630186459215
-  BulkLoad elapsedMs:   3575
-  BulkLoad elapsedSec:  3.575
-  BulkLoad elapsedMin:  0.059583333333333335
-  Batch Size:           500
-  Batch Count:          2
-  Exceptions:           0
-  Document/Task count:  1000
-  Document per Second:  279.72027972027973
+TODO
 ```
 
 The above loads 2 batches (1000 documents) into the database named demo, the container
 named travel, using the given json data file and the value of the route attribute as
 the partition key.
 
+This load process can be run several times as necessary, and unique documents 
+will be created from the same input data.  This is enabled by this C# code that 
+sets the **id attribute** of each new document to a Guid:
+
+```
+    jsonDoc.id = Guid.NewGuid().ToString();  <-- See Program.cs, method BulkLoadContainer
+```
+
 Look at your CosmosDB account in Azure Portal to confirm that the documents were added.
 
-You can use the DotNet program to count the documents with this command:
+### 3.3 Count the CosmosDB with the DotNet Console App
 
 ```
 $ dotnet run count_documents demo travel 
 ```
 
-You can run this process again to load the entire dataset by using a higher batch count
-as shown below:
+
+### 3.4 Execute CosmosDB Queries with the DotNet Console App
 
 ```
-$ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 999999
-...
-writing batch 1857 (500) at 1630189781400
-writing batch 1858 (500) at 1630189782972
-writing batch 1859 (500) at 1630189784665
-writing batch 1860 (500) at 1630189786286
-writing batch 1861 (500) at 1630189787900
-writing batch 1862 (308) at 1630189789457
-
-EOJ Totals:
-  Database:             demo
-  Container:            travel
-  Input Filename:       data/air_travel_departures.json
-  Max Batch Count:      999999
-  BulkLoad startEpoch:  1630186765642
-  BulkLoad finishEpoch: 1630189790455
-  BulkLoad elapsedMs:   3024813
-  BulkLoad elapsedSec:  3024.813
-  BulkLoad elapsedMin:  50.41355
-  Batch Size:           500
-  Batch Count:          1862
-  Exceptions:           0
-  Document/Task count:  930808
-  Document per Second:  307.7241469142059
-...
-
-
-```
-
-This load process can be run several times as necessary, and unique documents will be created
-from the same input data.  This is enabled by this C# code that sets the **id attribute**
-of each new document to a Guid:
-
-```
-    jsonDoc.id = Guid.NewGuid().ToString();     <-- See Program.cs, method BulkLoadContainer
-```
-
-
-### Execute CosmosDB Queries with the DotNet Console App
-
-**dotnet run execute_queries demo travel sql/queries.txt**
-
-```
-
 $ dotnet run execute_queries demo travel sql/queries.txt
 ```
 
