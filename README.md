@@ -210,6 +210,15 @@ export AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING
 export AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS=eastus   <-- example value
 ```
 
+### Your CosmosDB Settings in Azure Portal
+
+Your account should look similar to the following:
+
+<p align="center"><img src="presentation/img/travel-container-settings.png" width="95%"></p>
+
+Note: I set the Time To Live (TTL) on my container to 86,400 seconds.
+This represents 24-hours, or 1-day (60 * 60 * 24).
+
 ### Configure Azure Synapse
 
 - Create a Linked Service to the CosmosDB Synapse Link Data
@@ -272,17 +281,78 @@ logically similar to the following:
 
 ### 3.2 Populate CosmosDB with the DotNet Console App
 
-**dotnet run bulk_load_container demo travel route data/air_travel_departures.json 2**
+#### See the available commands for Program.cs
 
 ```
-$ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 2
+$ cd DotnetConsoleApp
+
+$ dotnet run
 ...
-TODO
+
+Command-Line Examples:
+dotnet run list_databases
+dotnet run create_database <dbname> <shared-ru | 0>
+dotnet run delete_database <dbname>
+dotnet run update_database_throughput <dbname> <shared-ru>
+---
+dotnet run list_containers <dbname>
+dotnet run create_container <dbname> <cname> <pk> <ru>
+dotnet run update_container_throughput <dbname> <cname> <ru>
+dotnet run update_container_indexing <dbname> <cname> <json-doc-infile>
+dotnet run truncate_container <dbname> <cname>
+dotnet run delete_container <dbname> <cname>
+---
+dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>
+dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1
+---
+dotnet run count_documents <dbname> <cname>
+---
+dotnet run execute_queries <dbname> <cname> <queries-file>
+dotnet run delete_route <dbname> <cname> <route>
+dotnet run delete_route demo travel CLT:MBJ
 ```
 
-The above loads 2 batches (1000 documents) into the database named demo, the container
-named travel, using the given json data file and the value of the route attribute as
-the partition key.
+#### Populate the Database, using the DotNet SDK Bulk Loading functionality 
+
+```
+$ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 100
+...
+
+{"id":"fffd3f5f-6aa6-468d-811d-24e0802f3054","pk":"JFK:PUJ","date":"2002/01/01","year":"2002","month":"1","from_iata":"JFK","to_iata":"PUJ","airlineid":"20402","carrier":"MMQ","count":"1","route":"JFK:PUJ","from_airport_name":"John F Kennedy Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-73.778925,40.639751]},"to_airport_name":"Punta Cana Intl","to_airport_country":"Dominican Republic","to_airport_tz":"America/Santo_Domingo","to_location":{"type":"Point","coordinates":[-68.363431,18.567367]},"doc_epoch":1630355396413,"doc_time":"2021/08/30-20:29:56"}
+
+writing batch 98 (500) at 1630355396414
+
+{"id":"25e58a8d-b053-4849-ae9c-4324493fcddb","pk":"MIA:MAO","date":"2004/09/01","year":"2004","month":"9","from_iata":"MIA","to_iata":"MAO","airlineid":"20232","carrier":"A2","count":"1","route":"MIA:MAO","from_airport_name":"Miami Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-80.290556,25.79325]},"to_airport_name":"Eduardo Gomes Intl","to_airport_country":"Brazil","to_airport_tz":"America/Boa_Vista","to_location":{"type":"Point","coordinates":[-60.049721,-3.038611]},"doc_epoch":1630355398116,"doc_time":"2021/08/30-20:29:58"}
+
+writing batch 99 (500) at 1630355398117
+
+{"id":"53bb2083-532d-47eb-8511-63fd5682f533","pk":"GUM:HND","date":"2005/08/01","year":"2005","month":"8","from_iata":"GUM","to_iata":"HND","airlineid":"20185","carrier":"JO","count":"58","route":"GUM:HND","from_airport_name":"Guam Intl","from_airport_tz":"Pacific/Guam","from_location":{"type":"Point","coordinates":[144.795983,13.48345]},"to_airport_name":"Tokyo Intl","to_airport_country":"Japan","to_airport_tz":"Asia/Tokyo","to_location":{"type":"Point","coordinates":[139.779694,35.552258]},"doc_epoch":1630355399824,"doc_time":"2021/08/30-20:29:59"}
+
+writing batch 100 (500) at 1630355399824
+
+EOJ Totals:
+  Database:             demo
+  Container:            travel
+  Input Filename:       data/air_travel_departures.json
+  Max Batch Count:      100
+  BulkLoad startEpoch:  1630355232531
+  BulkLoad finishEpoch: 1630355401536
+  BulkLoad elapsedMs:   169005
+  BulkLoad elapsedSec:  169.005
+  BulkLoad elapsedMin:  2.81675
+  Batch Size:           500
+  Batch Count:          100
+  Exceptions:           0
+  Document/Task count:  50000
+  Document per Second:  295.84923522972696
+```
+
+The above loads 100 batches (50,000 documents) into the database named demo, 
+the container named travel, using the given json data file and the value of the
+route attribute as the partition key.
+
+The last document in each batch (of 500) is logged to the output, and then
+end-of-job totals are displayed.
 
 This load process can be run several times as necessary, and unique documents 
 will be created from the same input data.  This is enabled by this C# code that 
@@ -294,18 +364,51 @@ sets the **id attribute** of each new document to a Guid:
 
 Look at your CosmosDB account in Azure Portal to confirm that the documents were added.
 
+<p align="center"><img src="presentation/img/documents-in-azure-portal.png" width="95%"></p>
+
 ### 3.3 Count the CosmosDB Documents with the DotNet Console App
 
 ```
-$ dotnet run count_documents demo travel 
-```
+$ dotnet run count_documents demo travel
 
+CountDocuments demo travel -> 50000
+```
 
 ### 3.4 Query the CosmosDB Documents with the DotNet Console App
 
 ```
+$ rm out/q*.json   <-- remove the previous query response output files
+
 $ dotnet run execute_queries demo travel sql/queries.txt
+
+================================================================================
+executing qname: q0, db: demo, cname: travel, sql: SELECT COUNT(1) FROM c
+QueryResponse: q0 db: demo container: travel status: OK ru: 2.89 items: 1 excp: False
+file written: out/q0_demo_travel.json
+
+================================================================================
+executing qname: q1, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
+QueryResponse: q1 db: demo container: travel status: OK ru: 3.3 items: 13 excp: False
+file written: out/q1_demo_travel.json
+
+================================================================================
+executing qname: q2, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
+QueryResponse: q2 db: demo container: travel status: OK ru: 3.3 items: 13 excp: False
+file written: out/q2_demo_travel.json
+
+================================================================================
+executing qname: q3, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ' offset 0 limit 5
+QueryResponse: q3 db: demo container: travel status: OK ru: 2.99 items: 5 excp: False
+file written: out/q3_demo_travel.json
+
+================================================================================
+executing qname: q4, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.to_airport_country = 'Jamaica'
+QueryResponse: q4 db: demo container: travel status: OK ru: 32.4 items: 773 excp: False
+file written: out/q4_demo_travel.json
 ```
+
+The console output shows the query, the RU charge, and the number of items (documents)
+returned.  See the output/xxx.json file for the actual query results.
 
 Edit file sql/queries.txt as necessary, to add your own queries.
 
