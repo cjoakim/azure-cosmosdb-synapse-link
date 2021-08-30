@@ -343,5 +343,9 @@ and the response status and RU charges are displayed in the console.
 
 Edit file sql/queries.txt as necessary, to add your own queries.
 
+<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
+
+<a name="part3"></a>
+
 ## Part 3: Demonstration
 
