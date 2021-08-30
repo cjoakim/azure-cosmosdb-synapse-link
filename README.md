@@ -10,9 +10,11 @@ integration via **Synapse Link**
 - [Part 1: Architecture of Synapse Link, and this Demonstration App](#part1)
 - [Part 2: Setup this Demonstration App in Your Azure Subscription](#part2)
 - [Part 3: Demonstration](#part3)
-  - 3.1 Run DotNet program to populate CosmosDB with International Air Travel Data
-  - 3.2 Query CosmosDB with the DotNet program
-  - 3.3 Query the corresponding Synapse Link data with a PySpark Notebook in Synapse
+  - 3.1 Understand the International Air Travel Data
+  - 3.2 Populate CosmosDB with the DotNet Console App
+  - 3.3 Count the CosmosDB Documents with the DotNet Console App
+  - 3.4 Query the CosmosDB Documents with the DotNet Console App
+  - 3.5 Query the Synapse Link Data with a PySpark Notebook in Synapse
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
@@ -198,7 +200,7 @@ TODO
 
 ## Part 3: Demonstration
 
-### 3.1 The International Air Travel Data
+### 3.1 Understand the International Air Travel Data
 
 Each line in file data/air_travel_departures.json contains a document that looks
 logically similar to the following:
@@ -239,7 +241,7 @@ logically similar to the following:
 }
 ```
 
-### 3.2 Populating CosmosDB with the DotNet Console App
+### 3.2 Populate CosmosDB with the DotNet Console App
 
 **dotnet run bulk_load_container demo travel route data/air_travel_departures.json 2**
 
@@ -263,17 +265,20 @@ sets the **id attribute** of each new document to a Guid:
 
 Look at your CosmosDB account in Azure Portal to confirm that the documents were added.
 
-### 3.3 Count the CosmosDB with the DotNet Console App
+### 3.3 Count the CosmosDB Documents with the DotNet Console App
 
 ```
 $ dotnet run count_documents demo travel 
 ```
 
 
-### 3.4 Execute CosmosDB Queries with the DotNet Console App
+### 3.4 Query the CosmosDB Documents with the DotNet Console App
 
 ```
 $ dotnet run execute_queries demo travel sql/queries.txt
 ```
 
 Edit file sql/queries.txt as necessary, to add your own queries.
+
+### 3.5 Query the Synapse Link Data with a PySpark Notebook in Synapse
+
