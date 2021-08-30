@@ -1,14 +1,33 @@
 # azure-cosmosdb-synapse-link
 
-Demonstration of Azure CosmosDB with Synapse Integration via Synapse Link
+Demonstration of **Azure CosmosDB** with **Azure Synapse Analytics**
+integration via **Synapse Link**
+
+## Architecture of Synapse Link and this Demonstration
+
+- A **net5.0 client program** reads a data file, and Bulk Loads JSON documents to CosmosDB
+- The CosmosDB documents flow into **Synapse Link** in near realtime
+- Synapse Link performs **both copy AND data transformation (to columnar format)** 
+- No other ETL solution is needed (i.e. - Databricks)
+- Query the Synapse Link data with **PySpark Notebooks in Azure Synapse Analytics**
 
 <p align="center"><img src="presentation/img/csl-demo.png" width="100%"></p>
 
 <p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
+## Synapse Link data movement and transformation
+
 <p align="center"><img src="presentation/img/transactional-analytical-data-stores.png" width="100%"></p>
 
----
+<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
+
+## Links / References
+
+- [What is Azure Synapse Link for Azure Cosmos DB?](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link)
+- [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
+- [Azure Synapse Analytics](https://azure.microsoft.com/en-us/services/synapse-analytics/)
+
+<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
 ## This GitHub Repository
 
@@ -28,7 +47,7 @@ Demonstration of Azure CosmosDB with Synapse Integration via Synapse Link
     └── pyspark           <-- pyspark notebooks for Azure Synapse
 ```
 
----
+<p align="center"><img src="presentation/img/horizonal-line-1.jpeg" width="95%"></p>
 
 ## Running this Demo in Your Azure Subscription
 
