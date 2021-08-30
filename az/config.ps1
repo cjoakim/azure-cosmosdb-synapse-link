@@ -1,6 +1,5 @@
-#!/bin/bash
 
-# Bash shell script that defines provisioning parameters and environment variables
+# PowerShell script that defines provisioning parameters and environment variables
 # and is "sourced" by the other scripts in this directory.
 #
 # Some of these values from environment variables already defined on my system,
