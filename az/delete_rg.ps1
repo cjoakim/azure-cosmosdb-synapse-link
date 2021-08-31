@@ -7,6 +7,7 @@ az group delete `
     --name $Env:cosmos_sql_rg `
     --subscription $Env:AZURE_SUBSCRIPTION_ID `
     --yes `
+    --no-wait `
     > tmp/delete_rg.json
 
 echo 'done'

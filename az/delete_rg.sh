@@ -11,6 +11,7 @@ az group delete \
     --name $primary_rg \
     --subscription $AZURE_SUBSCRIPTION_ID \
     --yes \
+    --no-wait \
     > tmp/delete_rg.json
 
 echo 'done'
