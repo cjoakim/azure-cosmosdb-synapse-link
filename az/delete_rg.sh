@@ -9,7 +9,7 @@ mkdir -p tmp/
 
 az group delete \
     --name $primary_rg \
-    --subscription $subscription \
+    --subscription $AZURE_SUBSCRIPTION_ID \
     --yes \
     > tmp/delete_rg.json
 

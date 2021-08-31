@@ -15,7 +15,7 @@ delete() {
     echo 'deleting synapse rg: '$synapse_rg
     az group delete \
         --name $synapse_rg \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         --yes \
         > _rg_delete.json
 }
@@ -28,7 +28,7 @@ create() {
     az group create \
         --location $synapse_region \
         --name $synapse_rg \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         > tmp/synapse_rg_create.json
 
     echo 'creating synapse storage (ADL V2) acct: '$synapse_name
@@ -51,8 +51,8 @@ create() {
         --resource-group $synapse_rg \
         --storage-account $storage_name \
         --file-system $synapse_fs_name \
-        --sql-admin-login-user $synapse_admin_user \
-        --sql-admin-login-password $synapse_admin_pass \
+        --sql-admin-login-user $AZURE_SYNAPSE_USER \
+        --sql-admin-login-password $AZURE_SYNAPSE_PASS \
         --location $synapse_region \
         > tmp/synapse_workspace_create.json
 
@@ -97,14 +97,14 @@ info() {
     az storage account show \
         --name $synapse_name \
         --resource-group $synapse_rg \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         > tmp/synapse_storage_acct_show.json
 
     echo 'az storage acct keys: '$synapse_name
     az storage account keys list \
         --account-name $synapse_name \
         --resource-group $synapse_rg \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         > tmp/synapse_storage_acct_keys.json
 
     echo 'az synapse workspace list:'

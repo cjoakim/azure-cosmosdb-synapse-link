@@ -23,7 +23,7 @@ create_rg() {
     az group create \
         --location $cosmos_sql_region \
         --name $cosmos_sql_rg \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         > tmp/cosmos_sql_rg_create.json
 }
 
@@ -32,7 +32,7 @@ create_acct() {
     az cosmosdb create \
         --name $cosmos_sql_acct_name \
         --resource-group $cosmos_sql_rg \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         --locations regionName=$cosmos_sql_region failoverPriority=0 isZoneRedundant=False \
         --default-consistency-level $cosmos_sql_acct_consistency \
         --enable-multiple-write-locations true \
@@ -59,7 +59,7 @@ create_containers() {
         --account-name $cosmos_sql_acct_name \
         --database-name $cosmos_sql_dbname \
         --name $cosmos_sql_cname \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         --partition-key-path $cosmos_sql_pk_path \
         --analytical-storage-ttl $cosmos_sql_sl_ttl \
         > tmp/cosmos_sql_container_create.json
