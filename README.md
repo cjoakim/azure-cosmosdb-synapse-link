@@ -370,34 +370,29 @@ The PySpark Notebook in Synapse (described in section 3.5 below) will query thes
 ```
 $ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 100
 ...
-
-{"id":"fffd3f5f-6aa6-468d-811d-24e0802f3054","pk":"JFK:PUJ","date":"2002/01/01","year":"2002","month":"1","from_iata":"JFK","to_iata":"PUJ","airlineid":"20402","carrier":"MMQ","count":"1","route":"JFK:PUJ","from_airport_name":"John F Kennedy Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-73.778925,40.639751]},"to_airport_name":"Punta Cana Intl","to_airport_country":"Dominican Republic","to_airport_tz":"America/Santo_Domingo","to_location":{"type":"Point","coordinates":[-68.363431,18.567367]},"doc_epoch":1630355396413,"doc_time":"2021/08/30-20:29:56"}
-
-writing batch 98 (500) at 1630355396414
-
-{"id":"25e58a8d-b053-4849-ae9c-4324493fcddb","pk":"MIA:MAO","date":"2004/09/01","year":"2004","month":"9","from_iata":"MIA","to_iata":"MAO","airlineid":"20232","carrier":"A2","count":"1","route":"MIA:MAO","from_airport_name":"Miami Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-80.290556,25.79325]},"to_airport_name":"Eduardo Gomes Intl","to_airport_country":"Brazil","to_airport_tz":"America/Boa_Vista","to_location":{"type":"Point","coordinates":[-60.049721,-3.038611]},"doc_epoch":1630355398116,"doc_time":"2021/08/30-20:29:58"}
-
-writing batch 99 (500) at 1630355398117
-
-{"id":"53bb2083-532d-47eb-8511-63fd5682f533","pk":"GUM:HND","date":"2005/08/01","year":"2005","month":"8","from_iata":"GUM","to_iata":"HND","airlineid":"20185","carrier":"JO","count":"58","route":"GUM:HND","from_airport_name":"Guam Intl","from_airport_tz":"Pacific/Guam","from_location":{"type":"Point","coordinates":[144.795983,13.48345]},"to_airport_name":"Tokyo Intl","to_airport_country":"Japan","to_airport_tz":"Asia/Tokyo","to_location":{"type":"Point","coordinates":[139.779694,35.552258]},"doc_epoch":1630355399824,"doc_time":"2021/08/30-20:29:59"}
-
-writing batch 100 (500) at 1630355399824
+writing batch 97 (500) at 1630433942464
+{"id":"d772cb1b-c387-47a8-8a4c-6e36dbee1b7a","pk":"JFK:PUJ","date":"2002/01/01","year":"2002","month":"1","from_iata":"JFK","to_iata":"PUJ","airlineid":"20402","carrier":"MMQ","count":"1","route":"JFK:PUJ","from_airport_name":"John F Kennedy Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-73.778925,40.639751]},"to_airport_name":"Punta Cana Intl","to_airport_country":"Dominican Republic","to_airport_tz":"America/Santo_Domingo","to_location":{"type":"Point","coordinates":[-68.363431,18.567367]},"doc_epoch":1630433944259,"doc_time":"2021/08/31-18:19:04"}
+writing batch 98 (500) at 1630433944276
+{"id":"237a1c82-892e-431e-8951-aeeaa01675b3","pk":"MIA:MAO","date":"2004/09/01","year":"2004","month":"9","from_iata":"MIA","to_iata":"MAO","airlineid":"20232","carrier":"A2","count":"1","route":"MIA:MAO","from_airport_name":"Miami Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-80.290556,25.79325]},"to_airport_name":"Eduardo Gomes Intl","to_airport_country":"Brazil","to_airport_tz":"America/Boa_Vista","to_location":{"type":"Point","coordinates":[-60.049721,-3.038611]},"doc_epoch":1630433945805,"doc_time":"2021/08/31-18:19:05"}
+writing batch 99 (500) at 1630433945821
+{"id":"3702f43b-0122-451e-8771-440f0226295d","pk":"GUM:HND","date":"2005/08/01","year":"2005","month":"8","from_iata":"GUM","to_iata":"HND","airlineid":"20185","carrier":"JO","count":"58","route":"GUM:HND","from_airport_name":"Guam Intl","from_airport_tz":"Pacific/Guam","from_location":{"type":"Point","coordinates":[144.795983,13.48345]},"to_airport_name":"Tokyo Intl","to_airport_country":"Japan","to_airport_tz":"Asia/Tokyo","to_location":{"type":"Point","coordinates":[139.779694,35.552258]},"doc_epoch":1630433947562,"doc_time":"2021/08/31-18:19:07"}
+writing batch 100 (500) at 1630433947566
 
 EOJ Totals:
   Database:             demo
   Container:            travel
-  Input Filename:       data/air_travel_departures.json
+  Input Filename:       data\air_travel_departures.json
   Max Batch Count:      100
-  BulkLoad startEpoch:  1630355232531
-  BulkLoad finishEpoch: 1630355401536
-  BulkLoad elapsedMs:   169005
-  BulkLoad elapsedSec:  169.005
-  BulkLoad elapsedMin:  2.81675
+  BulkLoad startEpoch:  1630433782500
+  BulkLoad finishEpoch: 1630433949112
+  BulkLoad elapsedMs:   166612
+  BulkLoad elapsedSec:  166.612
+  BulkLoad elapsedMin:  2.7768666666666664
   Batch Size:           500
   Batch Count:          100
   Exceptions:           0
   Document/Task count:  50000
-  Document per Second:  295.84923522972696
+  Document per Second:  300.0984322857897
 ```
 
 The above loads 100 batches (50,000 documents) into the database named demo, 
