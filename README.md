@@ -412,6 +412,56 @@ sets the **id attribute** of each new document to a Guid:
 
 Look at your CosmosDB account in Azure Portal to confirm that the documents were added.
 
+#### Load again, with just one batch of 500 documents
+
+```
+$ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1
+uri: https://cjoakimcslcosmos.documents.azure.com:443/
+ListContainers - count 1
+OK: container travel is present in db: demo
+LoadContainer - db: demo, container: travel, infile: data/air_travel_departures.json, maxBatchCount: 1
+{"id":"8bd06536-51d2-4594-80d7-07cd0050f69b","pk":"MIA:MAO","date":"2001/04/01","year":"2001","month":"4","from_iata":"MIA","to_iata":"MAO","airlineid":"20149","carrier":"PRQ","count":"4","route":"MIA:MAO","from_airport_name":"Miami Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-80.290556,25.79325]},"to_airport_name":"Eduardo Gomes Intl","to_airport_country":"Brazil","to_airport_tz":"America/Boa_Vista","to_location":{"type":"Point","coordinates":[-60.049721,-3.038611]},"doc_epoch":1630443291597,"doc_time":"2021/08/31-20:54:51"}
+writing batch 1 (500) at 1630443291600
+
+EOJ Totals:
+  Database:             demo
+  Container:            travel
+  Input Filename:       data/air_travel_departures.json
+  Max Batch Count:      1
+  BulkLoad startEpoch:  1630443291452
+  BulkLoad finishEpoch: 1630443293377
+  BulkLoad elapsedMs:   1925
+  BulkLoad elapsedSec:  1.925
+  BulkLoad elapsedMin:  0.03208333333333333
+  Batch Size:           500
+  Batch Count:          1
+  Exceptions:           0
+  Document/Task count:  500
+  Document per Second:  259.7402597402597
+```
+
+We're expecting 5 documents for route **MIA:MAO** in the first batch
+of 500 documents.
+
+```
+$ head -500 data/air_travel_departures.json | grep MIA | grep MAO
+
+{"id": "a7a8cd44-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2010/04/01", "year": "2010", "month": "4", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "19550", "carrier": "KE", "count": "3", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.424257}
+
+{"id": "a7a90a84-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2009/12/01", "year": "2009", "month": "12", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20377", "carrier": "X9", "count": "2", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.425824}
+
+{"id": "a7a93ae0-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2001/09/01", "year": "2001", "month": "9", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20193", "carrier": "GR", "count": "2", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.427063}
+
+{"id": "a7a9f584-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2006/11/01", "year": "2006", "month": "11", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20193", "carrier": "GR", "count": "2", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.4318411}
+
+{"id": "a7aa388c-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2001/04/01", "year": "2001", "month": "4", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20149", "carrier": "PRQ", "count": "4", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.433557}
+```
+
+In Azure Portal, query the latest **MIA:MAO** documents.
+```
+SELECT c.id, c.pk, c.doc_time FROM c WHERE c.pk = 'MIA:MAO' order by c.doc_time desc offset 0 limit 5
+```
+
 <p align="center"><img src="presentation/img/documents-in-azure-portal.png" width="95%"></p>
 
 ---
@@ -429,8 +479,6 @@ CountDocuments demo travel -> 50000
 ### 3.4 Query the CosmosDB Documents with the DotNet Console App
 
 ```
-$ rm out/q*.json   <-- remove the previous query response output files
-
 $ dotnet run execute_queries demo travel sql/queries.txt
 
 ================================================================================
@@ -439,24 +487,9 @@ QueryResponse: q0 db: demo container: travel status: OK ru: 2.89 items: 1 excp: 
 file written: out/q0_demo_travel.json
 
 ================================================================================
-executing qname: q1, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
-QueryResponse: q1 db: demo container: travel status: OK ru: 3.3 items: 13 excp: False
+executing qname: q1, db: demo, cname: travel, sql: SELECT c.id, c.pk, c.doc_time FROM c WHERE c.pk = 'MIA:MAO' order by c.doc_time desc offset 0 limit 5
+QueryResponse: q1 db: demo container: travel status: OK ru: 9.61 items: 5 excp: False
 file written: out/q1_demo_travel.json
-
-================================================================================
-executing qname: q2, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
-QueryResponse: q2 db: demo container: travel status: OK ru: 3.3 items: 13 excp: False
-file written: out/q2_demo_travel.json
-
-================================================================================
-executing qname: q3, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.pk = 'ATL:MBJ' offset 0 limit 5
-QueryResponse: q3 db: demo container: travel status: OK ru: 2.99 items: 5 excp: False
-file written: out/q3_demo_travel.json
-
-================================================================================
-executing qname: q4, db: demo, cname: travel, sql: SELECT * FROM c WHERE c.to_airport_country = 'Jamaica'
-QueryResponse: q4 db: demo container: travel status: OK ru: 32.4 items: 773 excp: False
-file written: out/q4_demo_travel.json
 ```
 
 The console output shows the query, the RU charge, and the number of items (documents)

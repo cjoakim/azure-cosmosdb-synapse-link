@@ -1,5 +1,2 @@
 q0 | SELECT COUNT(1) FROM c
-q1 | SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
-q2 | SELECT * FROM c WHERE c.pk = 'ATL:MBJ'
-q3 | SELECT * FROM c WHERE c.pk = 'ATL:MBJ' offset 0 limit 5
-q4 | SELECT * FROM c WHERE c.to_airport_country = 'Jamaica'
+q1 | SELECT c.id, c.pk, c.doc_time FROM c WHERE c.pk = 'MIA:MAO' order by c.doc_time desc offset 0 limit 5

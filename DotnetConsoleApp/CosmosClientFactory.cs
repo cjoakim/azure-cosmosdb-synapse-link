@@ -35,7 +35,7 @@ namespace CosmosSL {
             IReadOnlyList<string> prefRegionsList = Config.Singleton().GetCosmosPreferredRegions();
             
             Console.WriteLine($"uri: {uri}");
-            Console.WriteLine($"key: {key}");
+            //Console.WriteLine($"key: {key}");
             //Console.WriteLine("prefRegionsList: " + JsonConvert.SerializeObject(prefRegionsList));
 
             CosmosClientOptions options = new CosmosClientOptions {
