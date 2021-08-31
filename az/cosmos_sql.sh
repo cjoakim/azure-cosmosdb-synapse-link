@@ -37,7 +37,6 @@ create_acct() {
         --default-consistency-level $cosmos_sql_acct_consistency \
         --enable-multiple-write-locations true \
         --enable-analytical-storage true \
-        --analytical-storage-schema-type FullFidelity \
         --kind $cosmos_sql_acct_kind \
         > tmp/cosmos_sql_acct_create.json
 }

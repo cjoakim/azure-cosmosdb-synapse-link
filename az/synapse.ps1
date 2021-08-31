@@ -15,7 +15,7 @@ az storage account create `
     --location $Env:synapse_region `
     --sku $Env:synapse_stor_sku `
     --kind StorageV2 `
-    --hierarchical-namespace true `
+    --hns true `
     > tmp/synapse_storage_acct_create.json
 
 Start-Sleep -s 60
@@ -24,7 +24,7 @@ echo 'creating synapse workspace ... '
 az synapse workspace create `
     --name $Env:synapse_name `
     --resource-group $Env:synapse_rg `
-    --storage-account $Env:storage_name `
+    --storage-account $Env:synapse_name `
     --file-system $Env:synapse_fs_name `
     --sql-admin-login-user $Env:AZURE_SYNAPSE_USER `
     --sql-admin-login-password $Env:AZURE_SYNAPSE_PASS `
@@ -42,7 +42,7 @@ az synapse workspace firewall-rule create `
     --end-ip-address 255.255.255.255  `
     > tmp/synapse_firewall_rule_create.json
 
-    echo 'creating synapse spark pool ...'
+echo 'creating synapse spark pool ...'
 az synapse spark pool create `
     --name $Env:synapse_spark_pool_name `
     --workspace-name $Env:synapse_name `

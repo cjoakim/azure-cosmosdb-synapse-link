@@ -20,7 +20,7 @@ echo 'account show ...'
 az account show
 
 echo 'adding az extensions ...'
-az extension add -n storage-preview
-az extension add --name synapse
+#az extension add -n storage-preview
+az extension update -n storage-preview
 
 echo 'done'

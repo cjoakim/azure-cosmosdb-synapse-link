@@ -20,7 +20,6 @@ az cosmosdb create `
     --default-consistency-level $Env:cosmos_sql_acct_consistency `
     --enable-multiple-write-locations true `
     --enable-analytical-storage true `
-    --analytical-storage-schema-type FullFidelity `
     --kind $Env:cosmos_sql_acct_kind `
     > tmp/cosmos_sql_acct_create.json
 

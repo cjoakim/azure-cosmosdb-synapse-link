@@ -49,7 +49,7 @@ create() {
     az synapse workspace create \
         --name $synapse_name \
         --resource-group $synapse_rg \
-        --storage-account $storage_name \
+        --storage-account $synapse_name \
         --file-system $synapse_fs_name \
         --sql-admin-login-user $AZURE_SYNAPSE_USER \
         --sql-admin-login-password $AZURE_SYNAPSE_PASS \
