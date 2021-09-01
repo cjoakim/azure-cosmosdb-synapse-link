@@ -36,7 +36,7 @@ integration via **Synapse Link**
 ## Synapse Link data movement and transformation
 
 - Synapse Link performs **both copy AND data transformation (to columnar format)** operations
-- A **columnar datastore** is more suitable for analytical query processing
+- A **columnar datastore** is more suitable for analytical processing
 - The **inserts, updates, and deletes** to your operational data are automatically synced to analytical store
 - Auto-sync latency is usually within 2 minutes, but up to 5 minutes
 - Supported for the **Azure Cosmos DB SQL (Core)** API and **Azure Cosmos DB API for MongoDB** APIs
@@ -282,23 +282,34 @@ from pyspark.sql.functions import col
 
 # unpack the structs of type string into another dataframe, df2
 df2 = df.select(
-    col('route.*'),
-    col('id.*'),
-    col('doc_time.*'),
-    col('date.*'),
-    col('count.*'),
-    col('to_airport_country.*'),
-    col('to_airport_name.*')).filter("_ts > 1630355233") 
+    col('route'),
+    col('id'),
+    col('doc_time'),
+    col('date'),
+    col('count'),
+    col('to_airport_country'),
+    col('to_airport_name')).filter("_ts > 1630355233") 
 
 # rename the unpacked columns, into new dataframe df3
 new_column_names = ['route','id','doc_time','date','count','to_airport_country','to_airport_name']
 df3 = df2.toDF(*new_column_names)
 
 # create new df4, filtering by route 'ATL:MBJ', sorting by 'doc_time' descending
-df4 = df3.filter("route == 'ATL:MBJ'").sort("doc_time", ascending=False)
+df4 = df3.filter("route == 'MIA:MAO'").sort("doc_time", ascending=False)
 
 # display the first 10 rows
-df4.show(n=10)
+df4.show(n=20)
+```
+
+**Cell 3 alternative syntax for struct columns**:
+
+The structs can be unpacked with **col('route.*')** syntax.
+
+```
+# unpack the structs of type string into another dataframe, df2
+df2 = df.select(
+    col('route.*'),
+    col('id.*'),
 ```
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
@@ -514,3 +525,42 @@ Edit file sql/queries.txt as necessary, to add your own queries.
 #### After execution
 
 <p align="center"><img src="img/travel-notebook-executed.png" width="95%"></p>
+
+---
+
+#### The Observed Schema of this Data
+
+Output of: display(df.printSchema()) 
+
+```
+root
+ |-- _rid: string (nullable = true)
+ |-- _ts: long (nullable = true)
+ |-- id: string (nullable = true)
+ |-- pk: string (nullable = true)
+ |-- date: string (nullable = true)
+ |-- year: string (nullable = true)
+ |-- month: string (nullable = true)
+ |-- from_iata: string (nullable = true)
+ |-- to_iata: string (nullable = true)
+ |-- airlineid: string (nullable = true)
+ |-- carrier: string (nullable = true)
+ |-- count: string (nullable = true)
+ |-- route: string (nullable = true)
+ |-- from_airport_name: string (nullable = true)
+ |-- from_airport_tz: string (nullable = true)
+ |-- from_location: struct (nullable = true)
+ |    |-- type: string (nullable = true)
+ |    |-- coordinates: array (nullable = true)
+ |    |    |-- element: double (containsNull = true)
+ |-- to_airport_name: string (nullable = true)
+ |-- to_airport_country: string (nullable = true)
+ |-- to_airport_tz: string (nullable = true)
+ |-- to_location: struct (nullable = true)
+ |    |-- type: string (nullable = true)
+ |    |-- coordinates: array (nullable = true)
+ |    |    |-- element: double (containsNull = true)
+ |-- doc_epoch: long (nullable = true)
+ |-- doc_time: string (nullable = true)
+ |-- _etag: string (nullable = true)
+```
