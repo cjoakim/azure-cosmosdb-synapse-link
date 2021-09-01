@@ -201,9 +201,9 @@ Set these on your system as both the az CLI provisioning process,
 and the DotNet program, will use them.
 
 ```
-export AZURE_SUBSCRIPTION_ID=<your-specified-username>
+export AZURE_SUBSCRIPTION_ID=<your-chosen-azure-subscription-id>
 export AZURE_SYNAPSE_USER=<your-specified-username>
-export AZURE_SYNAPSE_PASS=<your-specified-password>
+export AZURE_SYNAPSE_PASS=<your-specified-strong-password>
 export AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE=500
 ```
 
