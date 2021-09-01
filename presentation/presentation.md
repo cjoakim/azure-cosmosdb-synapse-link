@@ -22,12 +22,12 @@ integration via **Synapse Link**
 
 ## Part 1: Architecture of Synapse Link, and this Demonstration App
 
-- A **net5.0 client program** reads a data file, and Bulk Loads JSON documents to CosmosDB
-- The CosmosDB documents flow into **Synapse Link** in near realtime
+- A **net5.0 client program** reads a data file, and **Bulk Loads JSON documents to CosmosDB**
+- The CosmosDB data flows into **Synapse Link** in near realtime
 - Synapse Link performs **both copy AND data transformation (to columnar format)** operations
 - No other ETL solution is needed (i.e. - Databricks)
 - Query the Synapse Link data with **PySpark Notebooks in Azure Synapse Analytics**
-
+- The Synapse Link data can also be queried with **SQL pools** (not in demonstration)
 
 <p align="center"><img src="img/csl-demo.png" width="100%"></p>
 
@@ -37,8 +37,8 @@ integration via **Synapse Link**
 
 - Synapse Link performs **both copy AND data transformation (to columnar format)** operations
 - A **columnar datastore** is more suitable for analytical processing
-- The **inserts, updates, and deletes** to your operational data are automatically synced to analytical store
-- Auto-sync latency is usually within 2 minutes, but up to 5 minutes
+- The **inserts, updates, and deletes** to your CosmosDB operational data are automatically synced to analytical store
+- Auto-sync latency is usually within 2 minutes, but may be up to 5 minutes
 - Supported for the **Azure Cosmos DB SQL (Core)** API and **Azure Cosmos DB API for MongoDB** APIs
 
 <p align="center"><img src="img/transactional-analytical-data-stores.png" width="100%"></p>
@@ -54,7 +54,7 @@ integration via **Synapse Link**
     - Spark Streaming not yet supported
   - **Azure Synapse Serverless SQL pools** (not provisioned pools)
 - Pricing consists of **storage and IO operations**
-- Schema constraints:
+- **Schema constraints**:
   - Only the first 1000 document properties
   - Only the first 127 document nested levels
   - No explicit versioning, the schema is inferred
@@ -62,13 +62,13 @@ integration via **Synapse Link**
   - Attribute names are mormalized: {"id": 1, "Name": "fred", "name": "john"}
   - Addtibute names with odd characters: colons, semicolons, parens, =, etc
 - Two Schema Types:
-  - Well-defined 
+  - **Well-defined**
     - Default option for SQL (CORE) API accounts
-    - The schema, with datatypes, grows are documents are added
+    - The schema, with **datatypes**, grows are documents are added
       - Non-conforming attributes are ignored
         - doc1: {"id": "1", "a":123}      <-- "a" is an integer, added to schema
         - doc2: {"id": "2", "a": "str"}   <-- "a" isn't an integer, ignored
-  - Full Fidelity
+  - **Full Fidelity**
     - Default option for Azure Cosmos DB API for MongoDB accounts
     - None of the above dataname normalization or datatype enforcement
     - Can be optionally be used by the SQL API
