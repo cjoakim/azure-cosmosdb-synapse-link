@@ -10,11 +10,11 @@ integration via **Synapse Link**
 - [Part 1: Architecture of Synapse Link, and this Demonstration App](#part1)
 - [Part 2: Setup this Demonstration App in Your Azure Subscription](#part2)
 - [Part 3: Demonstration](#part3)
-  - 3.1 Understand the International Air Travel Data
-  - 3.2 Populate CosmosDB with the DotNet Console App
-  - 3.3 Count the CosmosDB Documents with the DotNet Console App
-  - 3.4 Query the CosmosDB Documents with the DotNet Console App
-  - 3.5 Query the Synapse Link Data with a PySpark Notebook in Synapse
+  - 3.1 Understand the **International Air Travel Data**
+  - 3.2 **Populate CosmosDB** with the **DotNet Console App**
+  - 3.3 **Count the CosmosDB Documents** with the **DotNet Console App**
+  - 3.4 **Query the CosmosDB Documents** with the **DotNet Console App**
+  - 3.5 **Query the Synapse Link Data** with a **PySpark Notebook in Synapse**
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
@@ -366,6 +366,12 @@ The PySpark Notebook in Synapse (described in section 3.5 below) will query thes
 ### 3.2 Populate CosmosDB with the DotNet Console App
 
 #### Populate the Database, using the DotNet SDK Bulk Loading functionality 
+
+- [Cosmos DB bulk executor library overview](https://docs.microsoft.com/en-us/azure/cosmos-db/bulk-executor-overview)
+- 10x greater write throughput
+- Throttles, handles exceptions, retries
+- Uses async Tasks
+- Implemented in DotNet/C# and Java for CosmosDB/SQL API
 
 ```
 $ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 100
