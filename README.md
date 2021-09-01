@@ -5,6 +5,8 @@ integration via **Synapse Link**
 
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
+- [Presentation](presentation/presentation.md)
+
 ### Table of Contents
 
 - [Part 1: Architecture of Synapse Link, and this Demonstration App](#part1)
