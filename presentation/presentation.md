@@ -252,6 +252,13 @@ Note: **Currently, Synapse Link must be enabled at the time you create the conta
 Note: I set the Time To Live (TTL) on my container to 86,400 seconds.
 This represents 24-hours, or 1-day (60 * 60 * 24).
 
+---
+
+If you manually create the container in Azure Portal, be sure to click the 
+**Analytical store: On** radio button, as shown in the following image:
+
+<p align="center"><img src="img/create-new-container-analytical-store.png" width="95%"></p>
+
 ### Configure Azure Synapse
 
 - Create a Linked Service to the CosmosDB Synapse Link Data
