@@ -259,6 +259,8 @@ If you manually create the container in Azure Portal, be sure to click the
 
 <p align="center"><img src="img/create-new-container-analytical-store.png" width="95%"></p>
 
+---
+
 ### Configure Azure Synapse
 
 - Create a Linked Service to the CosmosDB Synapse Link Data
