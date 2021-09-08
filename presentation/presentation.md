@@ -235,9 +235,19 @@ export AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS=eastus   <-- example value
 
 ### Your CosmosDB Settings in Azure Portal
 
-Your account should look similar to the following:
+Your **account** should have the **Azure Synapse Link Feature Enabled**
+as shown below.
+
+<p align="center"><img src="img/cosmosdb-account-features.png" width="95%"></p>
+
+---
+
+Also, the container(s) you wish to Synapse Link Enable should look like
+the following:
 
 <p align="center"><img src="img/travel-container-settings.png" width="95%"></p>
+
+Note: **Currently, Synapse Link must be enabled at the time you create the container.**
 
 Note: I set the Time To Live (TTL) on my container to 86,400 seconds.
 This represents 24-hours, or 1-day (60 * 60 * 24).
