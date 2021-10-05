@@ -509,6 +509,8 @@ In Azure Portal, query the latest **MIA:MAO** documents.
 SELECT c.id, c.pk, c.doc_time FROM c WHERE c.pk = 'MIA:MAO' order by c.doc_time desc offset 0 limit 5
 ```
 
+<p align="center"><img src="img/documents-in-azure-portal.png" width="95%"></p>
+
 #### Load the three eCommerce containers - customers, products, orders
 
 ```
@@ -520,8 +522,6 @@ $ dotnet run bulk_load_container demo orders    na data/orders.json 9999
 
 $ ./load_ecommerce.sh
 ```
-
-<p align="center"><img src="img/documents-in-azure-portal.png" width="95%"></p>
 
 ---
 
