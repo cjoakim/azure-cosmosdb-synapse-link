@@ -47,7 +47,7 @@ az synapse spark pool create `
     --name $Env:synapse_spark_pool_name `
     --workspace-name $Env:synapse_name `
     --resource-group $Env:synapse_rg `
-    --spark-version 2.4 `
+    --spark-version 3.1 `
     --enable-auto-pause true `
     --delay 120 `
     --node-count $Env:synapse_spark_pool_count `

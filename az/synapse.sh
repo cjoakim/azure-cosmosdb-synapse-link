@@ -75,12 +75,15 @@ create_spark_pool() {
         --name $synapse_spark_pool_name \
         --workspace-name $synapse_name \
         --resource-group $synapse_rg \
-        --spark-version 2.4 \
+        --spark-version 3.1 \
         --enable-auto-pause true \
         --delay 120 \
         --node-count $synapse_spark_pool_count \
         --node-size $synapse_spark_pool_size \
         > tmp/synapse_spark_pool_create.json
+
+    # spark 3.1 is GA as of May 26, 2021, see:
+    # https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
 }
 
 recreate() {
