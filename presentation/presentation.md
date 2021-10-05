@@ -15,6 +15,7 @@ integration via **Synapse Link**
   - 3.3 **Count the CosmosDB Documents** with the **DotNet Console App**
   - 3.4 **Query the CosmosDB Documents** with the **DotNet Console App**
   - 3.5 **Query the Synapse Link Data** with a **PySpark Notebook in Synapse**
+- [Part 4: Links](#part4)
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
@@ -787,4 +788,18 @@ root
  |-- doc_epoch: long (nullable = true)
  |-- doc_time: string (nullable = true)
  |-- _etag: string (nullable = true)
+```
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
+<a name="part4"></a>
+
+## Part 4: Links
+
+- [Synapse Notebooks](https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-development-using-notebooks?tabs=classical)
+- [Synapse Apache Spark](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-spark)
+- [Analyze data in a storage account](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-storage)
+
+```
+curl https://cjoakimpublic.blob.core.windows.net/samples/us_states.csv
 ```
