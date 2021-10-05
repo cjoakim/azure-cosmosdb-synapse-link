@@ -529,8 +529,16 @@ $ ./load_ecommerce.sh
 
 ```
 $ dotnet run count_documents demo travel
-
 CountDocuments demo travel -> 50000
+
+$ dotnet run count_documents demo customers
+CountDocuments demo customers -> 100000
+
+$ dotnet run count_documents demo products
+CountDocuments demo products -> 29549
+
+$ dotnet run count_documents demo orders
+CountDocuments demo orders -> 1049182
 ```
 
 ---
@@ -538,7 +546,7 @@ CountDocuments demo travel -> 50000
 ### 3.4 Query the CosmosDB Documents with the DotNet Console App
 
 ```
-$ dotnet run execute_queries demo travel sql/queries.txt
+$ dotnet run execute_queries demo travel sql/travel.txt
 
 ================================================================================
 executing qname: q0, db: demo, cname: travel, sql: SELECT COUNT(1) FROM c
@@ -555,6 +563,180 @@ The console output shows the query, the RU charge, and the number of items (docu
 returned.  See the output/xxx.json file for the actual query results.
 
 Edit file sql/queries.txt as necessary, to add your own queries.
+
+#### Query the eCommerce containers
+
+```
+$ dotnet run execute_queries demo customers sql/customers.txt
+$ dotnet run execute_queries demo orders    sql/orders.txt
+$ dotnet run execute_queries demo products  sql/products.txt
+```
+
+#### Sample eCommerce documents
+
+**Customer**
+
+```
+{
+  "pk": "0057613672377",
+  "doctype": "customer",
+  "customerId": "0057613672377",
+  "name": "Diane Ellis",
+  "first": "Diane",
+  "last": "Ellis",
+  "address": {
+    "street": "25063 Evans Vista Suite 538",
+    "city": "Kevinhaven",
+    "state": "MT",
+    "zip": "63313"
+  },
+  "doc_epoch": 1633453584899,
+  "doc_time": "2021/10/05-17:06:24",
+  "id": "9eda180d-434c-4da9-a597-2656804d4de2",
+  "_rid": "Oww-AINGvCGRLgAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-AINGvCE=/docs/Oww-AINGvCGRLgAAAAAAAA==/",
+  "_etag": "\"4f0246f5-0000-0100-0000-615c86110000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453585
+}
+```
+
+**Order** with **Line Items** with **Deliveries**
+
+```
+{
+  "pk": 11,
+  "doctype": "order",
+  "orderId": 11,
+  "customerId": "0057613672377",
+  "date_time": "2021-10-05 16:59:17 +00:00",
+  "item_count": 3,
+  "order_total": 169.89,
+  "delivery_count": 2,
+  "doc_epoch": 1633453812428,
+  "doc_time": "2021/10/05-17:10:12",
+  "id": "e50ff693-7bf5-4c5c-9015-e070e64d72c3",
+  "_rid": "Oww-ANTQwuSvAQAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuSvAQAAAAAAAA==/",
+  "_etag": "\"5202fe05-0000-0100-0000-615c86f50000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453813
+},
+{
+  "pk": 11,
+  "doctype": "line_item",
+  "orderId": 11,
+  "lineNumber": 1,
+  "customerId": "0057613672377",
+  "sku": 755874769194,
+  "name": "MightySkins Skin Decal Wrap Compatible with DJI Sticker Protective Cover 100's of Color Options",
+  "qty": 3,
+  "price": 9.99,
+  "item_total": 29.97,
+  "doc_epoch": 1633453812428,
+  "doc_time": "2021/10/05-17:10:12",
+  "id": "4cdc2c93-de24-4d71-b783-95f75b14634b",
+  "_rid": "Oww-ANTQwuSrAQAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuSrAQAAAAAAAA==/",
+  "_etag": "\"5202fa05-0000-0100-0000-615c86f50000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453813
+},
+{
+  "pk": 11,
+  "doctype": "delivery",
+  "orderId": 11,
+  "lineNumber": 3,
+  "customerId": "0057613672377",
+  "sku": 53722097384,
+  "status": "not shipped",
+  "doc_epoch": 1633453812428,
+  "doc_time": "2021/10/05-17:10:12",
+  "id": "45abf5a5-fe74-47f2-9337-e77c3877ee92",
+  "_rid": "Oww-ANTQwuSuAQAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuSuAQAAAAAAAA==/",
+  "_etag": "\"5202fd05-0000-0100-0000-615c86f50000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453813
+},
+{
+  "pk": 11,
+  "doctype": "line_item",
+  "orderId": 11,
+  "lineNumber": 2,
+  "customerId": "0057613672377",
+  "sku": 712323180887,
+  "name": "Ebe Reading Glasses Mens Womens Gold Harry Potter Style Horned Rim Anti Glare Cozy zsm5500",
+  "qty": 4,
+  "price": 24.99,
+  "item_total": 99.96,
+  "doc_epoch": 1633453812428,
+  "doc_time": "2021/10/05-17:10:12",
+  "id": "36567280-effa-4bc0-9f23-c72b6672bb3e",
+  "_rid": "Oww-ANTQwuS1AQAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuS1AQAAAAAAAA==/",
+  "_etag": "\"52020406-0000-0100-0000-615c86f50000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453813
+},
+{
+  "pk": 11,
+  "doctype": "delivery",
+  "orderId": 11,
+  "lineNumber": 2,
+  "customerId": "0057613672377",
+  "sku": 712323180887,
+  "status": "not shipped",
+  "doc_epoch": 1633453812428,
+  "doc_time": "2021/10/05-17:10:12",
+  "id": "2a209504-bb05-412d-8fd4-b1c64aa303e2",
+  "_rid": "Oww-ANTQwuS6AQAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuS6AQAAAAAAAA==/",
+  "_etag": "\"52020906-0000-0100-0000-615c86f50000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453813
+},
+{
+  "pk": 11,
+  "doctype": "line_item",
+  "orderId": 11,
+  "lineNumber": 3,
+  "customerId": "0057613672377",
+  "sku": 53722097384,
+  "name": "MightySkins Skin Decal Wrap Compatible with SnowWolf Sticker Protective Cover 100's of Color Options",
+  "qty": 4,
+  "price": 9.99,
+  "item_total": 39.96,
+  "doc_epoch": 1633453812428,
+  "doc_time": "2021/10/05-17:10:12",
+  "id": "80297189-0b98-4d03-9abc-341b0c547032",
+  "_rid": "Oww-ANTQwuS+AQAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuS+AQAAAAAAAA==/",
+  "_etag": "\"52020d06-0000-0100-0000-615c86f50000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453813
+}
+```
+
+**Product**
+
+```
+{
+  "id": "cfce3b31-8e1f-4cb1-a0fd-4639cd399122",
+  "pk": 755874769194,
+  "sku": 755874769194,
+  "name": "MightySkins Skin Decal Wrap Compatible with DJI Sticker Protective Cover 100's of Color Options",
+  "price": 9.99,
+  "doc_epoch": 1633453787685,
+  "doc_time": "2021/10/05-17:09:47",
+  "_rid": "Oww-AJP40HhTOgAAAAAAAA==",
+  "_self": "dbs/Oww-AA==/colls/Oww-AJP40Hg=/docs/Oww-AJP40HhTOgAAAAAAAA==/",
+  "_etag": "\"510218c8-0000-0100-0000-615c86dc0000\"",
+  "_attachments": "attachments/",
+  "_ts": 1633453788
+}
+```
+
 
 ### 3.5 Query the Synapse Link Data with a PySpark Notebook in Synapse
 
