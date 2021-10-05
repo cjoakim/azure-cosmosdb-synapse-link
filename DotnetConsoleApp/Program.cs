@@ -108,6 +108,9 @@ namespace CosmosSL {
             Console.WriteLine("---");
             Console.WriteLine("dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>");
             Console.WriteLine("dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1");
+            Console.WriteLine("dotnet run bulk_load_container demo customers na data/customers.json 9999");
+            Console.WriteLine("dotnet run bulk_load_container demo products  na data/products.json 9999");
+            Console.WriteLine("dotnet run bulk_load_container demo orders    na data/orders.json 9999");
             Console.WriteLine("---");
             Console.WriteLine("dotnet run count_documents <dbname> <cname>");
             Console.WriteLine("---");

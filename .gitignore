@@ -3,10 +3,15 @@
 # these two files are too large for github
 DotnetConsoleApp/data/air_travel_departures.csv
 DotnetConsoleApp/data/air_travel_departures.json
+DotnetConsoleApp/data/customers.json
+DotnetConsoleApp/data/orders.json
+DotnetConsoleApp/data/products.json
 
 **/.idea/
 **/out/
 **/tmp/
+
+python_data/data/wrangled/retail/*.json
 
 
 ## Ignore Visual Studio temporary files, build results, and

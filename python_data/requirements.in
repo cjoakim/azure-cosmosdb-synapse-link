@@ -1,0 +1,10 @@
+Jinja2
+SQLAlchemy
+arrow
+azureml-opendatasets
+azureml-sdk
+docopt
+faker
+kaggle
+pandas
+requests
