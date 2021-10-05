@@ -1,6 +1,6 @@
 ## cj
 
-# these two files are too large for github
+# these files are too large for github, are in the repo as zip files instead
 DotnetConsoleApp/data/air_travel_departures.csv
 DotnetConsoleApp/data/air_travel_departures.json
 DotnetConsoleApp/data/customers.json

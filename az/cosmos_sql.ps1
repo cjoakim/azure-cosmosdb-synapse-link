@@ -1,6 +1,6 @@
 
 # Provision an Azure Cosmos/SQL DB account with the az CLI.
-# Chris Joakim, Microsoft, August 2021
+# Chris Joakim, Microsoft, October 2021
 
 # /cosmos_sql.ps1
 
@@ -39,7 +39,36 @@ az cosmosdb sql container create `
     --name $Env:cosmos_sql_cname `
     --subscription $Env:AZURE_SUBSCRIPTION_ID `
     --partition-key-path $Env:cosmos_sql_pk_path `
-    --analytical-storage-ttl $Env:cosmos_sql_sl_ttl `
-    > tmp/cosmos_sql_container_create.json
+    --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
 
+echo 'creating cosmos container: customers'
+az cosmosdb sql container create `
+    --resource-group $Env:cosmos_sql_rg `
+    --account-name $Env:cosmos_sql_acct_name `
+    --database-name $Env:cosmos_sql_dbname `
+    --name customers `
+    --subscription $Env:AZURE_SUBSCRIPTION_ID `
+    --partition-key-path $Env:cosmos_sql_pk_path `
+    --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
+
+echo 'creating cosmos container: products'
+az cosmosdb sql container create `
+    --resource-group $Env:cosmos_sql_rg `
+    --account-name $Env:cosmos_sql_acct_name `
+    --database-name $Env:cosmos_sql_dbname `
+    --name products `
+    --subscription $Env:AZURE_SUBSCRIPTION_ID `
+    --partition-key-path $Env:cosmos_sql_pk_path `
+    --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
+
+echo 'creating cosmos container: orders'
+az cosmosdb sql container create `
+    --resource-group $Env:cosmos_sql_rg `
+    --account-name $Env:cosmos_sql_acct_name `
+    --database-name $Env:cosmos_sql_dbname `
+    --name orders `
+    --subscription $Env:AZURE_SUBSCRIPTION_ID `
+    --partition-key-path $Env:cosmos_sql_pk_path `
+    --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
+        
 echo 'done'

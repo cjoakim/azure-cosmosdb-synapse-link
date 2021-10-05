@@ -3,7 +3,7 @@
 # Bash script to set environment variables for provisioning.
 # NOTE: Please do a change-all on this script to change "cjoakim" to YOUR ID!
 #
-# Chris Joakim, Microsoft, August 2021
+# Chris Joakim, Microsoft, October 2021
 
 export primary_region="eastus"
 export primary_rg="cjoakimcsl"                  # csl = Cosmos-Synapse-Link
@@ -16,7 +16,7 @@ export cosmos_sql_acct_kind="GlobalDocumentDB"  # {GlobalDocumentDB, MongoDB, Pa
 export cosmos_sql_dbname="demo"
 export cosmos_sql_cname="travel"
 export cosmos_sql_pk_path="/pk"
-export cosmos_sql_db_throughput="4000"
+export cosmos_sql_db_throughput="5000"
 export cosmos_sql_sl_ttl="220903200"            # 7-years, in seconds (60 * 60 * 24 * 365.25 * 7)
 #
 export synapse_region=$primary_region

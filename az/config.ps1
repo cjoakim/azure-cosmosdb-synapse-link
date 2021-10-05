@@ -1,7 +1,7 @@
 # PowerShell script to set environment variables for provisioning.
 # NOTE: Please do a change-all on this script to change "cjoakim" to YOUR ID!
 #
-# Chris Joakim, Microsoft, August 2021
+# Chris Joakim, Microsoft, October 2021
 
 $Env:cosmos_sql_region="eastus"
 $Env:cosmos_sql_rg="cjoakimcsl"               # csl = Cosmos-Synapse-Link
@@ -11,7 +11,7 @@ $Env:cosmos_sql_acct_kind="GlobalDocumentDB"  # {GlobalDocumentDB, MongoDB, Pars
 $Env:cosmos_sql_dbname="demo"
 $Env:cosmos_sql_cname="travel"
 $Env:cosmos_sql_pk_path="/pk"
-$Env:cosmos_sql_db_throughput="4000"
+$Env:cosmos_sql_db_throughput="5000"
 $Env:cosmos_sql_sl_ttl="220903200"            # 7-years, in seconds (60 * 60 * 24 * 365.25 * 7)
 #
 $Env:synapse_region="eastus"
