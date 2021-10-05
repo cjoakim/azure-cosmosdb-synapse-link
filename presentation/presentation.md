@@ -134,7 +134,15 @@ $ dotnet build                 <-- compile the C# code
 $ mkdir out
 
 $ cd data
-... unzip the two zip files    <-- the zip files contain csv and json files too large for GitHub
+
+... unzip the zip files; these zips contain csv and json files that are too large for GitHub
+
+$ unzip air_travel_departures.csv.zip
+$ unzip air_travel_departures.json.zip
+$ unzip customers.json.zip
+$ unzip orders.json.zip
+$ unzip products.json.zip
+
 $ cd ..
 
 $ dotnet run                   <-- displays the list of commands supported by Program.cs
@@ -155,6 +163,9 @@ dotnet run delete_container <dbname> <cname>
 ---
 dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>
 dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1
+dotnet run bulk_load_container demo customers na data/customers.json 9999
+dotnet run bulk_load_container demo products  na data/products.json 9999
+dotnet run bulk_load_container demo orders    na data/orders.json 9999
 ---
 dotnet run count_documents <dbname> <cname>
 ---
@@ -496,6 +507,18 @@ $ head -500 data/air_travel_departures.json | grep MIA | grep MAO
 In Azure Portal, query the latest **MIA:MAO** documents.
 ```
 SELECT c.id, c.pk, c.doc_time FROM c WHERE c.pk = 'MIA:MAO' order by c.doc_time desc offset 0 limit 5
+```
+
+#### Load the three eCommerce containers - customers, products, orders
+
+```
+$ dotnet run bulk_load_container demo customers na data/customers.json 9999
+$ dotnet run bulk_load_container demo products  na data/products.json 9999
+$ dotnet run bulk_load_container demo orders    na data/orders.json 9999
+
+- or -
+
+$ ./load_ecommerce.sh
 ```
 
 <p align="center"><img src="img/documents-in-azure-portal.png" width="95%"></p>
