@@ -796,9 +796,17 @@ root
 
 ## Part 4: Links
 
+### Synapse
+
 - [Synapse Notebooks](https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-development-using-notebooks?tabs=classical)
 - [Synapse Apache Spark](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-spark)
 - [Analyze data in a storage account](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-storage)
+- [Azure-Samples/Synapse GitHub Repo](https://github.com/Azure-Samples/Synapse)
+
+### Apache Spark
+
+- [Apache Spark Docs](https://spark.apache.org/docs/latest/)
+- [Apache Spark PySpark API Docs](https://spark.apache.org/docs/latest/api/python/reference/index.html)
 
 ```
 curl https://cjoakimpublic.blob.core.windows.net/samples/us_states.csv
