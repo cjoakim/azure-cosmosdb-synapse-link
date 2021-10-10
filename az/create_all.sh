@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Bash shell script to create/provision the necessary Azure resources
+# for this project.
+# Chris Joakim, Microsoft, October 2021
+
 source ./config.sh
 
 mkdir -p tmp/
@@ -9,6 +13,8 @@ az logout
 
 echo 'az login with UI, not with a service principal ...'
 az login 
+
+./akv.sh create
 
 ./cosmos_sql.sh create info
 

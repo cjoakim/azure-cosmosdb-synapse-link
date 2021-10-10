@@ -8,6 +8,11 @@
 export primary_region="eastus"
 export primary_rg="cjoakimcsl"                  # csl = Cosmos-Synapse-Link
 #
+export akv_region=$primary_region
+export akv_rg=$primary_rg
+export akv_name="cjoakimcslkv"
+export akv_sku="standard"
+#
 export cosmos_sql_region=$primary_region
 export cosmos_sql_rg=$primary_rg
 export cosmos_sql_acct_name="cjoakimcslcosmos"
