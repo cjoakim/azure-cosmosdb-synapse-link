@@ -9,7 +9,7 @@
 
 df = spark.read    .format("cosmos.olap")    .option("spark.synapse.linkedService", "demoCosmosDB")    .option("spark.cosmos.container", "travel")    .load()
 
-display(df.printSchema())
+df.printSchema()
 
 
 # ## Display the Shape of the Dataframe - row and column count
