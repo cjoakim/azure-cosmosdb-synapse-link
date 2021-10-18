@@ -69,3 +69,9 @@ root
 
 df_order_docs.join(df_customers, df_order_docs.customerId == df_customers.customerId, "inner") \
      .show(truncate=False)
+
+b.groupBy("Name") \
+    .agg(
+        sum("Sal").alias("sum_salary"),\
+        max("Sal").alias("MaximumOfSal"),\
+        min("Sal").alias("MinOfSal"))
