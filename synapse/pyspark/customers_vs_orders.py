@@ -3,7 +3,7 @@
 
 # # Process the Customers vs Orders Synapse Link Data
 
-# In[40]:
+# In[67]:
 
 
 # Load the SynapseLink Customers and Orders data into a Dataframes.
@@ -27,7 +27,7 @@ print('df_order_docs, shape: {} x {}'.format(
         df_order_docs.count(), len(df_order_docs.columns)))
 
 
-# In[41]:
+# In[68]:
 
 
 # Display the first few rows of the df_customers Dataframe
@@ -35,7 +35,7 @@ print('df_order_docs, shape: {} x {}'.format(
 display(df_customers.limit(3))
 
 
-# In[42]:
+# In[69]:
 
 
 # Display the first few rows of the df_order_docs Dataframe
@@ -43,7 +43,7 @@ display(df_customers.limit(3))
 display(df_order_docs.limit(3))
 
 
-# In[43]:
+# In[70]:
 
 
 # Create Narrower/Minimal Dataframes for the Join operation 
@@ -69,7 +69,7 @@ print('df_orders_minimal, shape: {} x {}'.format(
 df_orders_minimal.printSchema()
 
 
-# In[51]:
+# In[71]:
 
 
 # Join the (narrow) Customers to their (narrow) Order documents
@@ -82,7 +82,7 @@ print('df_joined, shape: {} x {}'.format(
 df_joined.printSchema()
 
 
-# In[52]:
+# In[72]:
 
 
 # Display the first few rows of the df_joined Dataframe
@@ -90,7 +90,7 @@ df_joined.printSchema()
 display(df_joined.limit(20))
 
 
-# In[53]:
+# In[73]:
 
 
 # Group the df_joined Dataframe by customerId, sum on order total and total_orders
@@ -101,7 +101,7 @@ display(df_grouped.printSchema())
 print((df_grouped.count(), len(df_grouped.columns)))
 
 
-# In[54]:
+# In[74]:
 
 
 import pyspark.sql.functions as F 
@@ -116,8 +116,40 @@ display(df_agg.printSchema())
 print((df_agg.count(), len(df_agg.columns)))
 
 
-# In[55]:
+# In[75]:
 
 
 display(df_agg.limit(30))
+
+
+# In[79]:
+
+
+from pyspark.sql import SparkSession
+from pyspark.sql.types import *
+
+import pyspark.sql.functions as F 
+
+# See https://github.com/Azure-Samples/Synapse/blob/main/Notebooks/PySpark/02%20Read%20and%20write%20data%20from%20Azure%20Blob%20Storage%20WASB.ipynb
+
+# Azure storage access info
+blob_account_name   = 'cjoakimstorage'
+blob_container_name = 'synapse'
+blob_relative_path  = 'ecomm'
+linked_service_name = 'cjoakimstorageAzureBlobStorage'
+
+blob_sas_token = mssparkutils.credentials.getConnectionStringOrCreds(
+    linked_service_name)
+print('blob_sas_token: {}'.format(blob_sas_token))
+
+# Allow Spark to access from Blob remotely
+wasbs_path = 'wasbs://%s@%s.blob.core.windows.net/%s' % (
+    blob_container_name, blob_account_name, blob_relative_path)
+spark.conf.set('fs.azure.sas.%s.%s.blob.core.windows.net' % (
+    blob_container_name, blob_account_name), blob_sas_token)
+print('Remote blob path: ' + wasbs_path)
+
+blob_path = '{}{}'.format(wasbs_path,'sales_by_customer')
+
+df_agg.coalesce(1).write.csv(blob_path, mode='overwrite', header='true')
 
