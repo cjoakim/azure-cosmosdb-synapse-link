@@ -122,7 +122,7 @@ print((df_agg.count(), len(df_agg.columns)))
 display(df_agg.limit(30))
 
 
-# In[79]:
+# In[82]:
 
 
 from pyspark.sql import SparkSession
@@ -135,7 +135,7 @@ import pyspark.sql.functions as F
 # Azure storage access info
 blob_account_name   = 'cjoakimstorage'
 blob_container_name = 'synapse'
-blob_relative_path  = 'ecomm'
+blob_relative_path  = 'ecomm/'
 linked_service_name = 'cjoakimstorageAzureBlobStorage'
 
 blob_sas_token = mssparkutils.credentials.getConnectionStringOrCreds(
@@ -149,7 +149,19 @@ spark.conf.set('fs.azure.sas.%s.%s.blob.core.windows.net' % (
     blob_container_name, blob_account_name), blob_sas_token)
 print('Remote blob path: ' + wasbs_path)
 
-blob_path = '{}{}'.format(wasbs_path,'sales_by_customer')
+csv_path  = '{}{}'.format(wasbs_path,'sales_by_customer_csv')
+json_path = '{}{}'.format(wasbs_path,'sales_by_customer_json')
 
-df_agg.coalesce(1).write.csv(blob_path, mode='overwrite', header='true')
+#df_agg.coalesce(1).write.csv(blob_path, mode='overwrite', header='true')
+df_agg.coalesce(1).write.json(blob_path, mode='overwrite')
+
+
+# In[90]:
+
+
+
+# Write to CosmosDB - linked service 'demoCosmosDB'
+# See https://docs.microsoft.com/en-us/azure/synapse-analytics/synapse-link/how-to-query-analytical-store-spark#write-spark-dataframe-to-azure-cosmos-db-container
+
+df_agg.write.format("cosmos.oltp")    .option("spark.synapse.linkedService", "demoCosmosDB")    .option("spark.cosmos.container", "sales_by_customer")    .option("spak.cosmos.write.upsertenabled", "true")    .mode('append')    .save()
 
