@@ -3,68 +3,50 @@
 
 # # Process the Customers vs Orders Synapse Link Data
 
-# In[ ]:
+# In[40]:
 
 
-# Load the SynapseLink Customers data into a Dataframe
+# Load the SynapseLink Customers and Orders data into a Dataframes.
+# Then, filter the Orders for just the 'order' doctype.
 
 df_customers = spark.read    .format("cosmos.olap")    .option("spark.synapse.linkedService", "demoCosmosDB")    .option("spark.cosmos.container", "customers")    .load()
+
+df_orders = spark.read    .format("cosmos.olap")    .option("spark.synapse.linkedService", "demoCosmosDB")    .option("spark.cosmos.container", "orders")    .load()
+
+df_order_docs = df_orders.filter(df_orders["doctype"].isin(["order"]))
+
+print('df_customers, shape: {} x {}'.format(
+        df_customers.count(), len(df_customers.columns)))
+df_customers.printSchema()
+
+print('df_orders, shape: {} x {}'.format(
+        df_orders.count(), len(df_orders.columns)))
+df_orders.printSchema()
+
+print('df_order_docs, shape: {} x {}'.format(
+        df_order_docs.count(), len(df_order_docs.columns)))
+
+
+# In[41]:
+
+
+# Display the first few rows of the df_customers Dataframe
+
 display(df_customers.limit(3))
 
 
-# In[ ]:
+# In[42]:
 
 
-# Load the SynapseLink Orders data into a Dataframe
+# Display the first few rows of the df_order_docs Dataframe
 
-df_orders = spark.read    .format("cosmos.olap")    .option("spark.synapse.linkedService", "demoCosmosDB")    .option("spark.cosmos.container", "orders")    .load()
-display(df_orders.limit(3))
-
-
-# In[ ]:
-
-
-# Select just the doctype == 'orders' from the Orders Dataframe
-# Exclude the line_item and delivery document types
-
-df_order_docs = df_orders.filter(df_orders["doctype"].isin(["order"]))
 display(df_order_docs.limit(3))
 
 
-# In[ ]:
+# In[43]:
 
 
-# Display the Observed Schemas of the Dataframes
-
-print('=== df_customers')
-df_customers.printSchema()
-
-print('=== df_orders')
-df_orders.printSchema()
-
-print('=== df_order_docs')
-display(df_order_docs.printSchema())
-
-
-# In[ ]:
-
-
-# Display the shapes of the Dataframes
-
-print('df_customers:')
-print((df_customers.count(), len(df_customers.columns)))
-
-print('df_orders')
-print((df_orders.count(), len(df_orders.columns)))
-
-print('df_order_docs')
-print((df_order_docs.count(), len(df_order_docs.columns)))
-
-
-# In[84]:
-
-
-# Create Minimal Dataframes for Join operation 
+# Create Narrower/Minimal Dataframes for the Join operation 
 
 from pyspark.sql.functions import col
 
@@ -72,9 +54,9 @@ df_customers_minimal = df_customers.select(
     col('customerId'),
     col('name'))
 
-print('df_customers_minimal')
-display(df_customers_minimal.printSchema())
-print((df_customers_minimal.count(), len(df_customers_minimal.columns)))
+print('df_customers_minimal, shape: {} x {}'.format(
+        df_customers_minimal.count(), len(df_customers_minimal.columns)))
+df_customers_minimal.printSchema()
 
 df_orders_minimal = df_order_docs.select(
     col('orderId'),
@@ -82,40 +64,44 @@ df_orders_minimal = df_order_docs.select(
     col('item_count'),
     col('order_total'))
 
-print('df_orders_minimal')
-display(df_orders_minimal.printSchema())
-print((df_orders_minimal.count(), len(df_orders_minimal.columns)))
+print('df_orders_minimal, shape: {} x {}'.format(
+        df_orders_minimal.count(), len(df_orders_minimal.columns)))
+df_orders_minimal.printSchema()
 
 
-# In[85]:
+# In[51]:
 
 
-# Join the Customers to their Order documents
+# Join the (narrow) Customers to their (narrow) Order documents
 
-df_joined = df_orders_minimal.join(df_customers_minimal, ['customerId'])
-
-display(df_joined.printSchema())
-print((df_joined.count(), len(df_joined.columns)))
+df_joined = df_orders_minimal.join(df_customers_minimal, ['customerId'])     .sort("customerId", ascending=False)
 
 
-# In[86]:
+print('df_joined, shape: {} x {}'.format(
+        df_joined.count(), len(df_joined.columns)))
+df_joined.printSchema()
 
 
-display(df_joined.limit(30))
+# In[52]:
 
 
-# In[ ]:
+# Display the first few rows of the df_joined Dataframe
+
+display(df_joined.limit(20))
 
 
+# In[53]:
 
 
-df_grouped = df_joined.groupby("customerId").sum("order_total").alias('total_orders')
+# Group the df_joined Dataframe by customerId, sum on order total and total_orders
+
+df_grouped = df_joined.groupby("customerId")     .sum("order_total").alias('total_orders')     .sort("customerId", ascending=False)
 
 display(df_grouped.printSchema())
 print((df_grouped.count(), len(df_grouped.columns)))
 
 
-# In[104]:
+# In[54]:
 
 
 import pyspark.sql.functions as F 
@@ -123,37 +109,15 @@ import pyspark.sql.functions as F
 df_agg = df_joined.groupBy("customerId")     .agg(
         F.count("customerId").alias('order_count'), \
         F.sum("order_total").alias("total_dollar_amount"), \
-        F.sum("item_count").alias("total_item_count"))
+        F.sum("item_count").alias("total_item_count")) \
+        .sort("customerId", ascending=False)
 
 display(df_agg.printSchema())
 print((df_agg.count(), len(df_agg.columns)))
 
 
-# In[105]:
+# In[55]:
 
 
 display(df_agg.limit(30))
-
-
-# In[99]:
-
-
-import pyspark.sql.functions as F 
-
-df_agg2 = df_joined.groupBy("customerId").agg(
-    {"order_total": "sum", "item_count": "sum", "customerId":"count"})
-display(df_agg2.printSchema())
-print((df_agg2.count(), len(df_agg2.columns)))
-
-
-# In[101]:
-
-
-display(df_agg2.limit(30))
-
-
-# In[ ]:
-
-
-
 
