@@ -2,21 +2,24 @@
 Usage:
     python retail_data_gen.py gen_retail_data 10000
     python retail_data_gen.py random 10000
+    python retail_data_gen.py gen_date_range
 """
 
 __author__  = 'Chris Joakim'
 __email__   = "chjoakim@microsoft.com"
 __license__ = "MIT"
-__version__ = "2021.10.05"
+__version__ = "2021.10.22"
 
 import arrow
 import csv
+import datetime
 import json
 import os
 import random
 import sys
 import time
 import traceback
+import uuid
 
 import numpy as np
 import pandas as pd
@@ -28,8 +31,11 @@ def gen_retail_data(cust_count):
     customer_ids = gen_customer_ids(cust_count)
     write_obj_as_json_file('data/raw/tmp/customer_ids.json', customer_ids)
 
+    order_dates = gen_date_range()
+    write_obj_as_json_file('data/wrangled/retail/date_range.json', order_dates)
+
     gen_customers(cust_count, customer_ids)
-    gen_orders(cust_count * 3, customer_ids)
+    gen_orders(cust_count * 3, customer_ids, order_dates)
 
 def gen_customer_ids(count):
     ids_list, ids_dict = list(), dict()
@@ -112,7 +118,8 @@ def gen_customer_addresses(count):
         len(addr_list), excp_count))
     return addr_list
 
-def gen_orders(count, customer_ids):
+def gen_orders(count, customer_ids, order_dates):
+
     products_list = read_product_csv_data()
     outfile = 'data/wrangled/retail/products.json'
     with open(outfile, 'wt') as out:
@@ -123,7 +130,7 @@ def gen_orders(count, customer_ids):
 
     ids_max_idx = len(customer_ids) - 1
     ids_product_idx = len(products_list) - 1
-    order_id = 0
+    order_id = str(uuid.uuid4())
     order_count, excp_count = 0, 0
 
     outfile = 'data/wrangled/retail/orders.json'
@@ -132,17 +139,18 @@ def gen_orders(count, customer_ids):
             try:
                 ridx = random.randint(0, ids_max_idx)
                 cust_id  = customer_ids[ridx]
-                order_id = order_id + 1
+                order_id = str(uuid.uuid4())
                 nitems   = random.randint(1, 3)
                 order_total = 0.0
                 delivery_count = 0
+                order_date = random_order_date(order_dates)
 
                 order_obj = dict()
                 order_obj['pk'] = order_id
                 order_obj['doctype'] = 'order'
                 order_obj['orderId'] = order_id
                 order_obj['customerId'] = cust_id
-                order_obj['date_time'] = arrow.utcnow().format('YYYY-MM-DD HH:mm:ss ZZ')
+                order_obj['order_date'] = order_date
                 order_obj['item_count'] = nitems
 
                 for i in range(nitems):
@@ -153,6 +161,7 @@ def gen_orders(count, customer_ids):
                     item_obj['orderId'] = order_id
                     item_obj['lineNumber'] = line_num
                     item_obj['customerId'] = cust_id
+                    item_obj['order_date'] = order_date
 
                     pidx = random.randint(0, ids_product_idx)
                     product = products_list[pidx]
@@ -220,6 +229,20 @@ def read_product_csv_data():
             pass
     return products 
 
+def gen_date_range():
+    print('gen_date_range')
+    data  = list()
+    start = datetime.datetime(2020, 10, 24)
+    end   = datetime.datetime(2021, 10, 24)
+    for r in arrow.Arrow.span_range('day', start, end):
+        yyyymmdd = r[0].format('YYYY-MM-DD')
+        data.append(yyyymmdd)
+    return data
+
+def random_order_date(order_dates):
+    idx = random.randint(0, len(order_dates) - 1)
+    return order_dates[idx]
+
 def describe_df(df, msg):
     print('=== describe df: {}'.format(msg))
     print('--- df.head(3)')
@@ -256,6 +279,10 @@ if __name__ == "__main__":
             for i in range(count):
                 r = random.randint(0, 100)
                 print('_{}_'.format(r))
+        elif func == 'gen_date_range':
+            order_dates = gen_date_range()
+            for i in range(10000):
+                print(random_order_date(order_dates))
         else:
             print_options('Error: invalid function: {}'.format(func))
     else:

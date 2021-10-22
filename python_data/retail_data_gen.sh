@@ -12,7 +12,7 @@ rm data/wrangled/retail/customers.json
 rm data/wrangled/retail/products.json
 rm data/wrangled/retail/orders.json
 
-customer_count=100000
+customer_count=100
 
 echo 'executing retail_data_gen.py ...'
 python retail_data_gen.py gen_retail_data $customer_count
