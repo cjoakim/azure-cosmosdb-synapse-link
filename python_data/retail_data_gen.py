@@ -3,12 +3,17 @@ Usage:
     python retail_data_gen.py gen_retail_data 10000
     python retail_data_gen.py random 10000
     python retail_data_gen.py gen_date_range
+    python retail_data_gen.py json_to_csv product   data/wrangled/retail/products.json  > data/wrangled/retail/products.csv
+    python retail_data_gen.py json_to_csv customer  data/wrangled/retail/customers.json > data/wrangled/retail/customers.csv
+    python retail_data_gen.py json_to_csv order     data/wrangled/retail/orders.json  > data/wrangled/retail/orders.csv
+    python retail_data_gen.py json_to_csv line_item data/wrangled/retail/orders.json  > data/wrangled/retail/line_items.csv
+    python retail_data_gen.py json_to_csv delivery  data/wrangled/retail/orders.json  > data/wrangled/retail/deliveries.csv
 """
 
 __author__  = 'Chris Joakim'
 __email__   = "chjoakim@microsoft.com"
 __license__ = "MIT"
-__version__ = "2021.10.22"
+__version__ = "2021.10.23"
 
 import arrow
 import csv
@@ -63,9 +68,10 @@ def gen_customers(count, customer_ids):
         for cust_idx, cust_id in enumerate(customer_ids):
             name_tup = gen_unique_customer_name(f, customer_keys, cust_idx)
             cust_obj = dict()
+            cust_obj['id'] = str(uuid.uuid4())
             cust_obj['pk'] = cust_id
             cust_obj['doctype'] = 'customer'
-            cust_obj['customerId'] = cust_id
+            cust_obj['customer_id'] = cust_id
             cust_obj['name']  = name_tup[2]
             cust_obj['first'] = name_tup[0]
             cust_obj['last']  = name_tup[1]
@@ -119,7 +125,6 @@ def gen_customer_addresses(count):
     return addr_list
 
 def gen_orders(count, customer_ids, order_dates):
-
     products_list = read_product_csv_data()
     outfile = 'data/wrangled/retail/products.json'
     with open(outfile, 'wt') as out:
@@ -148,20 +153,22 @@ def gen_orders(count, customer_ids, order_dates):
                 order_obj = dict()
                 order_obj['pk'] = order_id
                 order_obj['doctype'] = 'order'
-                order_obj['orderId'] = order_id
-                order_obj['customerId'] = cust_id
+                order_obj['order_id'] = order_id
+                order_obj['customer_id'] = cust_id
                 order_obj['order_date'] = order_date
                 order_obj['item_count'] = nitems
+                order_obj['version']    = 'v2'
 
                 for i in range(nitems):
                     line_num = i + 1
                     item_obj = dict()
                     item_obj['pk'] = order_id
                     item_obj['doctype'] = 'line_item'
-                    item_obj['orderId'] = order_id
-                    item_obj['lineNumber'] = line_num
-                    item_obj['customerId'] = cust_id
+                    item_obj['order_id'] = order_id
+                    item_obj['line_num'] = line_num
+                    item_obj['customer_id'] = cust_id
                     item_obj['order_date'] = order_date
+                    item_obj['version']    = 'v2'
 
                     pidx = random.randint(0, ids_product_idx)
                     product = products_list[pidx]
@@ -183,11 +190,12 @@ def gen_orders(count, customer_ids, order_dates):
                         delivery = dict()
                         delivery['pk'] = order_id
                         delivery['doctype'] = 'delivery'
-                        delivery['orderId'] = order_id
-                        delivery['lineNumber'] = line_num
-                        delivery['customerId'] = cust_id
-                        delivery['sku']    = product['sku']
-                        delivery['status'] = 'not shipped'
+                        delivery['order_id'] = order_id
+                        delivery['line_num'] = line_num
+                        delivery['customer_id'] = cust_id
+                        delivery['sku']     = product['sku']
+                        delivery['status']  = 'not shipped'
+                        delivery['version'] = 'v2'
                         out.write(json.dumps(delivery))
                         out.write("\n")  
 
@@ -230,7 +238,6 @@ def read_product_csv_data():
     return products 
 
 def gen_date_range():
-    print('gen_date_range')
     data  = list()
     start = datetime.datetime(2020, 10, 24)
     end   = datetime.datetime(2021, 10, 24)
@@ -243,6 +250,141 @@ def random_order_date(order_dates):
     idx = random.randint(0, len(order_dates) - 1)
     return order_dates[idx]
 
+def json_to_csv(doctype, infile):
+    if doctype.lower() == 'product':
+        json_to_csv_products(infile)
+
+    elif doctype.lower() == 'customer':
+        json_to_csv_customers(infile)
+
+    elif doctype.lower() == 'order':
+        json_to_csv_orders(infile, doctype)
+
+    elif doctype.lower() == 'line_item':
+        json_to_csv_line_items(infile, doctype)
+
+    elif doctype.lower() == 'delivery':
+        json_to_csv_deliveries(infile, doctype)
+
+def json_to_csv_products(infile):
+    header = 'id|pk|sku|name|price'
+    attrs  = header.split('|')
+    it = text_file_iterator(infile)
+    print(header)
+    for i, line in enumerate(it):
+        doc = json.loads(line.strip())
+        values = list()
+        for attr in attrs:
+            values.append(str(doc[attr]))
+        print('|'.join(values))
+
+def json_to_csv_customers(infile):
+    header_part1 = 'pk|customer_id|name|first|last'
+    header_part2 = 'street|city|state|zip'
+    main_attrs = header_part1.split('|')
+    addr_attrs = header_part2.split('|')
+    print('{}|{}'.format(header_part1, header_part2))
+    # {
+    #   "pk": "0086334760179",
+    #   "doctype": "customer",
+    #   "customer_id": "0086334760179",
+    #   "name": "Alexis Dalton",
+    #   "first": "Alexis",
+    #   "last": "Dalton",
+    #   "address": {
+    #     "street": "775 Gonzalez Forge",
+    #     "city": "Port Ryantown",
+    #     "state": "ND",
+    #     "zip": "80488"
+    #   }
+    # }
+    it = text_file_iterator(infile)
+    for i, line in enumerate(it):
+        doc = json.loads(line.strip())
+        values = list()
+        for attr in main_attrs:
+            values.append(str(doc[attr]))
+        for attr in addr_attrs:
+            values.append(str(doc['address'][attr]))
+        print('|'.join(values))
+
+def json_to_csv_orders(infile, doctype):
+    # {
+    #   "pk": "b3d9b582-4653-4437-949c-c38b080e36c8",
+    #   "doctype": "order",
+    #   "order_id": "b3d9b582-4653-4437-949c-c38b080e36c8",
+    #   "customer_id": "0010435500402",
+    #   "order_date": "2021-07-04",
+    #   "item_count": 1,
+    #   "version": "v2",
+    #   "order_total": 21.94,
+    #   "delivery_count": 0
+    # }
+    header = 'pk|doctype|order_id|customer_id|order_date|item_count|version|order_total|delivery_count'
+    attrs  = header.split('|')
+    it = text_file_iterator(infile)
+    print(header)
+    it = text_file_iterator(infile)
+    for i, line in enumerate(it):
+        doc = json.loads(line.strip())
+        if doc['doctype'] == doctype:
+            values = list()
+            for attr in attrs:
+                values.append(str(doc[attr]))
+            print('|'.join(values))
+
+def json_to_csv_line_items(infile, doctype):
+    # {
+    #   "pk": "b3d9b582-4653-4437-949c-c38b080e36c8",
+    #   "doctype": "line_item",
+    #   "order_id": "b3d9b582-4653-4437-949c-c38b080e36c8",
+    #   "line_num": 1,
+    #   "customer_id": "0010435500402",
+    #   "order_date": "2021-07-04",
+    #   "version": "v2",
+    #   "sku": 630509582716,
+    #   "name": "Speak Out Kids vs Parents Game",
+    #   "qty": 2,
+    #   "price": 10.97,
+    #   "item_total": 21.94
+    # }
+    header = 'pk|doctype|order_id|line_num|customer_id|order_date|version|sku|name|qty|price|item_total'
+    attrs  = header.split('|')
+    it = text_file_iterator(infile)
+    print(header)
+    it = text_file_iterator(infile)
+    for i, line in enumerate(it):
+        doc = json.loads(line.strip())
+        if doc['doctype'] == doctype:
+            values = list()
+            for attr in attrs:
+                values.append(str(doc[attr]))
+            print('|'.join(values))
+
+def json_to_csv_deliveries(infile, doctype):
+    # {
+    #   "pk": "b4c3a0a4-7e52-4b3f-96b4-8089a69ea89b",
+    #   "doctype": "delivery",
+    #   "order_id": "b4c3a0a4-7e52-4b3f-96b4-8089a69ea89b",
+    #   "line_num": 3,
+    #   "customer_id": "0077214149894",
+    #   "sku": 49123524,
+    #   "status": "not shipped",
+    #   "version": "v2"
+    # }
+    header = 'pk|doctype|order_id|line_num|customer_id|sku|status|version'
+    attrs  = header.split('|')
+    it = text_file_iterator(infile)
+    print(header)
+    it = text_file_iterator(infile)
+    for i, line in enumerate(it):
+        doc = json.loads(line.strip())
+        if doc['doctype'] == doctype:
+            values = list()
+            for attr in attrs:
+                values.append(str(doc[attr]))
+            print('|'.join(values))
+
 def describe_df(df, msg):
     print('=== describe df: {}'.format(msg))
     print('--- df.head(3)')
@@ -251,6 +393,12 @@ def describe_df(df, msg):
     print(df.dtypes)
     print('--- df.shape')
     print(df.shape)
+
+def text_file_iterator(infile):
+    # return a line generator that can be iterated with iterate()
+    with open(infile, 'rt') as f:
+        for line in f:
+            yield line.strip()
 
 def read_json(infile):
     with open(infile, 'rt') as f:
@@ -283,6 +431,10 @@ if __name__ == "__main__":
             order_dates = gen_date_range()
             for i in range(10000):
                 print(random_order_date(order_dates))
+        elif func == 'json_to_csv':
+            doctype = sys.argv[2]
+            infile  = sys.argv[3]
+            json_to_csv(doctype, infile)
         else:
             print_options('Error: invalid function: {}'.format(func))
     else:
