@@ -24,9 +24,9 @@ cat data/wrangled/retail/orders.json | wc
 
 echo 'creating zip files ...'
 cd  data/wrangled/retail
-zip customers.json.zip customers.json
-zip products.json.zip  products.json
-zip orders.json.zip    orders.json
+zip customers_json.zip customers.json
+zip products_json.zip  products.json
+zip orders_json.zip    orders.json
 
 echo 'list of files in data/wrangled/retail'
 ls -al
