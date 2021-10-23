@@ -28,6 +28,11 @@ zip customers.json.zip customers.json
 zip products.json.zip  products.json
 zip orders.json.zip    orders.json
 
+echo 'list of files in data/wrangled/retail'
+ls -al
+
+echo 'copying generated files to DotnetConsoleApp/data/ ...'
+cp *.csv  ../../../../DotnetConsoleApp/data/
 cp *.json ../../../../DotnetConsoleApp/data/
 cp *.zip  ../../../../DotnetConsoleApp/data/
 
