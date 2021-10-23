@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Transform the generated JSON files for CosmosDB into CSV equivalents,
-# and create zip files of each.
+# Transform the generated JSON files for CosmosDB into CSV equivalents.
 # Chris Joakim, Microsoft, 2021/10/23
 
 echo 'removing output csv files ...'
 rm data/wrangled/retail/*.csv
-rm data/wrangled/retail/*_csv.zip
 
 echo ''
 echo 'products ...'
@@ -37,20 +35,6 @@ echo 'deliveries ...'
 python retail_data_gen.py json_to_csv delivery  data/wrangled/retail/orders.json  > data/wrangled/retail/deliveries.csv
 head -2 data/wrangled/retail/deliveries.csv
 wc -l data/wrangled/retail/deliveries.csv
-
-echo 'creating zip files ...'
-cd  data/wrangled/retail
-zip products_csv.zip   products.csv
-zip customers_csv.zip  customers.csv
-zip orders_csv.zip     orders.csv
-zip line_items_csv.zip line_items.csv
-zip deliveries_csv.zip deliveries.csv
-
-echo 'copying files to DotnetConsoleApp/data/ ...'
-cp *.csv  ../../../../DotnetConsoleApp/data/
-cp *.zip  ../../../../DotnetConsoleApp/data/
-
-cd  ../../..
 
 echo ''
 echo 'done'

@@ -22,21 +22,14 @@ cat data/wrangled/retail/customers.json | wc
 cat data/wrangled/retail/products.json | wc 
 cat data/wrangled/retail/orders.json | wc 
 
-echo 'creating zip files ...'
-cd  data/wrangled/retail
-zip customers_json.zip customers.json
-zip products_json.zip  products.json
-zip orders_json.zip    orders.json
-
 echo 'list of files in data/wrangled/retail'
 ls -al
 
-echo 'copying generated files to DotnetConsoleApp/data/ ...'
+echo 'copying generated files to ../../../../DotnetConsoleApp/data/ ...'
 cp *.json ../../../../DotnetConsoleApp/data/
-cp *.zip  ../../../../DotnetConsoleApp/data/
 
 cd  ../../..
 
 echo 'done'
-echo 'next: execute ./json_to_csv.sh'
+echo 'next: optionally execute ./json_to_csv.sh'
 echo ''
