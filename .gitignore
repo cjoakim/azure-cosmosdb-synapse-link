@@ -16,6 +16,7 @@ DotnetConsoleApp/data/date_range.json
 **/out/
 **/tmp/
 
+dataset_generation/csv_head.txt
 dataset_generation/data/wrangled/retail/
 
 ## Ignore Visual Studio temporary files, build results, and
