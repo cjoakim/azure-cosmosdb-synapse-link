@@ -11,7 +11,7 @@ mkdir -p tmp/
 echo 'az logout'
 az logout
 
-echo 'az login with UI, not with a service principal ...'
+echo 'for this example, az login with the UI and not with a service principal ...'
 az login 
 
 ./akv.sh create
@@ -19,3 +19,5 @@ az login
 ./cosmos_sql.sh create info
 
 ./synapse.sh create pause create_spark_pool pause info
+
+./postgresql.sh create

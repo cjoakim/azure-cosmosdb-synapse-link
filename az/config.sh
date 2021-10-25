@@ -24,6 +24,18 @@ export cosmos_sql_pk_path="/pk"
 export cosmos_sql_db_throughput="5000"
 export cosmos_sql_sl_ttl="220903200"            # 7-years, in seconds (60 * 60 * 24 * 365.25 * 7)
 #
+export postgresql_region=$primary_region
+export postgresql_rg=$primary_rg
+export postgresql_version="11"
+export postgresql_acct_name="cjoakimcslpg"
+export postgresql_server="cjoakimcslpgsrv"
+export postgresql_dbname="demo"
+export postgresql_admin_user="cjoakim"
+export postgresql_admin_pass=$AZURE_PG_PASS
+export postgresql_sku="B_Gen5_1"  # B_Gen5_1, GP_Gen5_4, MO_Gen5_16
+export postgresql_host=""$postgresql_server".postgres.database.azure.com"
+export postgresql_port=5432
+#
 export synapse_region=$primary_region
 export synapse_rg=$primary_rg
 export synapse_name="cjoakimcslsynapse"
