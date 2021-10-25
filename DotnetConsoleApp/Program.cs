@@ -115,6 +115,8 @@ namespace CosmosSL {
             Console.WriteLine("dotnet run count_documents <dbname> <cname>");
             Console.WriteLine("---");
             Console.WriteLine("dotnet run execute_queries <dbname> <cname> <queries-file>");
+            Console.WriteLine("dotnet run execute_queries demo customer_sales sql/customer_sales.txt");
+            Console.WriteLine("---");
             Console.WriteLine("dotnet run delete_route <dbname> <cname> <route>");
             Console.WriteLine("dotnet run delete_route demo travel CLT:MBJ");
             Console.WriteLine("");
