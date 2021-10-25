@@ -91,6 +91,15 @@ create_containers() {
         --subscription $AZURE_SUBSCRIPTION_ID \
         --partition-key-path $cosmos_sql_pk_path \
         --analytical-storage-ttl $cosmos_sql_sl_ttl
+
+    echo 'creating cosmos container: customer_sales'
+    az cosmosdb sql container create \
+        --resource-group $cosmos_sql_rg \
+        --account-name $cosmos_sql_acct_name \
+        --database-name $cosmos_sql_dbname \
+        --name customer_sales \
+        --subscription $AZURE_SUBSCRIPTION_ID \
+        --partition-key-path /customer_id
 }
 
 info() {
