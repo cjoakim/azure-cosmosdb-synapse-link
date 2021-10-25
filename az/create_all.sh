@@ -14,7 +14,7 @@ az logout
 echo 'for this example, az login with the UI and not with a service principal ...'
 az login 
 
-./akv.sh create
+#./akv.sh create
 
 ./cosmos_sql.sh create info
 

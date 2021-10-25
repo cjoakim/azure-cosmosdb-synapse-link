@@ -66,7 +66,7 @@ create_firewall_rule() {
 
 info() {
     processed=1
-    echo 'az postgres server show: '$postgresql_name
+    echo 'az postgres server show: '$postgresql_server
     az postgres server show \
         --resource-group $postgresql_rg \
         --name $postgresql_server \
@@ -84,7 +84,7 @@ display_usage() {
 if [ $arg_count -gt 0 ]
 then
     for arg in $@
-    doelete; fi 
+    do
         if [ $arg == "create" ];   then create; fi 
         if [ $arg == "info" ];     then info; fi 
     done

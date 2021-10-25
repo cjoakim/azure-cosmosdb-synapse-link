@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # Bash script to set environment variables for provisioning.
-# NOTE: Please do a change-all on this script to change "cjoakim" to YOUR ID!
+#
+# NOTE: Please do a change-all edit on this script to change "cjoakim" 
+# to YOUR ID!!!
 #
 # Chris Joakim, Microsoft, October 2021
 
 export primary_region="eastus"
-export primary_rg="cjoakimcsl"                  # csl = Cosmos-Synapse-Link
+export primary_rg="cjoakimcsldemo"              # csl = Cosmos-Synapse-Link
 #
 export akv_region=$primary_region
 export akv_rg=$primary_rg
@@ -31,7 +33,7 @@ export postgresql_acct_name="cjoakimcslpg"
 export postgresql_server="cjoakimcslpgsrv"
 export postgresql_dbname="demo"
 export postgresql_admin_user="cjoakim"
-export postgresql_admin_pass=$AZURE_PG_PASS
+export postgresql_admin_pass=$AZURE_CSL_PG_PASS
 export postgresql_sku="B_Gen5_1"  # B_Gen5_1, GP_Gen5_4, MO_Gen5_16
 export postgresql_host=""$postgresql_server".postgres.database.azure.com"
 export postgresql_port=5432
