@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Chris Joakim, Microsoft, October 2021
+
 mkdir -p out
 rm out/q*.json
 

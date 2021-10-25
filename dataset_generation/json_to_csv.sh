@@ -37,4 +37,8 @@ head -2 data/wrangled/retail/deliveries.csv
 wc -l data/wrangled/retail/deliveries.csv
 
 echo ''
+echo 'list of files in data/wrangled/retail'
+ls -al data/wrangled/retail/
+
+echo ''
 echo 'done'

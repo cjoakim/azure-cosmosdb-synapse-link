@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Generate a correlated "ecommerce retail" datasets consisting
-# of customers, orders, line items, and deliveries.
-# Chris Joakim, Microsoft, 2021/10/23
+# Generate simulated and correlated "ecommerce retail" datasets 
+# consisting of customers, orders, line items, and deliveries.
+# These are for loading into CosmosDB with the DotnetConsoleApp.
+# Chris Joakim, Microsoft, October 2021
 
 mkdir -p data/raw/tmp
 mkdir -p data/wrangled/retail
@@ -23,12 +24,10 @@ cat data/wrangled/retail/products.json | wc
 cat data/wrangled/retail/orders.json | wc 
 
 echo 'list of files in data/wrangled/retail'
-ls -al
+ls -al data/wrangled/retail/
 
-echo 'copying generated files to ../../../../DotnetConsoleApp/data/ ...'
-cp *.json ../../../../DotnetConsoleApp/data/
-
-cd  ../../..
+echo 'copying generated files to ../DotnetConsoleApp/data/ ...'
+cp data/wrangled/retail/*.json ../DotnetConsoleApp/data/
 
 echo 'done'
 echo 'next: optionally execute ./json_to_csv.sh'
