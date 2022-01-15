@@ -1,8 +1,10 @@
 """
 Usage:
-    python retail_data_gen_v2.py create_product_catalog_hierarchy <l1-count> <l2-avg-count> <l3-avg-count>
-    python retail_data_gen_v2.py create_product_catalog_hierarchy 6 8 20  960
-    python retail_data_gen_v2.py create_product_catalog_hierarchy 12 20 90 
+    python retail_data_gen_v2.py create_product_catalog <l1-count> <l2-avg-count> <l3-avg-count>
+    python retail_data_gen_v2.py create_product_catalog 12 20 90 
+    python retail_data_gen_v2.py create_stores 100
+    python retail_data_gen_v2.py create_customers 10000
+    python retail_data_gen_v2.py create_sales_data 2020-01-01 2022-01-15 1000 4
 """
 
 __author__  = 'Chris Joakim'
@@ -26,16 +28,14 @@ from faker  import Faker  # https://faker.readthedocs.io/en/master/index.html
 # ridx = random.randint(0, ids_max_idx)
 
 
-def create_product_catalog_hierarchy(l1_count, l2_avg_count, l3_avg_count):
-    # create_product_catalog_hierarchy 10 12 50 -> 6000
-
+def create_product_catalog(l1_count, l2_avg_count, l3_avg_count):
     fake     = Faker()
     upc_dict  = dict()
     seq_num   = 0
     csv_lines = list()
     csv_lines.append('seq,level_1_category,level_2_category,upc,price')
 
-    print('create_product_hierarchy {} {} {} -> {}'.format(
+    print('create_product_catalog {} {} {} -> {}'.format(
         l1_count, l2_avg_count, l3_avg_count, (l1_count * l2_avg_count * l3_avg_count)))
 
     for l1_idx in range(l1_count):
@@ -75,6 +75,68 @@ def random_upc(upc_dict, fake):
 def random_price(fake):
     # pyfloat(left_digits=None, right_digits=None, positive=False, min_value=None, max_value=None)
     return fake.pyfloat(positive=True, min_value=1, max_value=1500)
+
+def create_stores(count):
+    fake = Faker()
+    csv_lines = list()
+    csv_lines.append('seq,level_1_category,level_2_category,upc,price')
+
+    for l1_idx in range(count):
+        csv_lines.append('')
+
+    write_lines('data/products/stores.csv', csv_lines)
+
+def create_customers(count):
+    fake = Faker()
+    csv_lines = list()
+    csv_lines.append('seq,level_1_category,level_2_category,upc,price')
+
+    for l1_idx in range(count):
+        csv_lines.append('')
+
+    write_lines('data/products/customers.csv', csv_lines)
+
+
+def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
+    pass
+
+def calendar_days(start_date, end_date):
+    days = list()
+    date1 = parse_yyyymmdd(start_date)
+    date2 = parse_yyyymmdd(end_date)
+    dates = inclusive_dates_between(date1, date2, 1000)
+    for idx, d in enumerate(dates):
+        day = dict()
+        day['seq']    = idx
+        day['date']   = str(d)
+        day['daynum'] = d.isoweekday()
+        day['dow']    = d.strftime('%a')
+        days.append(day)
+    return days
+
+def parse_yyyymmdd(date_str):
+    # parse the given 'yyyy-mm-dd' string to a datetime.date
+    tokens = date_str.split('-')
+    for idx, token in enumerate(tokens):
+        tokens[idx] = int(token)
+    return datetime.date(tokens[0], tokens[1], tokens[2])
+
+def inclusive_dates_between(start_date, end_date, max_count):
+    # return a list of datetime.date objects
+    dates = list()
+    curr_date = start_date
+    end_date_str = str(end_date)
+    one_day = datetime.timedelta(days=1)
+    continue_to_process = True
+
+    for idx, token in enumerate(range(int(max_count))):
+        if continue_to_process:
+            dates.append(curr_date)
+            if str(curr_date) == end_date_str:
+                continue_to_process = False
+            else:
+                curr_date = curr_date + one_day
+    return dates
 
 def write_lines(outfile, lines):
     with open(outfile, 'wt') as out:
@@ -460,16 +522,26 @@ def print_options(msg):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         func = sys.argv[1].lower()
-        if func == 'create_product_catalog_hierarchy':
+        if func == 'create_product_catalog':
             l1_count     = int(sys.argv[2])
             l2_avg_count = int(sys.argv[3])
             l3_avg_count = int(sys.argv[4])
-            create_product_catalog_hierarchy(l1_count, l2_avg_count, l3_avg_count)
-        # elif func == 'random':
-        #     count = int(sys.argv[2])
-        #     for i in range(count):
-        #         r = random.randint(0, 100)
-        #         print('_{}_'.format(r))
+            create_product_catalog(l1_count, l2_avg_count, l3_avg_count)
+
+        elif func == 'create_stores':
+            count = int(sys.argv[2])
+            create_stores(count)
+
+        elif func == 'create_customers':
+            count = int(sys.argv[2])
+            create_customers(count)
+
+        elif func == 'create_sales_data':
+            start_date = sys.argv[2]
+            end_date   = sys.argv[3]
+            avg_count_day  = float(sys.argv[4])
+            avg_item_count = float(sys.argv[5])
+            create_product_catalog(start_date, end_date, avg_count_day, avg_item_count)
 
         else:
             print_options('Error: invalid function: {}'.format(func))
