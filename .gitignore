@@ -15,6 +15,7 @@ DotnetConsoleApp/data/date_range.json
 **/.idea/
 **/out/
 **/tmp/
+**/venv/
 
 dataset_generation/csv_head.txt
 dataset_generation/data/wrangled/retail/
