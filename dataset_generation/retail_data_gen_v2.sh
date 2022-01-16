@@ -15,6 +15,8 @@ python retail_data_gen_v2.py create_stores 100
 python retail_data_gen_v2.py create_customers 10000
 python retail_data_gen_v2.py create_sales_data 2020-01-01 2022-01-15 1000 4
 
+# python retail_data_gen_v2.py create_sales_data 2020-12-01 2022-01-15 10 4
+
 echo 'product_catalog:'
 head -3 data/products/product_catalog.csv
 wc -l   data/products/product_catalog.csv

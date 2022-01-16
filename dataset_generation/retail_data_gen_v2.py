@@ -4,7 +4,7 @@ Usage:
     python retail_data_gen_v2.py create_product_catalog 12 20 90 
     python retail_data_gen_v2.py create_stores 100
     python retail_data_gen_v2.py create_customers 10000
-    python retail_data_gen_v2.py create_sales_data 2020-01-01 2022-01-15 1000 4
+    python retail_data_gen_v2.py create_sales_data 2020-01-01 2022-01-26 1000 4
 """
 
 __author__  = 'Chris Joakim'
@@ -21,6 +21,8 @@ import sys
 import time
 import traceback
 import uuid
+
+import pandas as pd
 
 from docopt import docopt
 from faker  import Faker  # https://faker.readthedocs.io/en/master/index.html
@@ -80,8 +82,9 @@ def create_stores(count):
     fake = Faker()
     csv_lines = list()
     csv_lines.append('id,name,address,state')
+    csv_lines.append('1,eCommerce,2048 Peachtree St,GA')
 
-    for idx in range(count):
+    for idx in range(1,count):
         city = fake.city()
         address = fake.street_address().replace(',',' ')
         state = fake.state_abbr()
@@ -107,9 +110,73 @@ def create_customers(count):
 
     write_lines('data/products/customers.csv', csv_lines)
 
-
 def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
-    pass
+    fake = Faker()
+    json_lines = list()
+    sale_id = 0
+
+    products  = read_csv_into_objects('data/products/product_catalog.csv')
+    stores    = read_csv_into_objects('data/products/stores.csv')
+    customers = read_csv_into_objects('data/products/customers.csv')
+    print('products loaded; count:  {}'.format(len(products)))
+    print('stores loaded; count:    {}'.format(len(stores)))
+    print('customers loaded; count: {}'.format(len(customers)))
+
+    days = calendar_days(start_date, end_date)
+    for day in days:
+        # {'seq': 756, 'date': '2022-01-26', 'daynum': 3, 'dow': 'Wed'}
+        day_sales_count = randomize_count(avg_count_day, 0.4)
+
+        for sale_idx in range(day_sales_count):
+            sale_obj = dict()
+            sale_id = sale_id + 1
+            customer = random_object(customers)
+            customer_id = customer['id']
+            store    = random_object(stores)
+            store_id = store['id']
+
+            item_count = randomize_count(avg_item_count, 0.25)
+
+            sale_obj['pk'] = sale_id
+            sale_obj['sale_id'] = sale_id
+            sale_obj['doctype'] = 'sale'
+            sale_obj['date'] = day['date']
+            sale_obj['dow']  = day['dow'].lower()
+            sale_obj['customer_id'] = customer_id
+            sale_obj['store_id'] = store_id
+            sale_obj['item_count'] = item_count
+            sale_obj['total_cost'] = 0.0
+
+            for i in range(item_count):
+                product = random_object(products)
+                qty  = random.randint(1,3)
+                cost = float(product['price']) * qty
+                item_obj = dict()
+                item_obj['pk'] = sale_id
+                item_obj['sale_id'] = sale_id
+
+                item_obj['doctype'] = 'line_item'
+                item_obj['date'] = day['date']
+                item_obj['line_num'] = i + 1
+                item_obj['customer_id'] = customer_id
+                item_obj['store_id'] = store_id
+                item_obj['upc'] = product['upc']
+                item_obj['price'] = float(product['price'])
+                item_obj['qty'] = qty
+                item_obj['cost'] = float('{:.2f}'.format(cost))
+                json_lines.append(json.dumps(item_obj))
+
+                sale_obj['total_cost'] = sale_obj['total_cost'] + cost
+
+            sale_obj['total_cost'] = float('{:.2f}'.format(sale_obj['total_cost']))
+            json_lines.append(json.dumps(sale_obj))
+
+    write_lines('data/products/sales.json', json_lines)
+
+def random_object(objects):
+    max = len(objects)
+    idx = random.randint(0, len(objects) - 1)
+    return objects[idx]
 
 def calendar_days(start_date, end_date):
     days = list()
@@ -148,6 +215,26 @@ def inclusive_dates_between(start_date, end_date, max_count):
             else:
                 curr_date = curr_date + one_day
     return dates
+
+def read_csv_into_objects(infile):
+    objects, columns = list(), list()
+    it = text_file_iterator(infile)
+    for i, line in enumerate(it):
+        if i == 0:
+            columns = line.split(',')
+        else:
+            values = line.split(',')
+            obj = dict()
+            for col_idx, col in enumerate(columns):
+                obj[col] = values[col_idx]
+            objects.append(obj)        
+    return objects
+
+def text_file_iterator(infile):
+    # return a line generator that can be iterated with iterate()
+    with open(infile, 'rt') as f:
+        for line in f:
+            yield line.strip()
 
 def write_lines(outfile, lines):
     with open(outfile, 'wt') as out:
@@ -508,11 +595,7 @@ def write_lines(outfile, lines):
 #     print('--- df.shape')
 #     print(df.shape)
 
-# def text_file_iterator(infile):
-#     # return a line generator that can be iterated with iterate()
-#     with open(infile, 'rt') as f:
-#         for line in f:
-#             yield line.strip()
+
 
 # def read_json(infile):
 #     with open(infile, 'rt') as f:
