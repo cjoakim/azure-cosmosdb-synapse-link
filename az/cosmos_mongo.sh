@@ -14,53 +14,30 @@ source ./config.sh
 arg_count=$#
 processed=0
 
-delete() {
-    processed=1
-    echo 'deleting cosmos rg: '$cosmos_mongo_rg
-    az group delete \
-        --name $cosmos_mongo_rg \
-        --subscription $subscription \
-        --yes \
-        > data/output/cosmos_mongo_rg_delete.json
-}
-
 create() {
     processed=1
     echo 'creating cosmos rg: '$cosmos_mongo_rg
     az group create \
         --location $cosmos_mongo_region \
         --name $cosmos_mongo_rg \
-        --subscription $subscription \
-        > data/output/cosmos_mongo_rg_create.json
+        --subscription $AZURE_SUBSCRIPTION_ID \
+        > tmp/cosmos_mongo_rg_create.json
 
     echo 'creating cosmos acct: '$cosmos_mongo_acct_name
     az cosmosdb create \
         --name $cosmos_mongo_acct_name \
         --resource-group $cosmos_mongo_rg \
-        --subscription $subscription \
+        --subscription $AZURE_SUBSCRIPTION_ID \
         --kind MongoDB \
         --server-version $cosmos_mongo_version \
         --default-consistency-level Eventual \
-        --locations regionName=$cosmos_mongo_region failoverPriority=1 isZoneRedundant=False \
+        --locations regionName=$cosmos_mongo_region \
         --enable-analytical-storage true \
-        --enable-multiple-write-locations true \
-        > data/output/cosmos_mongo_acct_create.json
-
-    # ERROR: az cosmosdb create: '4.0' is not a valid value for '--server-version'.
-    
-    # az cosmosdb create \
-    #     --name $cosmos_mongo_acct_name \
-    #     --resource-group $cosmos_mongo_rg \
-    #     --subscription $subscription \
-    #     --locations regionName=$cosmos_mongo_region failoverPriority=0 isZoneRedundant=False \
-    #     --default-consistency-level $cosmos_mongo_acct_consistency \
-    #     --enable-multiple-write-locations true \
-    #     --kind $cosmos_mongo_acct_kind \
-    #     --capabilities EnableMongo \
-    #     > data/output/cosmos_mongo_acct_create.json
+        --enable-multiple-write-locations false \
+        > tmp/cosmos_mongo_acct_create.json
 
     create_db   
-    create_collections
+    #create_collections
 }
 
 recreate_all() {
@@ -88,7 +65,7 @@ delete_db() {
         --account-name $cosmos_mongo_acct_name \
         --name $cosmos_mongo_dbname \
         --yes -y \
-        > data/output/cosmos_mongo_db_delete.json
+        > tmp/cosmos_mongo_db_delete.json
 }
 
 create_db() {
@@ -98,22 +75,47 @@ create_db() {
         --resource-group $cosmos_mongo_rg \
         --account-name $cosmos_mongo_acct_name \
         --name $cosmos_mongo_dbname \
-        > data/output/cosmos_mongo_db_create.json
+        --throughput $cosmos_mongo_db_throughput \
+        > tmp/cosmos_mongo_db_create.json
 }
 
 create_collections() {
+    # products stores customers sales 
     processed=1
-    echo 'creating cosmos collection: '$cosmos_mongo_amtrak_collname
+
+    echo 'creating cosmos collection: procucts'
     az cosmosdb mongodb collection create \
         --resource-group $cosmos_mongo_rg \
         --account-name $cosmos_mongo_acct_name \
         --database-name $cosmos_mongo_dbname \
-        --name $cosmos_mongo_amtrak_collname \
-        --shard $cosmos_mongo_amtrak_shard \
-        --throughput $cosmos_mongo_amtrak_ru \
-        > data/output/cosmos_mongo_db_create_amtrak.json
+        --name products \
+        --shard pk 
 
-        # --idx @cosmos_mongo_amtrak_index_policy.json \
+    echo 'creating cosmos collection: stores'
+    az cosmosdb mongodb collection create \
+        --resource-group $cosmos_mongo_rg \
+        --account-name $cosmos_mongo_acct_name \
+        --database-name $cosmos_mongo_dbname \
+        --name stores \
+        --shard pk 
+
+    echo 'creating cosmos collection: customers'
+    az cosmosdb mongodb collection create \
+        --resource-group $cosmos_mongo_rg \
+        --account-name $cosmos_mongo_acct_name \
+        --database-name $cosmos_mongo_dbname \
+        --name customers \
+        --shard pk 
+
+    echo 'creating cosmos collection: sales'
+    az cosmosdb mongodb collection create \
+        --resource-group $cosmos_mongo_rg \
+        --account-name $cosmos_mongo_acct_name \
+        --database-name $cosmos_mongo_dbname \
+        --name sales \
+        --shard pk 
+
+        # --idx @cosmos_mongo_amtrak_index_policy.json 
 }
 
 info() {
@@ -122,28 +124,27 @@ info() {
     az cosmosdb show \
         --name $cosmos_mongo_acct_name \
         --resource-group $cosmos_mongo_rg \
-        > data/output/cosmos_mongo_db_show.json
+        > tmp/cosmos_mongo_db_show.json
 
     echo 'az cosmosdb keys list - keys ...'
     az cosmosdb keys list \
         --resource-group $cosmos_mongo_rg \
         --name $cosmos_mongo_acct_name \
         --type keys \
-        > data/output/cosmos_mongo_db_keys.json
+        > tmp/cosmos_mongo_db_keys.json
 
     echo 'az cosmosdb keys list - connection-strings ...'
     az cosmosdb keys list \
         --resource-group $cosmos_mongo_rg \
         --name $cosmos_mongo_acct_name \
         --type connection-strings \
-        > data/output/cosmos_mongo_db_connection_strings.json
+        > tmp/cosmos_mongo_db_connection_strings.json
 
     # This command has been deprecated and will be removed in a future release. Use 'cosmosdb keys list' instead.
 }
 
 display_usage() {
     echo 'Usage:'
-    echo './cosmos_mongo.sh delete'
     echo './cosmos_mongo.sh create'
     echo './cosmos_mongo.sh recreate'
     echo './cosmos_mongo.sh recreate_dev_db'
@@ -157,7 +158,6 @@ if [ $arg_count -gt 0 ]
 then
     for arg in $@
     do
-        if [ $arg == "delete" ];   then delete; fi 
         if [ $arg == "create" ];   then create; fi 
         if [ $arg == "recreate" ]; then recreate_all; fi 
         if [ $arg == "recreate_dev_db" ]; then recreate_dev_db; fi 

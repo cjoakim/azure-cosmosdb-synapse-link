@@ -5,10 +5,10 @@
 # NOTE: Please do a change-all edit on this script to change "cjoakim" 
 # to YOUR ID!!!
 #
-# Chris Joakim, Microsoft, October 2021
+# Chris Joakim, Microsoft, January 2022
 
 export primary_region="eastus"
-export primary_rg="cjoakimcsldemo"              # csl = Cosmos-Synapse-Link
+export primary_rg="cjoakimcsldemo"
 #
 export akv_region=$primary_region
 export akv_rg=$primary_rg
@@ -17,7 +17,7 @@ export akv_sku="standard"
 #
 export cosmos_sql_region=$primary_region
 export cosmos_sql_rg=$primary_rg
-export cosmos_sql_acct_name="cjoakimcslcosmos"
+export cosmos_sql_acct_name="cjoakimcslcosmossql"
 export cosmos_sql_acct_consistency="Session"    # {BoundedStaleness, ConsistentPrefix, Eventual, Session, Strong}
 export cosmos_sql_acct_kind="GlobalDocumentDB"  # {GlobalDocumentDB, MongoDB, Parse}
 export cosmos_sql_dbname="demo"
@@ -25,6 +25,15 @@ export cosmos_sql_cname="travel"
 export cosmos_sql_pk_path="/pk"
 export cosmos_sql_db_throughput="5000"
 export cosmos_sql_sl_ttl="220903200"            # 7-years, in seconds (60 * 60 * 24 * 365.25 * 7)
+#
+export cosmos_mongo_region=$primary_region
+export cosmos_mongo_rg=$primary_rg
+export cosmos_mongo_acct_name="cjoakimcslcosmosmongo"
+export cosmos_mongo_acct_consistency="Session"    # {BoundedStaleness, ConsistentPrefix, Eventual, Session, Strong}
+export cosmos_mongo_acct_kind="MongoDB"  # {GlobalDocumentDB, MongoDB, Parse}
+export cosmos_mongo_version="4.0"
+export cosmos_mongo_dbname="dev"
+export cosmos_mongo_db_throughput="5000"
 #
 export postgresql_region=$primary_region
 export postgresql_rg=$primary_rg
