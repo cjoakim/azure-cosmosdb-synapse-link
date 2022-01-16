@@ -89,7 +89,8 @@ create_collections() {
         --account-name $cosmos_mongo_acct_name \
         --database-name $cosmos_mongo_dbname \
         --name products \
-        --shard pk 
+        --shard pk \
+        --idx @cosmos_mongo_index_products.json
 
     echo 'creating cosmos collection: stores'
     az cosmosdb mongodb collection create \
@@ -97,7 +98,8 @@ create_collections() {
         --account-name $cosmos_mongo_acct_name \
         --database-name $cosmos_mongo_dbname \
         --name stores \
-        --shard pk 
+        --shard pk \
+        --idx @cosmos_mongo_index_stores.json
 
     echo 'creating cosmos collection: customers'
     az cosmosdb mongodb collection create \
@@ -105,7 +107,8 @@ create_collections() {
         --account-name $cosmos_mongo_acct_name \
         --database-name $cosmos_mongo_dbname \
         --name customers \
-        --shard pk 
+        --shard pk \
+        --idx @cosmos_mongo_index_customers.json
 
     echo 'creating cosmos collection: sales'
     az cosmosdb mongodb collection create \
@@ -113,9 +116,11 @@ create_collections() {
         --account-name $cosmos_mongo_acct_name \
         --database-name $cosmos_mongo_dbname \
         --name sales \
-        --shard pk 
+        --shard pk \
+        --idx @cosmos_mongo_index_sales.json
 
-        # --idx @cosmos_mongo_amtrak_index_policy.json 
+    # https://docs.microsoft.com/en-us/azure/cosmos-db/mongodb/mongodb-indexing
+    # --idx @cosmos_mongo_amtrak_index_policy.json 
 }
 
 info() {

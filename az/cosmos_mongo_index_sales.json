@@ -1,0 +1,34 @@
+[ 
+    {
+        "key": {"keys": ["sale_id"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["doctype"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["date"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["customer_id"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["store_id"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["item_count"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["total_cost"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["_ts"]},
+        "options": {"expireAfterSeconds": 2629746}
+    }
+]
