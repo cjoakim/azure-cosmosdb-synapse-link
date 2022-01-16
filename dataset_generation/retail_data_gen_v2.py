@@ -79,10 +79,14 @@ def random_price(fake):
 def create_stores(count):
     fake = Faker()
     csv_lines = list()
-    csv_lines.append('seq,level_1_category,level_2_category,upc,price')
+    csv_lines.append('number,name,address,state')
 
-    for l1_idx in range(count):
-        csv_lines.append('')
+    for idx in range(count):
+        city = fake.city()
+        address = fake.street_address().replace(',',' ')
+        state = fake.state()
+        csv_lines.append('{},{},{},{}'.format(
+            idx+1, city, address, state))
 
     write_lines('data/products/stores.csv', csv_lines)
 
