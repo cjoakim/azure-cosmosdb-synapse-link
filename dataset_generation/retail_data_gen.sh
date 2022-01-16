@@ -31,4 +31,16 @@ echo 'sales:'
 head -3 data/products/sales.json
 wc -l   data/products/sales.json
 
+echo 'copying to ../DotnetConsoleApp/data/ data directory...'
+mkdir -p ../DotnetConsoleApp/data/
+cp data/products/*.csv  ../DotnetConsoleApp/data/ 
+cp data/products/*.json ../DotnetConsoleApp/data/ 
+ls -al ../DotnetConsoleApp/data/
+
+echo 'copying to ../PythonConsoleApp/data/ data directory...'
+mkdir -p ../PythonConsoleApp/data/
+cp data/products/*.csv  ../PythonConsoleApp/data/ 
+cp data/products/*.json ../PythonConsoleApp/data/ 
+ls -al ../PythonConsoleApp/data/
+
 echo 'done'

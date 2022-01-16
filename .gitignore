@@ -1,23 +1,19 @@
 ## cj
 
-# these files are too large for github, are in the repo as zip files instead
-DotnetConsoleApp/data/air_travel_departures.csv
-DotnetConsoleApp/data/air_travel_departures.json
-DotnetConsoleApp/data/customers.json
-DotnetConsoleApp/data/orders.json
-DotnetConsoleApp/data/products.json
-
 DotnetConsoleApp/data/*.csv
 DotnetConsoleApp/data/*.json
-
 DotnetConsoleApp/data/date_range.json
+
+PythonConsoleApp/data/*.csv
+PythonConsoleApp/data/*.json
+PythonConsoleApp/venv/
+
+dataset_generation/data/
 
 **/.idea/
 **/out/
 **/tmp/
 **/venv/
-
-dataset_generation/data/
 
 
 ## Ignore Visual Studio temporary files, build results, and
