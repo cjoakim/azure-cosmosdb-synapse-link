@@ -79,12 +79,12 @@ def random_price(fake):
 def create_stores(count):
     fake = Faker()
     csv_lines = list()
-    csv_lines.append('number,name,address,state')
+    csv_lines.append('id,name,address,state')
 
     for idx in range(count):
         city = fake.city()
         address = fake.street_address().replace(',',' ')
-        state = fake.state()
+        state = fake.state_abbr()
         csv_lines.append('{},{},{},{}'.format(
             idx+1, city, address, state))
 
@@ -93,10 +93,17 @@ def create_stores(count):
 def create_customers(count):
     fake = Faker()
     csv_lines = list()
-    csv_lines.append('seq,level_1_category,level_2_category,upc,price')
+    csv_lines.append('id,first_name,last_name,full_name,address,city,state')
 
-    for l1_idx in range(count):
-        csv_lines.append('')
+    for idx in range(count):
+        first = fake.first_name().replace(',',' ')
+        last  = fake.last_name().replace(',',' ')
+        full  = '{} {}'.format(first, last) 
+        address = fake.street_address().replace(',',' ')
+        city  = fake.city()
+        state = fake.state_abbr()
+        csv_lines.append('{},{},{},{},{},{},{}'.format(
+            idx+1, first, last, full, address, city, state))
 
     write_lines('data/products/customers.csv', csv_lines)
 
@@ -545,7 +552,7 @@ if __name__ == "__main__":
             end_date   = sys.argv[3]
             avg_count_day  = float(sys.argv[4])
             avg_item_count = float(sys.argv[5])
-            create_product_catalog(start_date, end_date, avg_count_day, avg_item_count)
+            create_sales_data(start_date, end_date, avg_count_day, avg_item_count)
 
         else:
             print_options('Error: invalid function: {}'.format(func))
