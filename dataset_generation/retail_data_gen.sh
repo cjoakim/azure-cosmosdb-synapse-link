@@ -1,34 +1,34 @@
 #!/bin/bash
 
 # Generate simulated and correlated "ecommerce retail" datasets 
-# consisting of customers, orders, line items, and deliveries.
+# consisting of products, stores, customers, orders, and line items.
 # These are for loading into CosmosDB with the DotnetConsoleApp.
-# Chris Joakim, Microsoft, October 2021
+# Chris Joakim, Microsoft, January 2022
 
-mkdir -p data/raw/tmp
-mkdir -p data/wrangled/retail
+mkdir -p data/products
 
-rm data/raw/tmp/*.*
-rm data/wrangled/retail/customers.json
-rm data/wrangled/retail/products.json
-rm data/wrangled/retail/orders.json
+source venv/bin/activate
+python --version
 
-customer_count=100000
+python retail_data_gen_v2.py create_product_catalog 12 20 90 
+python retail_data_gen_v2.py create_stores 100
+python retail_data_gen_v2.py create_customers 10000
+python retail_data_gen_v2.py create_sales_data 2021-01-01 2022-01-26 100 4
 
-echo 'executing retail_data_gen.py ...'
-python retail_data_gen.py gen_retail_data $customer_count
+echo 'product_catalog:'
+head -3 data/products/product_catalog.csv
+wc -l   data/products/product_catalog.csv
 
-echo 'wc - customers, products, orders:'
-cat data/wrangled/retail/customers.json | wc 
-cat data/wrangled/retail/products.json | wc 
-cat data/wrangled/retail/orders.json | wc 
+echo 'stores:'
+head -3 data/products/stores.csv
+wc -l   data/products/stores.csv
 
-echo 'list of files in data/wrangled/retail'
-ls -al data/wrangled/retail/
+echo 'customers:'
+head -3 data/products/customers.csv
+wc -l   data/products/customers.csv
 
-echo 'copying generated files to ../DotnetConsoleApp/data/ ...'
-cp data/wrangled/retail/*.json ../DotnetConsoleApp/data/
+echo 'sales:'
+head -3 data/products/sales.json
+wc -l   data/products/sales.json
 
 echo 'done'
-echo 'next: optionally execute ./json_to_csv.sh'
-echo ''
