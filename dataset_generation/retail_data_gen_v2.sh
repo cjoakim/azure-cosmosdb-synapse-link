@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Generate simulated and correlated "ecommerce retail" datasets 
-# consisting of customers, orders, line items, and deliveries.
+# consisting of products, stores, customers, orders, and line items.
 # These are for loading into CosmosDB with the DotnetConsoleApp.
 # Chris Joakim, Microsoft, January 2022
 

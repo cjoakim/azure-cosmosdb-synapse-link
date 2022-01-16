@@ -145,6 +145,7 @@ def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
                 item_count = randomize_count(avg_item_count, 0.25)
 
                 sale_obj['pk'] = sale_id
+                sale_obj['id'] = str(uuid.uuid4())
                 sale_obj['sale_id'] = sale_id
                 sale_obj['doctype'] = 'sale'
                 sale_obj['date'] = day['date']
@@ -161,6 +162,7 @@ def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
                     cost = float(product['price']) * qty
                     item_obj = dict()
                     item_obj['pk'] = sale_id
+                    item_obj['id'] = str(uuid.uuid4())
                     item_obj['sale_id'] = sale_id
 
                     item_obj['doctype'] = 'line_item'
