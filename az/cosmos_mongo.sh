@@ -81,15 +81,17 @@ create_db() {
 
 create_collections() {
     # products stores customers sales 
+    # TTL: >>> 60 * 60 * 24 * 90 -> 7776000
     processed=1
 
-    echo 'creating cosmos collection: procucts'
+    echo 'creating cosmos collection: products'
     az cosmosdb mongodb collection create \
         --resource-group $cosmos_mongo_rg \
         --account-name $cosmos_mongo_acct_name \
         --database-name $cosmos_mongo_dbname \
         --name products \
         --shard pk \
+        --analytical-storage-ttl 7776000 \
         --idx @cosmos_mongo_index_products.json
 
     echo 'creating cosmos collection: stores'
@@ -99,6 +101,7 @@ create_collections() {
         --database-name $cosmos_mongo_dbname \
         --name stores \
         --shard pk \
+        --analytical-storage-ttl 7776000 \
         --idx @cosmos_mongo_index_stores.json
 
     echo 'creating cosmos collection: customers'
@@ -108,6 +111,7 @@ create_collections() {
         --database-name $cosmos_mongo_dbname \
         --name customers \
         --shard pk \
+        --analytical-storage-ttl 7776000 \
         --idx @cosmos_mongo_index_customers.json
 
     echo 'creating cosmos collection: sales'
@@ -117,6 +121,7 @@ create_collections() {
         --database-name $cosmos_mongo_dbname \
         --name sales \
         --shard pk \
+        --analytical-storage-ttl 7776000 \
         --idx @cosmos_mongo_index_sales.json
 
     echo 'creating cosmos collection: sales_aggregates'
