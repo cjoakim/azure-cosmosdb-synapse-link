@@ -51,7 +51,7 @@ def create_product_catalog(l1_count, l2_avg_count, l3_avg_count):
                 price = random_price(fake)
 
                 obj = dict()
-                obj['id']  = seq_num
+                obj['seq_num'] = seq_num
                 obj['level_1_category'] = l1_name
                 obj['level_2_category'] = l2_name
                 obj['upc']   = upc
@@ -85,18 +85,18 @@ def create_stores(count):
     json_lines = list()
 
     obj = dict()
-    obj['id']      = 1
-    obj['name']    = 'eCommerce'
-    obj['address'] = '2048 Peachtree St'
-    obj['state']   = 'GA'
+    obj['store_id'] = 1
+    obj['name']     = 'eCommerce'
+    obj['address']  = '2048 Peachtree St'
+    obj['state']    = 'GA'
     json_lines.append(json.dumps(obj))
 
     for idx in range(1,count):
         obj = dict()
-        obj['id']      = idx + 1
-        obj['name']    = fake.city()
-        obj['address'] = fake.street_address().replace(',',' ')
-        obj['state']   = fake.state_abbr()
+        obj['store_id'] = idx + 1
+        obj['name']     = fake.city()
+        obj['address']  = fake.street_address().replace(',',' ')
+        obj['state']    = fake.state_abbr()
         json_lines.append(json.dumps(obj))
 
     write_lines('data/products/stores.json', json_lines)
@@ -109,7 +109,7 @@ def create_customers(count):
         first = fake.first_name().replace(',',' ')
         last  = fake.last_name().replace(',',' ')
         obj = dict()
-        obj['id'] = 1
+        obj['customer_id'] = 1
         obj['first_name'] = first
         obj['last_name'] = last
         obj['full_name'] = '{} {}'.format(first, last)
@@ -149,8 +149,8 @@ def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
                 sale_id  = sale_id + 1
                 customer = random_object(customers)
                 store    = random_object(stores)
-                customer_id = customer['id']
-                store_id = store['id']
+                customer_id = customer['customer_id']
+                store_id    = store['store_id']
 
                 item_count = randomize_count(avg_item_count, 0.25)
 
