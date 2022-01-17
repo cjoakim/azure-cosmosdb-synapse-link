@@ -21,27 +21,25 @@ zip data/products/dataset.zip data/products/*.*
 
 echo 'copying to ../DotnetConsoleApp/data/ data directory...'
 mkdir -p ../DotnetConsoleApp/data/
-cp data/products/*.csv  ../DotnetConsoleApp/data/ 
 cp data/products/*.json ../DotnetConsoleApp/data/ 
 ls -al ../DotnetConsoleApp/data/
 
 echo 'copying to ../PythonConsoleApp/data/ data directory...'
 mkdir -p ../PythonConsoleApp/data/
-cp data/products/*.csv  ../PythonConsoleApp/data/ 
 cp data/products/*.json ../PythonConsoleApp/data/ 
 ls -al ../PythonConsoleApp/data/
 
 echo 'product_catalog:'
-head -3 data/products/product_catalog.csv
-wc -l   data/products/product_catalog.csv
+head -3 data/products/product_catalog.json
+wc -l   data/products/product_catalog.json
 
 echo 'stores:'
-head -3 data/products/stores.csv
-wc -l   data/products/stores.csv
+head -3 data/products/stores.json
+wc -l   data/products/stores.json
 
 echo 'customers:'
-head -3 data/products/customers.csv
-wc -l   data/products/customers.csv
+head -3 data/products/customers.json
+wc -l   data/products/customers.json
 
 echo 'sales:'
 head -3 data/products/sales.json

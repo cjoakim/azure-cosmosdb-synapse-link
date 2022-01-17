@@ -27,15 +27,12 @@ import pandas as pd
 from docopt import docopt
 from faker  import Faker  # https://faker.readthedocs.io/en/master/index.html
 
-# ridx = random.randint(0, ids_max_idx)
-
 
 def create_product_catalog(l1_count, l2_avg_count, l3_avg_count):
     fake     = Faker()
     upc_dict  = dict()
     seq_num   = 0
-    csv_lines = list()
-    csv_lines.append('seq,level_1_category,level_2_category,upc,price')
+    json_lines = list()
 
     print('create_product_catalog {} {} {} -> {}'.format(
         l1_count, l2_avg_count, l3_avg_count, (l1_count * l2_avg_count * l3_avg_count)))
@@ -52,11 +49,16 @@ def create_product_catalog(l1_count, l2_avg_count, l3_avg_count):
                 seq_num = seq_num + 1
                 upc   = random_upc(upc_dict, fake)
                 price = random_price(fake)
-                csv_line = '{},{},{},{},{:.2f}'.format(
-                    seq_num, l1_name, l2_name, upc, price)
-                csv_lines.append(csv_line)
 
-    write_lines('data/products/product_catalog.csv', csv_lines)
+                obj = dict()
+                obj['id']  = seq_num
+                obj['level_1_category'] = l1_name
+                obj['level_2_category'] = l2_name
+                obj['upc']   = upc
+                obj['price'] = price
+                json_lines.append(json.dumps(obj))
+
+    write_lines('data/products/product_catalog.json', json_lines)
 
 def randomize_count(count, multiplier):
     i1 = int(float(count) * (1.0 - multiplier))
@@ -80,35 +82,43 @@ def random_price(fake):
 
 def create_stores(count):
     fake = Faker()
-    csv_lines = list()
-    csv_lines.append('id,name,address,state')
-    csv_lines.append('1,eCommerce,2048 Peachtree St,GA')
+    json_lines = list()
+
+    obj = dict()
+    obj['id']      = 1
+    obj['name']    = 'eCommerce'
+    obj['address'] = '2048 Peachtree St'
+    obj['state']   = 'GA'
+    json_lines.append(json.dumps(obj))
 
     for idx in range(1,count):
-        city = fake.city()
-        address = fake.street_address().replace(',',' ')
-        state = fake.state_abbr()
-        csv_lines.append('{},{},{},{}'.format(
-            idx+1, city, address, state))
+        obj = dict()
+        obj['id']      = idx + 1
+        obj['name']    = fake.city()
+        obj['address'] = fake.street_address().replace(',',' ')
+        obj['state']   = fake.state_abbr()
+        json_lines.append(json.dumps(obj))
 
-    write_lines('data/products/stores.csv', csv_lines)
+    write_lines('data/products/stores.json', json_lines)
 
 def create_customers(count):
     fake = Faker()
-    csv_lines = list()
-    csv_lines.append('id,first_name,last_name,full_name,address,city,state')
+    json_lines = list()
 
     for idx in range(count):
         first = fake.first_name().replace(',',' ')
         last  = fake.last_name().replace(',',' ')
-        full  = '{} {}'.format(first, last) 
-        address = fake.street_address().replace(',',' ')
-        city  = fake.city()
-        state = fake.state_abbr()
-        csv_lines.append('{},{},{},{},{},{},{}'.format(
-            idx+1, first, last, full, address, city, state))
+        obj = dict()
+        obj['id'] = 1
+        obj['first_name'] = first
+        obj['last_name'] = last
+        obj['full_name'] = '{} {}'.format(first, last)
+        obj['address'] = fake.street_address().replace(',',' ')
+        obj['city'] = fake.city()
+        obj['state'] = fake.state_abbr()
+        json_lines.append(json.dumps(obj))
 
-    write_lines('data/products/customers.csv', csv_lines)
+    write_lines('data/products/customers.json', json_lines)
 
 def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
     fake = Faker()
@@ -116,9 +126,9 @@ def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
 
     sale_id = 0
 
-    products  = read_csv_into_objects('data/products/product_catalog.csv')
-    stores    = read_csv_into_objects('data/products/stores.csv')
-    customers = read_csv_into_objects('data/products/customers.csv')
+    products  = read_json_objects('data/products/product_catalog.json')
+    stores    = read_json_objects('data/products/stores.json')
+    customers = read_json_objects('data/products/customers.json')
     print('products loaded; count:  {}'.format(len(products)))
     print('stores loaded; count:    {}'.format(len(stores)))
     print('customers loaded; count: {}'.format(len(customers)))
@@ -228,18 +238,12 @@ def inclusive_dates_between(start_date, end_date, max_count):
                 curr_date = curr_date + one_day
     return dates
 
-def read_csv_into_objects(infile):
-    objects, columns = list(), list()
+def read_json_objects(infile):
+    objects = list()
     it = text_file_iterator(infile)
     for i, line in enumerate(it):
-        if i == 0:
-            columns = line.split(',')
-        else:
-            values = line.split(',')
-            obj = dict()
-            for col_idx, col in enumerate(columns):
-                obj[col] = values[col_idx]
-            objects.append(obj)        
+        obj = json.loads(line.strip())
+        objects.append(obj)        
     return objects
 
 def text_file_iterator(infile):
