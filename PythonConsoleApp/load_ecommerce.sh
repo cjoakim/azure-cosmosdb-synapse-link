@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Bulk-load the generated "ecommerce retail" dataset consisting
-# of customers, products, orders, line items, and deliveries.
+# Load the generated "ecommerce retail" dataset consisting
+# of customers, products, sales, and line items.
 # Chris Joakim, Microsoft, January 2022
 
 mkdir -p tmp/
