@@ -55,7 +55,7 @@ def create_product_catalog(l1_count, l2_avg_count, l3_avg_count):
                 obj['level_1_category'] = l1_name
                 obj['level_2_category'] = l2_name
                 obj['upc']   = upc
-                obj['price'] = price
+                obj['price'] = float('{:.2f}'.format(price))
                 json_lines.append(json.dumps(obj))
 
     write_lines('data/products/product_catalog.json', json_lines)
@@ -109,7 +109,7 @@ def create_customers(count):
         first = fake.first_name().replace(',',' ')
         last  = fake.last_name().replace(',',' ')
         obj = dict()
-        obj['customer_id'] = 1
+        obj['customer_id'] = idx + 1
         obj['first_name'] = first
         obj['last_name'] = last
         obj['full_name'] = '{} {}'.format(first, last)

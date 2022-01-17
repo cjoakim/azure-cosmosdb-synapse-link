@@ -30,19 +30,19 @@ cp data/products/*.json ../PythonConsoleApp/data/
 ls -al ../PythonConsoleApp/data/
 
 echo 'product_catalog:'
-head -3 data/products/product_catalog.json
+head -1 data/products/product_catalog.json
 wc -l   data/products/product_catalog.json
 
 echo 'stores:'
-head -3 data/products/stores.json
+head -1 data/products/stores.json
 wc -l   data/products/stores.json
 
 echo 'customers:'
-head -3 data/products/customers.json
+head -1 data/products/customers.json
 wc -l   data/products/customers.json
 
 echo 'sales:'
-head -3 data/products/sales.json
+head -1 data/products/sales.json
 wc -l   data/products/sales.json
 
 echo 'done'
