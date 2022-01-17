@@ -23,6 +23,7 @@ dotnet run create_container $dbname customers /pk 0
 dotnet run create_container $dbname products /pk 0
 dotnet run create_container $dbname stores /pk 0
 dotnet run create_container $dbname sales /pk 0
+dotnet run create_container $dbname sales_aggregates /pk 0
 
 echo 'sleeping 20 ...'
 sleep 20

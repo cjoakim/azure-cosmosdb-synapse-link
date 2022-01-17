@@ -20,3 +20,9 @@ dotnet run count_documents demo sales
 date > tmp/ecomm_load_finish_date.txt
 
 echo 'done'
+
+# Output with 2022/01/17 dataset:
+# CountDocuments demo customers -> 10000
+# CountDocuments demo products -> 22918
+# CountDocuments demo stores -> 100
+# CountDocuments demo sales -> 100738

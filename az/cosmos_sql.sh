@@ -14,8 +14,6 @@ create() {
     processed=1
     create_rg
     create_acct
-    create_db
-    create_containers
 }
 
 create_rg() {
@@ -39,67 +37,6 @@ create_acct() {
         --enable-analytical-storage true \
         --kind $cosmos_sql_acct_kind \
         > tmp/cosmos_sql_acct_create.json
-}
-
-create_db() {
-    echo 'creating cosmos db: '$cosmos_sql_dbname
-    az cosmosdb sql database create \
-        --resource-group $cosmos_sql_rg \
-        --account-name $cosmos_sql_acct_name \
-        --name $cosmos_sql_dbname \
-        --max-throughput $cosmos_sql_db_throughput \
-        > tmp/cosmos_sql_db_create.json
-}
-
-create_containers() {
-    echo 'creating cosmos container: '$cosmos_sql_cname
-    az cosmosdb sql container create \
-        --resource-group $cosmos_sql_rg \
-        --account-name $cosmos_sql_acct_name \
-        --database-name $cosmos_sql_dbname \
-        --name $cosmos_sql_cname \
-        --subscription $AZURE_SUBSCRIPTION_ID \
-        --partition-key-path $cosmos_sql_pk_path \
-        --analytical-storage-ttl $cosmos_sql_sl_ttl
-
-    echo 'creating cosmos container: customers'
-    az cosmosdb sql container create \
-        --resource-group $cosmos_sql_rg \
-        --account-name $cosmos_sql_acct_name \
-        --database-name $cosmos_sql_dbname \
-        --name customers \
-        --subscription $AZURE_SUBSCRIPTION_ID \
-        --partition-key-path $cosmos_sql_pk_path \
-        --analytical-storage-ttl $cosmos_sql_sl_ttl
-
-    echo 'creating cosmos container: products'
-    az cosmosdb sql container create \
-        --resource-group $cosmos_sql_rg \
-        --account-name $cosmos_sql_acct_name \
-        --database-name $cosmos_sql_dbname \
-        --name products \
-        --subscription $AZURE_SUBSCRIPTION_ID \
-        --partition-key-path $cosmos_sql_pk_path \
-        --analytical-storage-ttl $cosmos_sql_sl_ttl
-
-    echo 'creating cosmos container: orders'
-    az cosmosdb sql container create \
-        --resource-group $cosmos_sql_rg \
-        --account-name $cosmos_sql_acct_name \
-        --database-name $cosmos_sql_dbname \
-        --name orders \
-        --subscription $AZURE_SUBSCRIPTION_ID \
-        --partition-key-path $cosmos_sql_pk_path \
-        --analytical-storage-ttl $cosmos_sql_sl_ttl
-
-    echo 'creating cosmos container: customer_sales'
-    az cosmosdb sql container create \
-        --resource-group $cosmos_sql_rg \
-        --account-name $cosmos_sql_acct_name \
-        --database-name $cosmos_sql_dbname \
-        --name customer_sales \
-        --subscription $AZURE_SUBSCRIPTION_ID \
-        --partition-key-path /customer_id
 }
 
 info() {
