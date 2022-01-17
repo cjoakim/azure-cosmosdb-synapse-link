@@ -1,4 +1,4 @@
-﻿// Chris Joakim, Microsoft, August 2021
+﻿// Chris Joakim, Microsoft, January 2022
 
 namespace CosmosSL {
     
@@ -107,10 +107,10 @@ namespace CosmosSL {
             Console.WriteLine("dotnet run delete_container <dbname> <cname>");
             Console.WriteLine("---");
             Console.WriteLine("dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>");
-            Console.WriteLine("dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1");
-            Console.WriteLine("dotnet run bulk_load_container demo customers na data/customers.json 9999");
-            Console.WriteLine("dotnet run bulk_load_container demo products  na data/products.json 9999");
-            Console.WriteLine("dotnet run bulk_load_container demo orders    na data/orders.json 9999");
+            Console.WriteLine("dotnet run bulk_load_container demo customers customer_id data/customers.json 9999");
+            Console.WriteLine("dotnet run bulk_load_container demo products  upc         data/product_catalog.json 9999");
+            Console.WriteLine("dotnet run bulk_load_container demo stores    store_id    data/stores.json 9999");
+            Console.WriteLine("dotnet run bulk_load_container demo sales     sale_id     data/sales.json 9999");
             Console.WriteLine("---");
             Console.WriteLine("dotnet run count_documents <dbname> <cname>");
             Console.WriteLine("---");
@@ -275,15 +275,6 @@ namespace CosmosSL {
                 infile = cliArgs[4];
                 maxBatchCount = Int32.Parse(cliArgs[5]);
                 
-                // if (infile.StartsWith("/")) {
-                //     // use this fully-qualified path without modification
-                // }
-                // else {
-                //     // use a path relative to the root of this GitHub repo location
-                //     string repoDir = config.GetRepoDir();
-                //     infile  = $"{repoDir}/{infile}";
-                // }
-
                 cosmosClient = CosmosClientFactory.BulkLoadingClient();
                 Database  database  = cosmosClient.GetDatabase(dbname);
                 Container container = database.GetContainer(cname);
@@ -309,20 +300,20 @@ namespace CosmosSL {
                                     jsonDoc.id = Guid.NewGuid().ToString();
                                     
                                     switch (pkAttr) {
-                                        case "route":
-                                            jsonDoc.pk = jsonDoc.route;
+                                        case "name":
+                                            jsonDoc.pk = jsonDoc.name;
                                             break;
-                                        case "from_iata":
-                                            jsonDoc.pk = jsonDoc.from_iata;
+                                        case "customer_id":
+                                            jsonDoc.pk = jsonDoc.customer_id;
                                             break;
-                                        case "to_iata":
-                                            jsonDoc.pk = jsonDoc.to_iata;
+                                        case "store_id":
+                                            jsonDoc.pk = jsonDoc.store_id;
                                             break;
-                                        case "airlineid":
-                                            jsonDoc.pk = jsonDoc.airlineid;
+                                        case "sale_id":
+                                            jsonDoc.pk = jsonDoc.sale_id;
                                             break;
-                                        case "to_airport_country":
-                                            jsonDoc.pk = jsonDoc.to_airport_country;
+                                        case "upc":
+                                            jsonDoc.pk = jsonDoc.upc;
                                             break;
                                         case "id":
                                             jsonDoc.pk = jsonDoc.id;
