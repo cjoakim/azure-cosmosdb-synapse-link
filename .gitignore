@@ -8,7 +8,7 @@ PythonConsoleApp/data/*.csv
 PythonConsoleApp/data/*.json
 PythonConsoleApp/venv/
 
-dataset_generation/data/
+dataset_generation/data/products/*.json
 
 **/.idea/
 **/out/
