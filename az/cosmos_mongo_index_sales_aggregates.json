@@ -1,0 +1,18 @@
+[ 
+    {
+        "key": {"keys": ["customer_id"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["doctype"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["total_item_count"]}, 
+        "options": {"unique": "false"}
+    },
+    {
+        "key": {"keys": ["total_dollar_amount"]}, 
+        "options": {"unique": "false"}
+    }
+]

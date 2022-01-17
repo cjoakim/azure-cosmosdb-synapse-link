@@ -47,12 +47,12 @@ recreate_all() {
     info 
 }
 
-recreate_dev_db() {
+recreate_demo_db() {
     processed=1
     delete_db
-    sleep 10
+    sleep 20
     create_db 
-    sleep 10 
+    sleep 20 
     create_collections
     info   
 }
@@ -119,6 +119,15 @@ create_collections() {
         --shard pk \
         --idx @cosmos_mongo_index_sales.json
 
+    echo 'creating cosmos collection: sales_aggregates'
+    az cosmosdb mongodb collection create \
+        --resource-group $cosmos_mongo_rg \
+        --account-name $cosmos_mongo_acct_name \
+        --database-name $cosmos_mongo_dbname \
+        --name sales_aggregates \
+        --shard pk \
+        --idx @cosmos_mongo_index_sales_aggregates.json
+
     # https://docs.microsoft.com/en-us/azure/cosmos-db/mongodb/mongodb-indexing
     # --idx @cosmos_mongo_amtrak_index_policy.json 
 }
@@ -152,7 +161,7 @@ display_usage() {
     echo 'Usage:'
     echo './cosmos_mongo.sh create'
     echo './cosmos_mongo.sh recreate'
-    echo './cosmos_mongo.sh recreate_dev_db'
+    echo './cosmos_mongo.sh recreate_demo_db'
     echo './cosmos_mongo.sh create_collections'
     echo './cosmos_mongo.sh info'
 }
@@ -165,7 +174,7 @@ then
     do
         if [ $arg == "create" ];   then create; fi 
         if [ $arg == "recreate" ]; then recreate_all; fi 
-        if [ $arg == "recreate_dev_db" ]; then recreate_dev_db; fi 
+        if [ $arg == "recreate_demo_db" ]; then recreate_demo_db; fi 
         if [ $arg == "create_collections" ]; then create_collections; fi 
         if [ $arg == "info" ];     then info; fi 
     done

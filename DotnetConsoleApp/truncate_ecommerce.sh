@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Delete all documents from the four containers.
+# Delete all documents from the five containers.
 # Display document counts both before and after the deletions.
 # Chris Joakim, Microsoft, January 2022
 

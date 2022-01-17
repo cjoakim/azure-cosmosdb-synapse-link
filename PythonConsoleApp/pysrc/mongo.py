@@ -24,9 +24,10 @@ class Mongo(object):
         self._db = None
         self._coll = None
         print(self._opts)
-        host = opts['host']
-        port = opts['port']
-        self._client = MongoClient(host, port)
+        if 'conn_string' in opts.keys():
+            self._client = MongoClient(opts['conn_string'])
+        else:
+            self._client = MongoClient(opts['host'], opts['port'])
         print(self._client)
 
     def list_databases(self):
