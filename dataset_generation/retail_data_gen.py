@@ -58,7 +58,7 @@ def create_product_catalog(l1_count, l2_avg_count, l3_avg_count):
                 obj['price'] = float('{:.2f}'.format(price))
                 json_lines.append(json.dumps(obj))
 
-    write_lines('data/products/product_catalog.json', json_lines)
+    write_lines('data/retail/product_catalog.json', json_lines)
 
 def randomize_count(count, multiplier):
     i1 = int(float(count) * (1.0 - multiplier))
@@ -99,7 +99,7 @@ def create_stores(count):
         obj['state']    = fake.state_abbr()
         json_lines.append(json.dumps(obj))
 
-    write_lines('data/products/stores.json', json_lines)
+    write_lines('data/retail/stores.json', json_lines)
 
 def create_customers(count):
     fake = Faker()
@@ -118,7 +118,7 @@ def create_customers(count):
         obj['state'] = fake.state_abbr()
         json_lines.append(json.dumps(obj))
 
-    write_lines('data/products/customers.json', json_lines)
+    write_lines('data/retail/customers.json', json_lines)
 
 def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
     fake = Faker()
@@ -126,16 +126,16 @@ def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
 
     sale_id = 0
 
-    products  = read_json_objects('data/products/product_catalog.json')
-    stores    = read_json_objects('data/products/stores.json')
-    customers = read_json_objects('data/products/customers.json')
+    products  = read_json_objects('data/retail/product_catalog.json')
+    stores    = read_json_objects('data/retail/stores.json')
+    customers = read_json_objects('data/retail/customers.json')
     print('products loaded; count:  {}'.format(len(products)))
     print('stores loaded; count:    {}'.format(len(stores)))
     print('customers loaded; count: {}'.format(len(customers)))
 
     days = calendar_days(start_date, end_date)
 
-    outfile = 'data/products/sales.json'
+    outfile = 'data/retail/sales.json'
     with open(outfile, 'wt') as out:
         for day in days:
             day_count = day_count + 1

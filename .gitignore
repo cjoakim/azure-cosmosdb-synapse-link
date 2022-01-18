@@ -9,6 +9,7 @@ PythonConsoleApp/data/*.json
 PythonConsoleApp/venv/
 
 dataset_generation/data/products/*.json
+dataset_generation/data/retail/*.json
 
 **/.idea/
 **/out/
