@@ -16,10 +16,19 @@ python retail_data_gen.py create_stores 100
 python retail_data_gen.py create_customers 10000
 python retail_data_gen.py create_sales_data 2021-01-01 2022-01-26 75 3
 
+python retail_data_gen.py slice_sales_data 2022-01-26
+
+echo 'removing sales.json, now split into two files ...'
+rm data/retail/sales.json
+
 echo 'creating dataset.zip ...'
 cd data/retail
 rm *.zip
-zip dataset.zip *.*
+zip retail_dataset.zip *.*
+
+echo 'displaying zip contents:'
+jar tvf retail_dataset.zip
+
 cd ../..
 
 echo 'copying to ../DotnetConsoleApp/data/ data directory...'
@@ -44,10 +53,12 @@ echo 'customers:'
 head -1 data/retail/customers.json
 wc -l   data/retail/customers.json
 
-echo 'sales:'
-head -1 data/retail/sales.json
-wc -l   data/retail/sales.json
+echo 'sales1:'
+tail -1 data/retail/sales1.json
+wc -l   data/retail/sales1.json
 
-echo 'done; next steps:'
-echo '  1.  edit and execute slice_sales_data.sh'
-echo '  2.  execute ./retail_data_zip.sh'
+echo 'sales2:'
+head -1 data/retail/sales2.json
+wc -l   data/retail/sales2.json
+
+echo 'done'

@@ -4,7 +4,7 @@
 # Chris Joakim, Microsoft, January 2022
 
 echo 'creating dataset.zip ...'
-cd data/products
+cd data/retail
 rm *.zip
 zip retail_dataset.zip *.*
 cd ../..

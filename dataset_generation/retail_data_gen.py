@@ -5,6 +5,7 @@ Usage:
     python retail_data_gen.py create_stores 100
     python retail_data_gen.py create_customers 10000
     python retail_data_gen.py create_sales_data 2020-01-01 2022-01-26 1000 4
+    python retail_data_gen.py slice_sales_data 2022-01-26
 """
 
 __author__  = 'Chris Joakim'
@@ -238,6 +239,33 @@ def inclusive_dates_between(start_date, end_date, max_count):
                 curr_date = curr_date + one_day
     return dates
 
+def slice_sales_data(separator_date):
+
+    # execute two passes through the sales data to produce two files
+    # split by the given separator_date
+
+    infile = 'data/retail/sales.json'
+    file1  = 'data/retail/sales1.json'
+    file2  = 'data/retail/sales2.json'
+
+    with open(file1, 'wt') as out:
+        it = text_file_iterator(infile)
+        for i, line in enumerate(it):
+            if separator_date in line:
+                pass
+            else:
+                out.write(line)
+                out.write(os.linesep)
+        print('file_written: {}'.format(file1))
+
+    with open(file2, 'wt') as out:
+        it = text_file_iterator(infile)
+        for i, line in enumerate(it):
+            if separator_date in line:
+                out.write(line)
+                out.write(os.linesep)
+        print('file_written: {}'.format(file2))
+
 def read_json_objects(infile):
     objects = list()
     it = text_file_iterator(infile)
@@ -298,6 +326,10 @@ if __name__ == "__main__":
             avg_count_day  = float(sys.argv[4])
             avg_item_count = float(sys.argv[5])
             create_sales_data(start_date, end_date, avg_count_day, avg_item_count)
+
+        elif func == 'slice_sales_data':
+            separator_date = sys.argv[2]
+            slice_sales_data(separator_date)
 
         else:
             print_options('Error: invalid function: {}'.format(func))
