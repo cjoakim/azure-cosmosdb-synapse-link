@@ -20,7 +20,7 @@ user   = "cjoakimcslcosmosmongo";
 pass   = "M57pYUxx******************************************************************************==";
 collection = "sales";
 
-conn = mongo(server,port,dbname,'UserName',user,'Password',pass, 'SSLEnabled',true)
+conn = mongo(server, port, dbname, 'UserName', user, 'Password', pass, 'SSLEnabled', true)
 
 n = count(conn,collection)
 
