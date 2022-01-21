@@ -29,7 +29,7 @@ close(conn)
 
 ### Screen Shot
 
-<p align="center"><img src="img/matlab-query.png" width="90%"></p>
+<p align="center"><img src="img/matlab-query.png" width="99%"></p>
 
 ---
 
@@ -39,18 +39,20 @@ See https://studio3t.com/
 
 ### Screen Shots
 
-#### Query 
+#### Query with IntelliShell
 
-<p align="center"><img src="img/studio3t-query.png" width="90%"></p>
+<p align="center"><img src="img/studio3t-query.png" width="99%"></p>
 
-#### Configuration
+#### Configuration 
 
-<p align="center"><img src="img/studio3t-config1.png" width="90%"></p>
+Configure the Server, Authentication, and SSL tabs as shown below.
 
----
-
-<p align="center"><img src="img/studio3t-config2.png" width="90%"></p>
+<p align="center"><img src="img/studio3t-config1.png" width="70%"></p>
 
 ---
 
-<p align="center"><img src="img/studio3t-config3.png" width="90%"></p>
+<p align="center"><img src="img/studio3t-config2.png" width="70%"></p>
+
+---
+
+<p align="center"><img src="img/studio3t-config3.png" width="70%"></p>
