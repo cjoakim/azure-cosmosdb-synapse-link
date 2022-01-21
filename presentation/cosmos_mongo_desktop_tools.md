@@ -47,12 +47,12 @@ See https://studio3t.com/
 
 Configure the Server, Authentication, and SSL tabs as shown below.
 
-<p align="center"><img src="img/studio3t-config1.png" width="70%"></p>
+<p align="center"><img src="img/studio3t-config1.png" width="60%"></p>
 
 ---
 
-<p align="center"><img src="img/studio3t-config2.png" width="70%"></p>
+<p align="center"><img src="img/studio3t-config2.png" width="60%"></p>
 
 ---
 
-<p align="center"><img src="img/studio3t-config3.png" width="70%"></p>
+<p align="center"><img src="img/studio3t-config3.png" width="60%"></p>
