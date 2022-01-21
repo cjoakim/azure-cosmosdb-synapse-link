@@ -7,6 +7,7 @@
 - https://www.mathworks.com/products/get-matlab.html
 - https://www.mathworks.com/help/database/ug/database-toolbox-interface-for-mongodb-installation.html
 - https://www.mathworks.com/help/database/ug/mongo.html
+- https://github.com/mathworks-ref-arch/matlab-azure-cosmos-db
 
 ### Example code
 
