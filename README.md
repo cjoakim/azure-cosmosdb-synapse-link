@@ -9,6 +9,8 @@ integration via **Synapse Link**
 
 ---
 
-<p align="center"><img src="presentation/img/csl-demo.png" width="100%"></p>
+<p align="center">
+    <img src="presentation/img/synapse-analytics-cosmos-db-architecture.png" width="100%">
+</p>
 
 ---

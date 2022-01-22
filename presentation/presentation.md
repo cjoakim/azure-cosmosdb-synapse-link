@@ -30,7 +30,9 @@ integration via **Synapse Link**
 - Query the Synapse Link data with **PySpark Notebooks in Azure Synapse Analytics**
 - The Synapse Link data can also be queried with **SQL pools** (not in demonstration)
 
-<p align="center"><img src="img/csl-demo.png" width="100%"></p>
+<p align="center">
+    <img src="presentation/img/synapse-analytics-cosmos-db-architecture.png" width="100%">
+</p>
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
