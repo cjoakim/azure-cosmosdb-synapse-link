@@ -7,7 +7,6 @@ __version__ = "January 2022"
 import os
 import time
 
-import arrow
 
 class Env(object):
 

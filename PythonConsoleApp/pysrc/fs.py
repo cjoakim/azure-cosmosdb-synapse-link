@@ -10,9 +10,6 @@ import os
 
 
 class FS(object):
-    """
-
-    """
 
     @classmethod
     def pwd(cls):
@@ -76,6 +73,15 @@ class FS(object):
     def write(cls, outfile, s, verbose=True):
         with open(outfile, 'w') as f:
             f.write(s)
+            if verbose == True:
+                print('file written: {}'.format(outfile))
+
+    @classmethod
+    def write_lines(cls, outfile, lines, verbose=True):
+        with open(outfile, 'w') as f:
+            for line in lines:
+                f.write(line)
+                f.write(os.linesep)
             if verbose == True:
                 print('file written: {}'.format(outfile))
 

@@ -3,6 +3,7 @@
 ## Links 
 
 - https://pymongo.readthedocs.io/en/stable/
+- https://pymongo.readthedocs.io/en/stable/tutorial.html
 - https://docs.microsoft.com/en-us/azure/cosmos-db/mongodb/mongodb-introduction
 - https://docs.microsoft.com/en-us/azure/cosmos-db/mongodb/create-mongodb-python 
 - https://docs.microsoft.com/en-us/azure/cosmos-db/mongodb/find-request-unit-charge-mongodb

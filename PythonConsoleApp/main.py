@@ -5,7 +5,8 @@ Usage:
     python main.py count_documents demo stores
     python main.py load_container dbname cname pkattr infile
     python main.py load_container demo stores store_id data/stores.json --verbose
-    python main.py create_query_specs
+    python main.py execute_query demo stores find_by_pk --pk 2 
+    python main.py execute_query demo stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
 """
 
 __author__  = 'Chris Joakim'
@@ -83,19 +84,41 @@ def load_container(dbname, cname, pkattr, infile):
         if verbose():
             print('RU charge: {}'.format(m.last_request_request_charge()))
 
-def execute_query():
-    pass 
+def execute_query(dbname, cname, qname):
+    spec = query_spec(qname)
+    print('dbname: {}, cname: {}, query: {}, spec: {}'.format(
+        dbname, cname, qname, spec))
+    m = Mongo(mongo_opts())
+    m.set_db(dbname)
+    m.set_coll(cname)
+    for doc in m.find(spec):
+        print(doc)
+    if verbose():
+        print('RU charge: {}'.format(m.last_request_request_charge()))
 
-def create_query_specs():
-    data = dict()
-    FS.write_json(data, 'query_specs.json')
-
+def query_spec(qname):
+    spec = dict()
+    if qname == 'find_by_pk':
+        spec['pk'] = cli_flag_arg('--pk')
+    elif qname == 'find_by_pk_id':
+        spec['pk'] = cli_flag_arg('--pk')
+        spec['_id'] = cli_flag_arg('--id')
+    elif qname == 'find_by_id_pk':
+        spec['pk'] = cli_flag_arg('--pk')
+        spec['id'] = cli_flag_arg('--id')
+    return spec
 
 def write(outfile, s, verbose=True):
     with open(outfile, 'w') as f:
         f.write(s)
         if verbose:
             print('file written: {}'.format(outfile))
+
+def cli_flag_arg(flag):
+    for idx, arg in enumerate(sys.argv):
+        if arg == flag:
+            return sys.argv[idx + 1]
+    return ''
 
 def print_options(msg):
     print(msg)
@@ -127,8 +150,11 @@ if __name__ == "__main__":
             infile = sys.argv[5]
             load_container(dbname, cname, pkattr, infile)
 
-        elif func == 'create_query_specs':
-            create_query_specs()
+        elif func == 'execute_query':
+            dbname = sys.argv[2]
+            cname  = sys.argv[3]
+            qname  = sys.argv[4]
+            execute_query(dbname, cname, qname)
 
         else:
             print_options('Error: invalid function: {}'.format(func))

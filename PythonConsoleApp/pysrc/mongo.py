@@ -10,12 +10,6 @@ import os
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-# pip install pymongo
-# https://pymongo.readthedocs.io/en/stable/
-# https://pymongo.readthedocs.io/en/stable/tutorial.html
-# https://docs.mongodb.com/v3.6/introduction/
-# https://api.mongodb.com/python/current/api/pymongo/collection.html
-
 
 class Mongo(object):
 
