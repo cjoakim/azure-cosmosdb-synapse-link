@@ -5,6 +5,7 @@ Usage:
     python main.py count_documents demo stores
     python main.py load_container dbname cname pkattr infile
     python main.py load_container demo stores store_id data/stores.json --verbose
+    python main.py create_query_specs
 """
 
 __author__  = 'Chris Joakim'
@@ -82,6 +83,14 @@ def load_container(dbname, cname, pkattr, infile):
         if verbose():
             print('RU charge: {}'.format(m.last_request_request_charge()))
 
+def execute_query():
+    pass 
+
+def create_query_specs():
+    data = dict()
+    FS.write_json(data, 'query_specs.json')
+
+
 def write(outfile, s, verbose=True):
     with open(outfile, 'w') as f:
         f.write(s)
@@ -117,6 +126,9 @@ if __name__ == "__main__":
             pkattr = sys.argv[4]
             infile = sys.argv[5]
             load_container(dbname, cname, pkattr, infile)
+
+        elif func == 'create_query_specs':
+            create_query_specs()
 
         else:
             print_options('Error: invalid function: {}'.format(func))
