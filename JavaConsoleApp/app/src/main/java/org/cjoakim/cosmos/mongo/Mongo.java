@@ -61,4 +61,22 @@ public class Mongo {
         return this.currentCollection.find(Filters.and(idFilter, pkFilter)).first();
     }
 
+    // https://docs.microsoft.com/en-us/azure/cosmos-db/mongodb/find-request-unit-charge-mongodb#use-the-mongodb-java-driver
+
+    public Document getLastRequestStatistics() {
+
+        return this.currentDatabase.runCommand(new Document("getLastRequestStatistics", 1));
+    }
+
+    public double getLastRequestCharge() {
+
+        Document stats = this.getLastRequestStatistics();
+        if (stats != null) {
+            return stats.getDouble("RequestCharge");
+        }
+        else {
+            return -1.0;
+        }
+    }
+
 }

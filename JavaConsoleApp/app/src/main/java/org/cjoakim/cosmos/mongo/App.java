@@ -74,6 +74,9 @@ public class App {
         while (cursor.hasNext()) {
             log(cursor.next().toJson());
         }
+        if (AppConfig.isVerbose()) {
+            log("RU: " + m.getLastRequestCharge());
+        }
     }
 
     private static void findByIdPk(String dbname, String cname, String id, String pk) throws Exception {
@@ -87,6 +90,10 @@ public class App {
         }
         else {
             log(doc.toJson());
+        }
+        if (AppConfig.isVerbose()) {
+            log("Stats: " + m.getLastRequestStatistics());
+            log("RU:    " + m.getLastRequestCharge());
         }
     }
 
