@@ -7,6 +7,16 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.bson.types.ObjectId;
+
+import java.io.IOException;
+import java.util.Map;
+
 public class App {
 
     public String getGreeting() {
@@ -27,12 +37,21 @@ public class App {
                 String cname;
                 String pk;
                 String id;
+                String pkattr;
+                String infile;
 
                 switch (function) {
 
                     case "app_config":
                         displayAppConfig();
                         break;
+
+                    case "load_container":
+                        dbname = args[1];
+                        cname  = args[2];
+                        pkattr = args[3];
+                        infile = args[4];
+                        loadContainer(dbname, cname, pkattr, infile);
 
                     case "find_by_pk":
                         dbname = args[1];
@@ -62,6 +81,33 @@ public class App {
     private static void displayAppConfig() {
 
         AppConfig.display(false);
+    }
+
+    private static void loadContainer(String dbname, String cname, String pkattr, String infile) {
+
+        try {
+            Mongo m = new Mongo();
+            m.setDatabase(dbname);
+            m.setCollection(cname);
+
+            Scanner scanner = new Scanner(new File(infile));
+            ObjectMapper mapper = new ObjectMapper();
+            while (scanner.hasNextLine()) {
+                String jsonLine = scanner.nextLine();
+                Map<String, Object> map = mapper.readValue(jsonLine.strip(), Map.class);
+                String pk = map.get(pkattr).toString();
+                map.put("_id", new ObjectId());
+                map.put("pk", pk);
+                //log(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map));
+                Document doc = new Document(map);
+                log(doc.toJson());
+                m.insertDoc(doc);
+            }
+            scanner.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void findByPk(String dbname, String cname, String pk) throws Exception {

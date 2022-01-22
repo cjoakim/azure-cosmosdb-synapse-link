@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     implementation 'org.mongodb:mongodb-driver-sync:4.1.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
     implementation 'org.slf4j:slf4j-api:1.7.33'
     //implementation 'org.slf4j:slf4j-simple:1.7.33'   <-- uncomment for verbose Mongo Driver logging
     implementation 'com.google.guava:guava:30.1.1-jre'
@@ -39,6 +40,14 @@ task displayAppConfig(type: JavaExec) {
     mainClass = 'org.cjoakim.cosmos.mongo.App'
     args 'app_config'
 }
+
+// $ gradle loadStores
+task loadStores(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.cjoakim.cosmos.mongo.App'
+    args 'load_container', 'demo', 'stores', 'store_id', 'data/stores.json', '--verbosee'
+}
+
 
 // $ gradle findByPk
 task findByPk(type: JavaExec) {

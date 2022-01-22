@@ -4,8 +4,9 @@ DotnetConsoleApp/data/*.csv
 DotnetConsoleApp/data/*.json
 DotnetConsoleApp/data/date_range.json
 
-JavaConsoleApp/data/*.csv
-JavaConsoleApp/data/*.json
+JavaConsoleApp/app/data/*.csv
+JavaConsoleApp/app/data/*.json
+JavaConsoleApp/app/data/*.zip
 
 PythonConsoleApp/data/*.csv
 PythonConsoleApp/data/*.json
