@@ -31,7 +31,7 @@ integration via **Synapse Link**
 - The Synapse Link data can also be queried with **SQL pools** (not in demonstration)
 
 <p align="center">
-    <img src="presentation/img/synapse-analytics-cosmos-db-architecture.png" width="100%">
+    <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
 </p>
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
