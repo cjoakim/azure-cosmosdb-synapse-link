@@ -4,6 +4,9 @@ DotnetConsoleApp/data/*.csv
 DotnetConsoleApp/data/*.json
 DotnetConsoleApp/data/date_range.json
 
+JavaConsoleApp/data/*.csv
+JavaConsoleApp/data/*.json
+
 PythonConsoleApp/data/*.csv
 PythonConsoleApp/data/*.json
 PythonConsoleApp/venv/
@@ -11,7 +14,9 @@ PythonConsoleApp/venv/
 dataset_generation/data/products/*.json
 dataset_generation/data/retail/*.json
 
+**/.gradle/
 **/.idea/
+**/build/
 **/out/
 **/tmp/
 **/venv/
