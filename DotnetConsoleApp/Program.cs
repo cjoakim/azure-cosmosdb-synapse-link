@@ -59,9 +59,6 @@ namespace CosmosSL {
                     case "delete_container":
                         await DeleteContainer();
                         break;
-                    case "delete_route":
-                        await DeleteRoute();
-                        break;
                     case "bulk_load_container":
                         await BulkLoadContainer();
                         break;
@@ -116,9 +113,6 @@ namespace CosmosSL {
             Console.WriteLine("---");
             Console.WriteLine("dotnet run execute_queries <dbname> <cname> <queries-file>");
             Console.WriteLine("dotnet run execute_queries demo customer_sales sql/customer_sales.txt");
-            Console.WriteLine("---");
-            Console.WriteLine("dotnet run delete_route <dbname> <cname> <route>");
-            Console.WriteLine("dotnet run delete_route demo travel CLT:MBJ");
             Console.WriteLine("");
         }
         private static async Task ListDatabases() {
@@ -220,32 +214,32 @@ namespace CosmosSL {
             Console.WriteLine($"TruncateContainer {dbname} {cname} -> deleteOperations {deleteOperations}");
         }
         
-        private static async Task DeleteRoute() {
-            string dbname = cliArgs[1];
-            string cname  = cliArgs[2];
-            string route  = cliArgs[3];
-            cosmosClient  = CosmosClientFactory.RegularClient();
-            CosmosQueryUtil util = new CosmosQueryUtil(cosmosClient, config.IsVerbose());
-            await util.SetCurrentDatabase(dbname);
-            await util.SetCurrentContainer(cname);
-            string sql = $"select c.id, c.pk from c where c.route = '{route}'";
-            
-            QueryResponse respObj = await util.ExecuteQuery(sql);
-            string jstr = respObj.ToJson();
-            string outfile = "out/delete_route.json";
-            await File.WriteAllTextAsync(outfile, jstr);
-            Console.WriteLine($"file written: {outfile}");
-
-            for (int i = 0; i < respObj.itemCount; i++) {
-                dynamic item = respObj.items[i];
-                string id = item["id"];
-                string pk = item["pk"];
-                GenericDocument gd = new GenericDocument(id, pk);
-                Console.WriteLine($"deleting {gd.ToJson()}");
-                ItemResponse<GenericDocument> resp = await util.DeleteGenericDocument(gd);
-                Console.WriteLine($"resp, status: {resp.StatusCode} ru: {resp.RequestCharge}");
-            }
-        }
+        // private static async Task DeleteRoute() {
+        //     string dbname = cliArgs[1];
+        //     string cname  = cliArgs[2];
+        //     string route  = cliArgs[3];
+        //     cosmosClient  = CosmosClientFactory.RegularClient();
+        //     CosmosQueryUtil util = new CosmosQueryUtil(cosmosClient, config.IsVerbose());
+        //     await util.SetCurrentDatabase(dbname);
+        //     await util.SetCurrentContainer(cname);
+        //     string sql = $"select c.id, c.pk from c where c.route = '{route}'";
+        //     
+        //     QueryResponse respObj = await util.ExecuteQuery(sql);
+        //     string jstr = respObj.ToJson();
+        //     string outfile = "out/delete_route.json";
+        //     await File.WriteAllTextAsync(outfile, jstr);
+        //     Console.WriteLine($"file written: {outfile}");
+        //
+        //     for (int i = 0; i < respObj.itemCount; i++) {
+        //         dynamic item = respObj.items[i];
+        //         string id = item["id"];
+        //         string pk = item["pk"];
+        //         GenericDocument gd = new GenericDocument(id, pk);
+        //         Console.WriteLine($"deleting {gd.ToJson()}");
+        //         ItemResponse<GenericDocument> resp = await util.DeleteGenericDocument(gd);
+        //         Console.WriteLine($"resp, status: {resp.StatusCode} ru: {resp.RequestCharge}");
+        //     }
+        // }
         
         private static async Task DeleteContainer() {
             string dbname = cliArgs[1];
