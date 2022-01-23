@@ -5,8 +5,8 @@ integration via **Synapse Link**
 
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
-[Presentation](presentation/presentation.md)
-[Provisioning and Setup](presentation/setup.md)
+- [Presentation](presentation/presentation.md)
+- [Provisioning and Setup](presentation/setup.md)
 
 ---
 
