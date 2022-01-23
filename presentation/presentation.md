@@ -21,7 +21,7 @@ integration via **Synapse Link**
     - MavenCentral library: org.mongodb:mongodb-driver-sync:4.1.1
   - See example [PythonConsoleApp](../PythonConsoleApp/readme.md) for loading CosmosDB/SQL
     - PyPi library: pymongo 4.0.1
-  - See the dataset_generation/ directory where "fake" data is generated with Python
+  - See the [dataset_generation](../dataset_generation/readme.md) directory where "fake" data is generated with Python
     - products, stores, customers, sales
 
 - The CosmosDB data flows into **Synapse Link** in near realtime
