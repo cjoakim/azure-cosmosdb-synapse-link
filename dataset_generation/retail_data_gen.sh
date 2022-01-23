@@ -31,16 +31,6 @@ jar tvf retail_dataset.zip
 
 cd ../..
 
-echo 'copying to ../DotnetConsoleApp/data/ data directory...'
-mkdir -p ../DotnetConsoleApp/data/
-cp data/retail/*.json ../DotnetConsoleApp/data/ 
-ls -al ../DotnetConsoleApp/data/
-
-echo 'copying to ../PythonConsoleApp/data/ data directory...'
-mkdir -p ../PythonConsoleApp/data/
-cp data/retail/*.json ../PythonConsoleApp/data/ 
-ls -al ../PythonConsoleApp/data/
-
 echo 'product_catalog:'
 head -1 data/retail/product_catalog.json
 wc -l   data/retail/product_catalog.json

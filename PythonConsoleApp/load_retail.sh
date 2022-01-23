@@ -4,6 +4,9 @@
 # consisting of customers, products, sales, and line items.
 # Chris Joakim, Microsoft, January 2022
 
+source venv/bin/activate
+python --version
+
 mkdir -p tmp/
 date > tmp/load_times.txt
 

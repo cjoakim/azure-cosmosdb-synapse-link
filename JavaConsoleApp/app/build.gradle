@@ -74,7 +74,7 @@ task loadSales1(type: JavaExec) {
 task loadSales2(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'load_container', 'demo', 'sales', 'sales_id', 'data/sales2.json'
+    args 'load_container', 'demo', 'sales', 'sale_id', 'data/sales2.json'
 }
 
 // $ gradle findByPk

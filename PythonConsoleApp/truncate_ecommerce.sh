@@ -4,6 +4,9 @@
 # Display document counts both before and after the deletions.
 # Chris Joakim, Microsoft, January 2022
 
+source venv/bin/activate
+python --version
+
 echo 'count_documents before ...'
 python main.py count_documents demo customers
 python main.py count_documents demo products

@@ -90,7 +90,11 @@ dataset_generation/retail_data_zip.sh
 
 Depending on your chosen CosmosDB API and Programming Language, copy this zip file
 to the **XxxConsoleApp/data** directory, where Xxx is the programming language,
-and unzip it there.
+and unzip it there.  Alternatively, simply execute the following script:
+
+```
+$ ./retail_data_copy_unzip.sh
+```
 
 The reason for using the zip file is that the JSON data files are too large for GitHub.
 

@@ -1,15 +1,11 @@
 ## cj
 
-DotnetConsoleApp/data/*.csv
-DotnetConsoleApp/data/*.json
+DotnetConsoleApp/data/
 DotnetConsoleApp/data/date_range.json
 
-JavaConsoleApp/app/data/*.csv
-JavaConsoleApp/app/data/*.json
-JavaConsoleApp/app/data/*.zip
+JavaConsoleApp/app/data/
 
-PythonConsoleApp/data/*.csv
-PythonConsoleApp/data/*.json
+PythonConsoleApp/data/
 PythonConsoleApp/venv/
 
 dataset_generation/data/products/*.json
