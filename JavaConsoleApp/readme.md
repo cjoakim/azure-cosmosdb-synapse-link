@@ -22,14 +22,16 @@ Gradle 7.3.3
 
 $ gradle build
 
-$ gradle displayAppConfig
-
+$ gradle loadCustomers
+$ gradle loadProducts
 $ gradle loadStores
+$ gradle loadSales1
 
-TODO - load more containers
+$ ./load_retail.sh   <-- alternative to the above four loadXxx tasks
 
 $ gradle findByPk
 
-$ gradle findByIdPk
-
+$ gradle findByIdPk  
 ```
+
+See the **Gradle** configuration file JavaConsoleApp/app/build.gradle

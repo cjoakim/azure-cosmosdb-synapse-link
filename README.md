@@ -6,6 +6,7 @@ integration via **Synapse Link**
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
 [Presentation](presentation/presentation.md)
+[Provisioning and Setup](presentation/setup.md)
 
 ---
 
@@ -13,4 +14,3 @@ integration via **Synapse Link**
     <img src="presentation/img/synapse-analytics-cosmos-db-architecture.png" width="100%">
 </p>
 
----

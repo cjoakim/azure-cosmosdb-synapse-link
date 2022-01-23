@@ -1,110 +1,12 @@
-# azure-cosmosdb-synapse-link: presentation
+# azure-cosmosdb-synapse-link: Demonstration Setup
 
-Demonstration of **Azure CosmosDB** with **Azure Synapse Analytics**
-integration via **Synapse Link**
-
-**Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
-
-### Table of Contents
-
-- [Part 1: Architecture of Synapse Link, and this Demonstration App](#part1)
-- [Part 2: Setup this Demonstration App in Your Azure Subscription](#part2)
-- [Part 3: Demonstration](#part3)
-  - 3.1 Understand the **International Air Travel Data**
-  - 3.2 **Populate CosmosDB** with the **DotNet Console App**
-  - 3.3 **Count the CosmosDB Documents** with the **DotNet Console App**
-  - 3.4 **Query the CosmosDB Documents** with the **DotNet Console App**
-  - 3.5 **Query the Synapse Link Data** with a **PySpark Notebook in Synapse**
-- [Part 4: Links](#part4)
-
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
-<a name="part1"></a>
-
-## Part 1: Architecture of Synapse Link, and this Demonstration App
-
-- A **net5.0 client program** reads a data file, and **Bulk Loads JSON documents to CosmosDB**
-- The CosmosDB data flows into **Synapse Link** in near realtime
-- Synapse Link performs **both copy AND data transformation (to columnar format)** operations
-- No other ETL solution is needed (i.e. - Databricks)
-- Query the Synapse Link data with **PySpark Notebooks in Azure Synapse Analytics**
-- The Synapse Link data can also be queried with **SQL pools** (not in demonstration)
-
-<p align="center">
-    <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
-</p>
-
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
-## Synapse Link data movement and transformation
-
-- Synapse Link performs **both copy AND data transformation (to columnar format)** operations
-- A **columnar datastore** is more suitable for analytical processing
-- The **inserts, updates, and deletes** to your CosmosDB operational data are automatically synced to analytical store
-- Auto-sync latency is usually within 2 minutes, but may be up to 5 minutes
-- Supported for the **Azure Cosmos DB SQL (Core)** API and **Azure Cosmos DB API for MongoDB** APIs
-
-<p align="center"><img src="img/transactional-analytical-data-stores.png" width="100%"></p>
-
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
-## Synapse Link Details
-
-- **No impact to CosmosDB performance or RU costs**
-- Is Scalable and Elastic
-- The Synapse Link data can be queried in Azure Synapse Analytics by:
-  - **Azure Synapse Spark pools**
-    - Spark Streaming not yet supported
-  - **Azure Synapse Serverless SQL pools** (not provisioned pools)
-- Pricing consists of **storage and IO operations**
-- **Schema constraints**:
-  - Only the first 1000 document properties
-  - Only the first 127 document nested levels
-  - No explicit versioning, the schema is inferred
-  - CosmosDB stores JSON
-  - Attribute names are mormalized: {"id": 1, "Name": "fred", "name": "john"}
-  - Addtibute names with odd characters: colons, semicolons, parens, =, etc
-- Two Schema Types:
-  - **Well-defined**
-    - Default option for SQL (CORE) API accounts
-    - The schema, with **datatypes**, grows are documents are added
-      - Non-conforming attributes are ignored
-        - doc1: {"id": "1", "a":123}      <-- "a" is an integer, added to schema
-        - doc2: {"id": "2", "a": "str"}   <-- "a" isn't an integer, ignored
-  - **Full Fidelity**
-    - Default option for Azure Cosmos DB API for MongoDB accounts
-    - None of the above dataname normalization or datatype enforcement
-    - Can be optionally be used by the SQL API
-      - az cosmosdb create ... --analytical-storage-schema-type "FullFidelity" 
-
-- See https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction
-
----
-
-## Links / References
-
-- [What is Azure Synapse Link for Azure Cosmos DB?](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link)
-- [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
-- [Azure Synapse Analytics](https://azure.microsoft.com/en-us/services/synapse-analytics/)
-- [Analytical Store Pricing](https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#analytical-store-pricing)
-
-
-Go to [Part 3: Demonstration](#part3)
-
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
-<a name="part2"></a>
-
-## Part 2: Setup this Demonstration App in Your Azure Subscription
-
-### Laptop/Workstation/VM Requirements
+## Laptop/Workstation/VM Requirements
 
 - Either the Windows, Linux, or macOS operating system
-- [git](https://git-scm.com/)
-- [dotnet 5](https://dotnet.microsoft.com/download/dotnet/5.0)
-- [az CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)  
+- [git source control system](https://git-scm.com/)
+- DotNet 6, Java 11, or Python 3 - per your chosen CosmosDB API and Programming Language
 
-### Clone this GitHub Repository
+## Clone this GitHub Repository
 
 ```
 $ cd <some-parent-directory>
@@ -114,702 +16,96 @@ $ git clone https://github.com/cjoakim/azure-cosmosdb-synapse-link.git
 $ cd azure-cosmosdb-synapse-link
 ```
 
-#### Directory Structure of this Repository
-
-```
-├── DotnetConsoleApp      <-- net5.0 console application
-│   ├── data              <-- json and csv files, zipped
-│   └── sql               <-- CosmosDB query sql file(s)
-├── az                    <-- provisioning scripts using the az CLI
-├── presentation
-│   └── presentation.md   <-- primary presentation file
-└── synapse
-    └── pyspark           <-- pyspark notebooks for Azure Synapse
-```
-
-### Compile Code, Unzip Data Files
-
-```
-$ cd DotnetConsoleApp
-$ dotnet restore               <-- install the dotnet packages from NuGet (i.e. - CosmosDB SDK)
-$ dotnet build                 <-- compile the C# code
-
-$ mkdir out
-
-$ cd data
-
-... unzip the zip files; these zips contain csv and json files that are too large for GitHub
-
-$ unzip air_travel_departures.csv.zip
-$ unzip air_travel_departures.json.zip
-$ unzip customers.json.zip
-$ unzip orders.json.zip
-$ unzip products.json.zip
-
-$ cd ..
-
-$ dotnet run                   <-- displays the list of commands supported by Program.cs
-...
-
-Command-Line Examples:
-dotnet run list_databases
-dotnet run create_database <dbname> <shared-ru | 0>
-dotnet run delete_database <dbname>
-dotnet run update_database_throughput <dbname> <shared-ru>
----
-dotnet run list_containers <dbname>
-dotnet run create_container <dbname> <cname> <pk> <ru>
-dotnet run update_container_throughput <dbname> <cname> <ru>
-dotnet run update_container_indexing <dbname> <cname> <json-doc-infile>
-dotnet run truncate_container <dbname> <cname>
-dotnet run delete_container <dbname> <cname>
----
-dotnet run bulk_load_container <dbname> <cname> <pk-attr> <json-rows-infile> <batch-count>
-dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1
-dotnet run bulk_load_container demo customers na data/customers.json 9999
-dotnet run bulk_load_container demo products  na data/products.json 9999
-dotnet run bulk_load_container demo orders    na data/orders.json 9999
----
-dotnet run count_documents <dbname> <cname>
----
-dotnet run execute_queries <dbname> <cname> <queries-file>
-dotnet run delete_route <dbname> <cname> <route>
-dotnet run delete_route demo travel CLT:MBJ
-```
-
-### Provision Azure Resources
+## Provision Azure Resources
 
 It is recommended that you provision these Azure Resources with either the 
 **Azure Portal** or the **az CLI**.  This repo contains working az CLI scripts.
 
-- **Azure CosmosDB Account, SQL API**
-  - database named **demo**
-  - container named **travel** with partition key **/pk**
-  - both the account and the container should have the **Analytical Store Enabled**
+- **Azure CosmosDB/SQL OR CosmosDB/Mongo Account**
+  - With database named **demo** with 10,000 shared Request Units (RU)
+  - With containers named **customers, products, stores, sales, sales_aggregates** with partition key **/pk**
+  - both the account and the containers should have the **Analytical Store Enabled**
 
 - **Azure Synapse**
-  - with a **spark pool of three small nodes**
+  - with a **Spark Pool of three small nodes**
 
-### Provision Resources with the az CLI
+- **Azure Monitor**
+  - Configure your CosmosDB account to log to this instance
 
-**If you provisioned resources in Azure Portal, you can skip this section.**
 
-#### Setup the az CLI
+### az CLI Provisioning Scripts
 
-```
-$ cd az
+See the **az/** directory in this repo for working bash shell scripts.
 
-$ az login 
+Edit the **az/config** script per your configuration and naming conventions.
 
-$ az account set --subscription <your-subscription-id>
+Ths syntax of the az commands is identical in **Windows PowerShell** although
+ps1 scripts are not fully implemented in this repo at this time.  You can
+create these as necessary, modeled after the bash *.sh scripts.
 
-$ az account show
-
-$ az extension add -n storage-preview
-$ az extension add --name synapse
-```
-
-#### Initial Environment Varibles
-
-Set these on your system as both the az CLI provisioning process,
-and the DotNet program, will use them.
+#### Example Use
 
 ```
-export AZURE_SUBSCRIPTION_ID=<your-chosen-azure-subscription-id>
-export AZURE_SYNAPSE_USER=<your-specified-username>
-export AZURE_SYNAPSE_PASS=<your-specified-strong-password>
-export AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE=500
+$ ./cosmos_mongo.sh create              <-- creates the CosmosDB/Mongo account and database
+$ ./cosmos_mongo.sh create_collections  <-- creates the CosmosDB/Mongo containers/collections with indexing
+
+$ ./cosmos_sql.sh create   <-- creates just the CosmosDB account; the Dotnet code will create the database and containers
+
+$ ./synapse.sh create pause create_spark_pool pause info   <-- creates the Azure Synapse resources
+
+$ ./la_wsp.sh create       <-- creates the Log Analytics workspace; aka Azure Monitor
 ```
 
-#### Provisioning on Linux or macOS with the az CLI in bash scripts
+There are some other provisioning az scripts in this directory, such as for **Azure PostgreSQL**,
+but these are not currently integrated into this demonstration application.
 
-First, edit file **config.sh** - this file specifies your Azure Region,
-Resource Group, and Azure Resource configuration details.
+## Environment Varibles
 
-**Please do a change-all on this script to change "cjoakim" to YOUR ID!**
-
-```
-$ ./create_all.sh
-```
-
-#### Provisioning on Windows with the az CLI in PowerShell scripts
-
-**Note: The PowerShell scripts for Windows in this repo are currently under construction.  The az commands, however, are portable across OS platforms.**
-
-### Additional Environment Varibles
-
-After provisioning, see your **CosmosDB account Azure Portal** to get these values.
+The code in this repo assumes that the following environment variables have been
+set, and populated with appropriate values for your laptop/workstation/VM as well
+as your CosmosDB account.
 
 ```
-export AZURE_CSL_COSMOSDB_SQLDB_URI
-export AZURE_CSL_COSMOSDB_SQLDB_KEY
-export AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING
-export AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS=eastus   <-- example value
+AZURE_SUBSCRIPTION_ID                   <-- used in az CLI provisioning scripts
+AZURE_SYNAPSE_USER                      <-- used in az/synapse* provisioning scripts
+AZURE_SYNAPSE_PASS                      <-- used in az/synapse* provisioning scripts
+
+AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING    <-- for CosmosDB/SQL & DotNet
+AZURE_CSL_COSMOSDB_SQLDB_KEY            <-- for CosmosDB/SQL & DotNet
+AZURE_CSL_COSMOSDB_SQLDB_URI            <-- for CosmosDB/SQL & DotNet
+AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS   <-- for CosmosDB/SQL & DotNet
+AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE      <-- for CosmosDB/SQL & DotNet Bulk Loading
+
+AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING  <-- for CosmosDB/Mongo & Java or Python
 ```
 
-### Your CosmosDB Settings in Azure Portal
+## Standard Generated Dataset 
 
-Your **account** should have the **Azure Synapse Link Feature Enabled**
-as shown below.
-
-<p align="center"><img src="img/cosmosdb-account-features.png" width="95%"></p>
-
----
-
-Also, the container(s) you wish to Synapse Link Enable should look like
-the following:
-
-<p align="center"><img src="img/travel-container-settings.png" width="95%"></p>
-
-Note: **Currently, Synapse Link must be enabled at the time you create the container.**
-
-Note: I set the Time To Live (TTL) on my container to 86,400 seconds.
-This represents 24-hours, or 1-day (60 * 60 * 24).
-
----
-
-If you manually create the container in Azure Portal, be sure to click the 
-**Analytical store: On** radio button, as shown in the following image:
-
-<p align="center"><img src="img/create-new-container-analytical-store.png" width="95%"></p>
-
----
-
-### Configure Azure Synapse
-
-- Create a Linked Service to the CosmosDB Synapse Link Data
-- Right-mouse the CosmosDB Synapse Link Data ""travel" icon
-- Create a Notebook PySpark Notebook that reads that data as a Dataframe
-
-<p align="center"><img src="img/new-notebook-from-synapse-link-data.png" width="95%"></p>
-
-#### Edit the cells of the Notebook to look like the following
-
-**Cell 1**:
+A simulated set of **ecommerce retail data** consisting of customers, products, stores, and sales
+JSON files is in this repo within the following file:
 
 ```
-# Read the Cosmos DB analytical store into a Spark DataFrame.
-# Then display the observed schema of the data.
-
-df = spark.read\
-    .format("cosmos.olap")\
-    .option("spark.synapse.linkedService", "CosmosDbSynapseLink")\
-    .option("spark.cosmos.container", "travel")\
-    .load()
-
-display(df.printSchema())
+dataset_generation/retail_data_zip.sh
 ```
 
-**Cell 2**:
+Depending on your chosen CosmosDB API and Programming Language, copy this zip file
+to the **XxxConsoleApp/data** directory, where Xxx is the programming language,
+and unzip it there.
 
-```
-# Print the row and column counts of the Dataframe
+The reason for using the zip file is that the JSON data files are too large for GitHub.
 
-print((df.count(), len(df.columns)))
-```
+The **dataset_generation/** directory contains the Python logic to generate this
+dataset.  You do not have to execute the generation process, simply use the output
+from this process - the zip file mentioned above.
 
-**Cell 3**:
+## CosmosDB - Use either the SQL or Mongo APIs
 
-```
-from pyspark.sql.functions import col
+**This repo has working Console Application Client code for the following combinations:**
 
-# unpack the structs of type string into another dataframe, df2
-df2 = df.select(
-    col('route'),
-    col('id'),
-    col('doc_time'),
-    col('date'),
-    col('count'),
-    col('to_airport_country'),
-    col('to_airport_name')).filter("_ts > 1630355233") 
+- [CosmosDB/SQL API with DotNet 6](../DotnetConsoleApp/readme.md)
+- [CosmosDB/Mongo API with Java 11](../JavaConsoleApp/readme.md)
+- [CosmosDB/Mongo API with Python 3](../PythonConsoleApp/readme.md)
 
-# rename the unpacked columns, into new dataframe df3
-new_column_names = ['route','id','doc_time','date','count','to_airport_country','to_airport_name']
-df3 = df2.toDF(*new_column_names)
-
-# create new df4, filtering by route 'ATL:MBJ', sorting by 'doc_time' descending
-df4 = df3.filter("route == 'MIA:MAO'").sort("doc_time", ascending=False)
-
-# display the first 10 rows
-df4.show(n=20)
-```
-
-**Cell 3 alternative syntax for struct columns**:
-
-The structs can be unpacked with **col('route.*')** syntax.
-
-```
-# unpack the structs of type string into another dataframe, df2
-df2 = df.select(
-    col('route.*'),
-    col('id.*'),
-```
-
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
-<a name="part3"></a>
-
-## Part 3: Demonstration
-
-### 3.1 Understand the International Air Travel Data
-
-Each line in file data/air_travel_departures.json contains a document that looks
-logically similar to the following:
-
-```
-{
-  "id": "a7a868a4-ff6f-11eb-96e6-acde48001122",
-  "pk": "GUM:MAJ",
-  "date": "2006/05/01",
-  "year": "2006",
-  "month": "5",
-  "from_iata": "GUM",
-  "to_iata": "MAJ",
-  "airlineid": "20177",
-  "carrier": "PFQ",
-  "count": "10",
-  "route": "GUM:MAJ",
-  "from_airport_name": "Guam Intl",
-  "from_airport_tz": "Pacific/Guam",
-  "from_location": {
-    "type": "Point",
-    "coordinates": [
-      144.795983,
-      13.48345
-    ]
-  },
-  "to_airport_name": "Marshall Islands Intl",
-  "to_airport_country": "Marshall Islands",
-  "to_airport_tz": "Pacific/Majuro",
-  "to_location": {
-    "type": "Point",
-    "coordinates": [
-      171.272022,
-      7.064758
-    ]
-  },
-  "doc_epoch": 1629214058.4217112
-}
-```
-
-The DotNet program will overlay the **pk (partition key)** attribute,
-**id**, **doc_epoch**, and **doc_time**.
-
-```
-  "pk": "BOS:STR",
-  "id": "62c75c42-cc42-4450-b879-c06553bb5f5b",
-
-  "doc_epoch": 1630355232669,
-  "doc_time": "2021/08/30-20:27:12",
-```
-
-The PySpark Notebook in Synapse (described in section 3.5 below) will query these values and sort on **doc_time***.
-
----
-
-### 3.2 Populate CosmosDB with the DotNet Console App
-
-#### Populate the Database, using the DotNet SDK Bulk Loading functionality 
-
-- [Cosmos DB bulk executor library overview](https://docs.microsoft.com/en-us/azure/cosmos-db/bulk-executor-overview)
-- 10x greater write throughput
-- Throttles, handles exceptions, retries
-- Uses async Tasks
-- Implemented in DotNet/C# and Java for CosmosDB/SQL API
-
-```
-$ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 100
-...
-writing batch 97 (500) at 1630433942464
-{"id":"d772cb1b-c387-47a8-8a4c-6e36dbee1b7a","pk":"JFK:PUJ","date":"2002/01/01","year":"2002","month":"1","from_iata":"JFK","to_iata":"PUJ","airlineid":"20402","carrier":"MMQ","count":"1","route":"JFK:PUJ","from_airport_name":"John F Kennedy Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-73.778925,40.639751]},"to_airport_name":"Punta Cana Intl","to_airport_country":"Dominican Republic","to_airport_tz":"America/Santo_Domingo","to_location":{"type":"Point","coordinates":[-68.363431,18.567367]},"doc_epoch":1630433944259,"doc_time":"2021/08/31-18:19:04"}
-writing batch 98 (500) at 1630433944276
-{"id":"237a1c82-892e-431e-8951-aeeaa01675b3","pk":"MIA:MAO","date":"2004/09/01","year":"2004","month":"9","from_iata":"MIA","to_iata":"MAO","airlineid":"20232","carrier":"A2","count":"1","route":"MIA:MAO","from_airport_name":"Miami Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-80.290556,25.79325]},"to_airport_name":"Eduardo Gomes Intl","to_airport_country":"Brazil","to_airport_tz":"America/Boa_Vista","to_location":{"type":"Point","coordinates":[-60.049721,-3.038611]},"doc_epoch":1630433945805,"doc_time":"2021/08/31-18:19:05"}
-writing batch 99 (500) at 1630433945821
-{"id":"3702f43b-0122-451e-8771-440f0226295d","pk":"GUM:HND","date":"2005/08/01","year":"2005","month":"8","from_iata":"GUM","to_iata":"HND","airlineid":"20185","carrier":"JO","count":"58","route":"GUM:HND","from_airport_name":"Guam Intl","from_airport_tz":"Pacific/Guam","from_location":{"type":"Point","coordinates":[144.795983,13.48345]},"to_airport_name":"Tokyo Intl","to_airport_country":"Japan","to_airport_tz":"Asia/Tokyo","to_location":{"type":"Point","coordinates":[139.779694,35.552258]},"doc_epoch":1630433947562,"doc_time":"2021/08/31-18:19:07"}
-writing batch 100 (500) at 1630433947566
-
-EOJ Totals:
-  Database:             demo
-  Container:            travel
-  Input Filename:       data\air_travel_departures.json
-  Max Batch Count:      100
-  BulkLoad startEpoch:  1630433782500
-  BulkLoad finishEpoch: 1630433949112
-  BulkLoad elapsedMs:   166612
-  BulkLoad elapsedSec:  166.612
-  BulkLoad elapsedMin:  2.7768666666666664
-  Batch Size:           500
-  Batch Count:          100
-  Exceptions:           0
-  Document/Task count:  50000
-  Document per Second:  300.0984322857897
-```
-
-The above loads 100 batches (50,000 documents) into the database named demo, 
-the container named travel, using the given json data file, and the value of the
-route attribute as the partition key.
-
-The last document in each batch (of 500) is logged to the output, and then
-end-of-job totals are displayed.
-
-This load process can be run several times as necessary, and unique documents 
-will be created from the same input data.  This is enabled by this C# code that 
-sets the **id attribute** of each new document to a Guid:
-
-```
-    jsonDoc.id = Guid.NewGuid().ToString();  <-- See Program.cs, method BulkLoadContainer
-```
-
-Look at your CosmosDB account in Azure Portal to confirm that the documents were added.
-
-#### Load again, with just one batch of 500 documents
-
-```
-$ dotnet run bulk_load_container demo travel route data/air_travel_departures.json 1
-uri: https://cjoakimcslcosmos.documents.azure.com:443/
-ListContainers - count 1
-OK: container travel is present in db: demo
-LoadContainer - db: demo, container: travel, infile: data/air_travel_departures.json, maxBatchCount: 1
-{"id":"8bd06536-51d2-4594-80d7-07cd0050f69b","pk":"MIA:MAO","date":"2001/04/01","year":"2001","month":"4","from_iata":"MIA","to_iata":"MAO","airlineid":"20149","carrier":"PRQ","count":"4","route":"MIA:MAO","from_airport_name":"Miami Intl","from_airport_tz":"America/New_York","from_location":{"type":"Point","coordinates":[-80.290556,25.79325]},"to_airport_name":"Eduardo Gomes Intl","to_airport_country":"Brazil","to_airport_tz":"America/Boa_Vista","to_location":{"type":"Point","coordinates":[-60.049721,-3.038611]},"doc_epoch":1630443291597,"doc_time":"2021/08/31-20:54:51"}
-writing batch 1 (500) at 1630443291600
-
-EOJ Totals:
-  Database:             demo
-  Container:            travel
-  Input Filename:       data/air_travel_departures.json
-  Max Batch Count:      1
-  BulkLoad startEpoch:  1630443291452
-  BulkLoad finishEpoch: 1630443293377
-  BulkLoad elapsedMs:   1925
-  BulkLoad elapsedSec:  1.925
-  BulkLoad elapsedMin:  0.03208333333333333
-  Batch Size:           500
-  Batch Count:          1
-  Exceptions:           0
-  Document/Task count:  500
-  Document per Second:  259.7402597402597
-```
-
-We're expecting 5 documents for route **MIA:MAO** in the first batch
-of 500 documents.
-
-```
-$ head -500 data/air_travel_departures.json | grep MIA | grep MAO
-
-{"id": "a7a8cd44-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2010/04/01", "year": "2010", "month": "4", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "19550", "carrier": "KE", "count": "3", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.424257}
-
-{"id": "a7a90a84-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2009/12/01", "year": "2009", "month": "12", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20377", "carrier": "X9", "count": "2", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.425824}
-
-{"id": "a7a93ae0-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2001/09/01", "year": "2001", "month": "9", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20193", "carrier": "GR", "count": "2", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.427063}
-
-{"id": "a7a9f584-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2006/11/01", "year": "2006", "month": "11", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20193", "carrier": "GR", "count": "2", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.4318411}
-
-{"id": "a7aa388c-ff6f-11eb-96e6-acde48001122", "pk": "MIA:MAO", "date": "2001/04/01", "year": "2001", "month": "4", "from_iata": "MIA", "to_iata": "MAO", "airlineid": "20149", "carrier": "PRQ", "count": "4", "route": "MIA:MAO", "from_airport_name": "Miami Intl", "from_airport_tz": "America/New_York", "from_location": {"type": "Point", "coordinates": [-80.290556, 25.79325]}, "to_airport_name": "Eduardo Gomes Intl", "to_airport_country": "Brazil", "to_airport_tz": "America/Boa_Vista", "to_location": {"type": "Point", "coordinates": [-60.049721, -3.038611]}, "doc_epoch": 1629214058.433557}
-```
-
-In Azure Portal, query the latest **MIA:MAO** documents.
-```
-SELECT c.id, c.pk, c.doc_time FROM c WHERE c.pk = 'MIA:MAO' order by c.doc_time desc offset 0 limit 5
-```
-
-<p align="center"><img src="img/documents-in-azure-portal.png" width="95%"></p>
-
-#### Load the three eCommerce containers - customers, products, orders
-
-```
-$ dotnet run bulk_load_container demo customers na data/customers.json 9999
-$ dotnet run bulk_load_container demo products  na data/products.json 9999
-$ dotnet run bulk_load_container demo orders    na data/orders.json 9999
-
-- or -
-
-$ ./load_ecommerce.sh
-```
-
----
-
-### 3.3 Count the CosmosDB Documents with the DotNet Console App
-
-```
-$ dotnet run count_documents demo travel
-CountDocuments demo travel -> 50000
-
-$ dotnet run count_documents demo customers
-CountDocuments demo customers -> 100000
-
-$ dotnet run count_documents demo products
-CountDocuments demo products -> 29549
-
-$ dotnet run count_documents demo orders
-CountDocuments demo orders -> 1049182
-```
-
----
-
-### 3.4 Query the CosmosDB Documents with the DotNet Console App
-
-```
-$ dotnet run execute_queries demo travel sql/travel.txt
-
-================================================================================
-executing qname: q0, db: demo, cname: travel, sql: SELECT COUNT(1) FROM c
-QueryResponse: q0 db: demo container: travel status: OK ru: 2.89 items: 1 excp: False
-file written: out/q0_demo_travel.json
-
-================================================================================
-executing qname: q1, db: demo, cname: travel, sql: SELECT c.id, c.pk, c.doc_time FROM c WHERE c.pk = 'MIA:MAO' order by c.doc_time desc offset 0 limit 5
-QueryResponse: q1 db: demo container: travel status: OK ru: 9.61 items: 5 excp: False
-file written: out/q1_demo_travel.json
-```
-
-The console output shows the query, the RU charge, and the number of items (documents)
-returned.  See the output/xxx.json file for the actual query results.
-
-Edit file sql/queries.txt as necessary, to add your own queries.
-
-#### Query the eCommerce containers
-
-```
-$ dotnet run execute_queries demo customers sql/customers.txt
-$ dotnet run execute_queries demo orders    sql/orders.txt
-$ dotnet run execute_queries demo products  sql/products.txt
-```
-
-#### Sample eCommerce documents
-
-**Customer**
-
-```
-{
-  "pk": "0057613672377",
-  "doctype": "customer",
-  "customerId": "0057613672377",
-  "name": "Diane Ellis",
-  "first": "Diane",
-  "last": "Ellis",
-  "address": {
-    "street": "25063 Evans Vista Suite 538",
-    "city": "Kevinhaven",
-    "state": "MT",
-    "zip": "63313"
-  },
-  "doc_epoch": 1633453584899,
-  "doc_time": "2021/10/05-17:06:24",
-  "id": "9eda180d-434c-4da9-a597-2656804d4de2",
-  "_rid": "Oww-AINGvCGRLgAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-AINGvCE=/docs/Oww-AINGvCGRLgAAAAAAAA==/",
-  "_etag": "\"4f0246f5-0000-0100-0000-615c86110000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453585
-}
-```
-
-**Order** with **Line Items** with **Deliveries**
-
-```
-{
-  "pk": 11,
-  "doctype": "order",
-  "orderId": 11,
-  "customerId": "0057613672377",
-  "date_time": "2021-10-05 16:59:17 +00:00",
-  "item_count": 3,
-  "order_total": 169.89,
-  "delivery_count": 2,
-  "doc_epoch": 1633453812428,
-  "doc_time": "2021/10/05-17:10:12",
-  "id": "e50ff693-7bf5-4c5c-9015-e070e64d72c3",
-  "_rid": "Oww-ANTQwuSvAQAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuSvAQAAAAAAAA==/",
-  "_etag": "\"5202fe05-0000-0100-0000-615c86f50000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453813
-},
-{
-  "pk": 11,
-  "doctype": "line_item",
-  "orderId": 11,
-  "lineNumber": 1,
-  "customerId": "0057613672377",
-  "sku": 755874769194,
-  "name": "MightySkins Skin Decal Wrap Compatible with DJI Sticker Protective Cover 100's of Color Options",
-  "qty": 3,
-  "price": 9.99,
-  "item_total": 29.97,
-  "doc_epoch": 1633453812428,
-  "doc_time": "2021/10/05-17:10:12",
-  "id": "4cdc2c93-de24-4d71-b783-95f75b14634b",
-  "_rid": "Oww-ANTQwuSrAQAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuSrAQAAAAAAAA==/",
-  "_etag": "\"5202fa05-0000-0100-0000-615c86f50000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453813
-},
-{
-  "pk": 11,
-  "doctype": "delivery",
-  "orderId": 11,
-  "lineNumber": 3,
-  "customerId": "0057613672377",
-  "sku": 53722097384,
-  "status": "not shipped",
-  "doc_epoch": 1633453812428,
-  "doc_time": "2021/10/05-17:10:12",
-  "id": "45abf5a5-fe74-47f2-9337-e77c3877ee92",
-  "_rid": "Oww-ANTQwuSuAQAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuSuAQAAAAAAAA==/",
-  "_etag": "\"5202fd05-0000-0100-0000-615c86f50000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453813
-},
-{
-  "pk": 11,
-  "doctype": "line_item",
-  "orderId": 11,
-  "lineNumber": 2,
-  "customerId": "0057613672377",
-  "sku": 712323180887,
-  "name": "Ebe Reading Glasses Mens Womens Gold Harry Potter Style Horned Rim Anti Glare Cozy zsm5500",
-  "qty": 4,
-  "price": 24.99,
-  "item_total": 99.96,
-  "doc_epoch": 1633453812428,
-  "doc_time": "2021/10/05-17:10:12",
-  "id": "36567280-effa-4bc0-9f23-c72b6672bb3e",
-  "_rid": "Oww-ANTQwuS1AQAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuS1AQAAAAAAAA==/",
-  "_etag": "\"52020406-0000-0100-0000-615c86f50000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453813
-},
-{
-  "pk": 11,
-  "doctype": "delivery",
-  "orderId": 11,
-  "lineNumber": 2,
-  "customerId": "0057613672377",
-  "sku": 712323180887,
-  "status": "not shipped",
-  "doc_epoch": 1633453812428,
-  "doc_time": "2021/10/05-17:10:12",
-  "id": "2a209504-bb05-412d-8fd4-b1c64aa303e2",
-  "_rid": "Oww-ANTQwuS6AQAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuS6AQAAAAAAAA==/",
-  "_etag": "\"52020906-0000-0100-0000-615c86f50000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453813
-},
-{
-  "pk": 11,
-  "doctype": "line_item",
-  "orderId": 11,
-  "lineNumber": 3,
-  "customerId": "0057613672377",
-  "sku": 53722097384,
-  "name": "MightySkins Skin Decal Wrap Compatible with SnowWolf Sticker Protective Cover 100's of Color Options",
-  "qty": 4,
-  "price": 9.99,
-  "item_total": 39.96,
-  "doc_epoch": 1633453812428,
-  "doc_time": "2021/10/05-17:10:12",
-  "id": "80297189-0b98-4d03-9abc-341b0c547032",
-  "_rid": "Oww-ANTQwuS+AQAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-ANTQwuQ=/docs/Oww-ANTQwuS+AQAAAAAAAA==/",
-  "_etag": "\"52020d06-0000-0100-0000-615c86f50000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453813
-}
-```
-
-**Product**
-
-```
-{
-  "id": "cfce3b31-8e1f-4cb1-a0fd-4639cd399122",
-  "pk": 755874769194,
-  "sku": 755874769194,
-  "name": "MightySkins Skin Decal Wrap Compatible with DJI Sticker Protective Cover 100's of Color Options",
-  "price": 9.99,
-  "doc_epoch": 1633453787685,
-  "doc_time": "2021/10/05-17:09:47",
-  "_rid": "Oww-AJP40HhTOgAAAAAAAA==",
-  "_self": "dbs/Oww-AA==/colls/Oww-AJP40Hg=/docs/Oww-AJP40HhTOgAAAAAAAA==/",
-  "_etag": "\"510218c8-0000-0100-0000-615c86dc0000\"",
-  "_attachments": "attachments/",
-  "_ts": 1633453788
-}
-```
-
-
-### 3.5 Query the Synapse Link Data with a PySpark Notebook in Synapse
-
-#### Before execution
-
-<p align="center"><img src="img/travel_notebook.png" width="95%"></p>
-
----
-
-#### After execution
-
-<p align="center"><img src="img/travel-notebook-executed.png" width="95%"></p>
-
----
-
-#### The Observed Schema of this Data
-
-Output of: display(df.printSchema()) 
-
-```
-root
- |-- _rid: string (nullable = true)
- |-- _ts: long (nullable = true)
- |-- id: string (nullable = true)
- |-- pk: string (nullable = true)
- |-- date: string (nullable = true)
- |-- year: string (nullable = true)
- |-- month: string (nullable = true)
- |-- from_iata: string (nullable = true)
- |-- to_iata: string (nullable = true)
- |-- airlineid: string (nullable = true)
- |-- carrier: string (nullable = true)
- |-- count: string (nullable = true)
- |-- route: string (nullable = true)
- |-- from_airport_name: string (nullable = true)
- |-- from_airport_tz: string (nullable = true)
- |-- from_location: struct (nullable = true)
- |    |-- type: string (nullable = true)
- |    |-- coordinates: array (nullable = true)
- |    |    |-- element: double (containsNull = true)
- |-- to_airport_name: string (nullable = true)
- |-- to_airport_country: string (nullable = true)
- |-- to_airport_tz: string (nullable = true)
- |-- to_location: struct (nullable = true)
- |    |-- type: string (nullable = true)
- |    |-- coordinates: array (nullable = true)
- |    |    |-- element: double (containsNull = true)
- |-- doc_epoch: long (nullable = true)
- |-- doc_time: string (nullable = true)
- |-- _etag: string (nullable = true)
-```
-
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
-<a name="part4"></a>
-
-## Part 4: Links
-
-### Synapse
-
-- [Synapse Notebooks](https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-development-using-notebooks?tabs=classical)
-- [Synapse Apache Spark](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-spark)
-- [Analyze data in a storage account](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-storage)
-- [Azure-Samples/Synapse GitHub Repo](https://github.com/Azure-Samples/Synapse)
-
-### Apache Spark
-
-- [Apache Spark Docs](https://spark.apache.org/docs/latest/)
-- [Apache Spark PySpark API Docs](https://spark.apache.org/docs/latest/api/python/reference/index.html)
-
-```
-curl https://cjoakimpublic.blob.core.windows.net/samples/us_states.csv
-```
+See the appropriate readme.md files in one of these directories to proceed.
+They each implement similar functionality to load CosmosDB with the generated dataset,
+and then query CosmosDB.

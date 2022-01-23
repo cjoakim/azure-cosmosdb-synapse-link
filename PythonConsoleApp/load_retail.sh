@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Load the generated "ecommerce retail" dataset consisting
-# of customers, products, sales, and line items.
+# Load the CosmosDB/Mongo database with the generated "ecommerce retail" dataset
+# consisting of customers, products, sales, and line items.
 # Chris Joakim, Microsoft, January 2022
 
 mkdir -p tmp/

@@ -1,5 +1,6 @@
 /**
  * Gradle application configuration file.
+ * Gradle is a simpler alternative to Apache Maven.
  * Chris Joakim, Microsoft, January 2022
  */
 
@@ -41,25 +42,59 @@ task displayAppConfig(type: JavaExec) {
     args 'app_config'
 }
 
+// dotnet run bulk_load_container demo customers customer_id data/customers.json 9999
+// dotnet run bulk_load_container demo products  upc         data/product_catalog.json 9999
+// dotnet run bulk_load_container demo stores    store_id    data/stores.json 9999
+// dotnet run bulk_load_container demo sales     sale_id     data/sales1.json 9999
+
+
+// $ gradle loadCustomers
+task loadCustomers(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.cjoakim.cosmos.mongo.App'
+    args 'load_container', 'demo', 'customers', 'customers_id', 'data/customers.json'
+}
+
+// $ gradle loadProducts
+task loadProducts(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.cjoakim.cosmos.mongo.App'
+    args 'load_container', 'demo', 'products', 'upc', 'data/product_catalog.json'
+}
+
 // $ gradle loadStores
 task loadStores(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'load_container', 'demo', 'stores', 'store_id', 'data/stores.json', '--verbosee'
+    args 'load_container', 'demo', 'stores', 'store_id', 'data/stores.json'
+}
+
+// $ gradle loadSales1
+task loadSales1(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.cjoakim.cosmos.mongo.App'
+    args 'load_container', 'demo', 'sales', 'sales_id', 'data/sales1.json'
+}
+
+// $ gradle loadSales2
+task loadSales2(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.cjoakim.cosmos.mongo.App'
+    args 'load_container', 'demo', 'sales', 'sales_id', 'data/sales2.json'
 }
 
 // $ gradle findByPk
 task findByPk(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'find_by_pk', 'demo', 'stores', '2', '--verbosee'
+    args 'find_by_pk', 'demo', 'stores', '2'
 }
 
 // $ gradle findByIdPk
 task findByIdPk(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'find_by_id_pk', 'demo', 'stores', '61e6d8407a0af4624aaf0212', '2', '--verbosee'
+    args 'find_by_id_pk', 'demo', 'stores', '61e6d8407a0af4624aaf0212', '2'
 }
 
 tasks.register('uberJar', Jar) {

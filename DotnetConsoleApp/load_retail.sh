@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Bulk-load the generated "ecommerce retail" dataset consisting
-# of customers, products, sales, and line items.
+# Bulk-load CosmosDB/SQL database with the generated "ecommerce retail" dataset
+# consisting of customers, products, sales, and line items.
 # Chris Joakim, Microsoft, January 2022
 
 mkdir -p tmp/

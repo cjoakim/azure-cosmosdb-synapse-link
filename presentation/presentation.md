@@ -1,4 +1,4 @@
-# azure-cosmosdb-synapse-link: presentation
+# azure-cosmosdb-synapse-link: Presentation
 
 Demonstration of **Azure CosmosDB** and **Azure Synapse Analytics**
 integration via **Synapse Link**
