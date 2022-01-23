@@ -42,12 +42,6 @@ task displayAppConfig(type: JavaExec) {
     args 'app_config'
 }
 
-// dotnet run bulk_load_container demo customers customer_id data/customers.json 9999
-// dotnet run bulk_load_container demo products  upc         data/product_catalog.json 9999
-// dotnet run bulk_load_container demo stores    store_id    data/stores.json 9999
-// dotnet run bulk_load_container demo sales     sale_id     data/sales1.json 9999
-
-
 // $ gradle loadCustomers
 task loadCustomers(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
@@ -73,7 +67,7 @@ task loadStores(type: JavaExec) {
 task loadSales1(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'load_container', 'demo', 'sales', 'sales_id', 'data/sales1.json'
+    args 'load_container', 'demo', 'sales', 'sale_id', 'data/sales1.json'
 }
 
 // $ gradle loadSales2
