@@ -46,7 +46,7 @@ task displayAppConfig(type: JavaExec) {
 task loadCustomers(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'load_container', 'demo', 'customers', 'customers_id', 'data/customers.json'
+    args 'load_container', 'demo', 'customers', 'customer_id', 'data/customers.json'
 }
 
 // $ gradle loadProducts
