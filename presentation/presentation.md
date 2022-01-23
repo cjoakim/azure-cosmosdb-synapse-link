@@ -13,23 +13,49 @@ integration via **Synapse Link**
 
 - The **CosmosDB account** has the **Azure Synapse Link Feature** enabled
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo** 
+  - This GitHub repo has code that demonstrates both cases
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/introduction
+  - https://docs.microsoft.com/en-us/azure/synapse-analytics/
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link
 
-- A **client program** reads a data file, and **Loads JSON documents to CosmosDB**
-  - See example [DotnetConsoleApp](../DotnetConsoleApp/readme.md) for bulk-loading CosmosDB/SQL
+- A **Client Console Application** reads a data file, and **Loads JSON documents to CosmosDB**
+  - See example [DotnetConsoleApp](../DotnetConsoleApp/readme.md) for bulk-loading **CosmosDB/SQL**
     - NuGet library: Microsoft.Azure.Cosmos 3.20.1
-  - See example [JavaConsoleApp](../JavaConsoleApp/readme.md) for loading CosmosDB/SQL
+  - See example [JavaConsoleApp](../JavaConsoleApp/readme.md) for loading **CosmosDB/Mongo**
     - MavenCentral library: org.mongodb:mongodb-driver-sync:4.1.1
-  - See example [PythonConsoleApp](../PythonConsoleApp/readme.md) for loading CosmosDB/SQL
+  - See example [PythonConsoleApp](../PythonConsoleApp/readme.md) for loading **CosmosDB/Mongo**
     - PyPi library: pymongo 4.0.1
-  - See the [dataset_generation](../dataset_generation/readme.md) directory where "fake" data is generated with Python
-    - products, stores, customers, sales
+  - See the [dataset_generation](../dataset_generation/readme.md) directory
+    - Simulated Products, Stores, Customers, Sales
+    - The simulated data generated with Python and the **faker** library
 
-- The CosmosDB data flows into **Synapse Link** in near realtime
+- The CosmosDB data flows into **Synapse Link Analytical Store in near realtime**
+  - Approximately 2-minutes
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-frequently-asked-questions
+
 - Synapse Link performs **both copy AND data transformation (to columnar format)** operations
-- No other ETL solution is needed (i.e. - Databricks)
+
+- No other **ETL** solution is needed (i.e. - Databricks)
+
+- **Time To Live (TTL)** is enabled on both the transactional and analytical stores
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/sql/time-to-live
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/configure-synapse-link
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#analytical-ttl
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-frequently-asked-questions
+
 - Query the Synapse Link data with **PySpark Notebooks in Azure Synapse Analytics**
+  - https://docs.microsoft.com/en-us/azure/synapse-analytics/synapse-link/how-to-query-analytical-store-spark-3
+  - See the synapse/notebooks/ directory in this repo for examples; *.ipynb files
+
 - The Synapse Link data can also be queried with **SQL pools** (not in demonstration)
-- A PySpark Notebook aggregates the Synapse Link Sales data, and writes it back to CosmosDB
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-power-bi
+
+- A **PySpark Notebook** aggregates the Synapse Link Sales data, and writes it back to CosmosDB
+ - https://docs.microsoft.com/en-us/azure/synapse-analytics/synapse-link/how-to-query-analytical-store-spark-3
+
+- **Desktop Programs** can access **CosmosDB/Mongo**
+  - [Mongo shell, Studio 3T, Matlab, etc](cosmos_mongo_desktop_tools.md)
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
