@@ -1,6 +1,6 @@
 # azure-cosmosdb-synapse-link: presentation
 
-Demonstration of **Azure CosmosDB** with **Azure Synapse Analytics**
+Demonstration of **Azure CosmosDB** and **Azure Synapse Analytics**
 integration via **Synapse Link**
 
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
@@ -10,6 +10,9 @@ integration via **Synapse Link**
 <a name="part1"></a>
 
 ## Architecture of Synapse Link, and this Demonstration App
+
+- **Hybrid Transactional and Analytical Processing (HTAP)**
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
 
 - The **CosmosDB account** has the **Azure Synapse Link Feature** enabled
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo** 
@@ -68,8 +71,6 @@ integration via **Synapse Link**
 - Synapse Link performs **both copy AND data transformation (to columnar format)** operations
 - A **columnar datastore** is more suitable for analytical processing
 - The **inserts, updates, and deletes** to your CosmosDB operational data are automatically synced to analytical store
-- Auto-sync latency is usually within 2 minutes, but may be up to 5 minutes
-- Supported for the **Azure Cosmos DB SQL (Core)** API and **Azure Cosmos DB API for MongoDB** APIs
 
 <p align="center"><img src="img/transactional-analytical-data-stores.png" width="100%"></p>
 
@@ -85,6 +86,7 @@ integration via **Synapse Link**
   - **Azure Synapse Serverless SQL pools** (not provisioned pools)
 - Pricing consists of **storage and IO operations**
 - **Schema constraints**:
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#schema-representation
   - Only the first 1000 document properties
   - Only the first 127 document nested levels
   - No explicit versioning, the schema is inferred
@@ -99,7 +101,7 @@ integration via **Synapse Link**
         - doc1: {"id": "1", "a":123}      <-- "a" is an integer, added to schema
         - doc2: {"id": "2", "a": "str"}   <-- "a" isn't an integer, ignored
   - **Full Fidelity**
-    - Default option for Azure Cosmos DB API for MongoDB accounts
+    - Default option for Azure Cosmos DB API for Mongo accounts
     - None of the above dataname normalization or datatype enforcement
     - Can be optionally be used by the SQL API
       - az cosmosdb create ... --analytical-storage-schema-type "FullFidelity" 
@@ -108,18 +110,19 @@ integration via **Synapse Link**
 
 ---
 
-## Links / References
+## Additional Links & References
 
 - [What is Azure Synapse Link for Azure Cosmos DB?](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link)
 - [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
 - [Azure Synapse Analytics](https://azure.microsoft.com/en-us/services/synapse-analytics/)
 - [Analytical Store Pricing](https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#analytical-store-pricing)
+- [CosmosDB Change Feed](https://docs.microsoft.com/en-us/azure/cosmos-db/change-feed)
 
 ### Synapse
 
-- [Synapse Notebooks](https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-development-using-notebooks?tabs=classical)
+- [Synapse Notebooks](https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-development-using-notebooks)
 - [Synapse Apache Spark](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-spark)
-- [Analyze data in a storage account](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-storage)
+- [Analyze data in a Storage Account](https://docs.microsoft.com/en-us/azure/synapse-analytics/get-started-analyze-storage)
 - [Azure-Samples/Synapse GitHub Repo](https://github.com/Azure-Samples/Synapse)
 
 ### Apache Spark
