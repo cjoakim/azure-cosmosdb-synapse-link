@@ -48,7 +48,6 @@ task loadStores(type: JavaExec) {
     args 'load_container', 'demo', 'stores', 'store_id', 'data/stores.json', '--verbosee'
 }
 
-
 // $ gradle findByPk
 task findByPk(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
