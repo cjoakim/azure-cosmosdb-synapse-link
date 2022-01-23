@@ -13,6 +13,7 @@ integration via **Synapse Link**
 
 - **Hybrid Transactional and Analytical Processing (HTAP)**
   - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
+  - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
 
 - The **CosmosDB account** has the **Azure Synapse Link Feature** enabled
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo** 
@@ -84,7 +85,11 @@ integration via **Synapse Link**
   - **Azure Synapse Spark pools**
     - Spark Streaming not yet supported
   - **Azure Synapse Serverless SQL pools** (not provisioned pools)
-- Pricing consists of **storage and IO operations**
+- **Pricing** consists of **storage and IO operations**
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#analytical-store-pricing
+  - https://azure.microsoft.com/en-us/pricing/details/cosmos-db/
+  - https://azure.microsoft.com/en-us/pricing/details/synapse-analytics/
+
 - **Schema constraints**:
   - https://docs.microsoft.com/en-us/azure/cosmos-db/analytical-store-introduction#schema-representation
   - Only the first 1000 document properties
@@ -93,15 +98,18 @@ integration via **Synapse Link**
   - CosmosDB stores JSON
   - Attribute names are mormalized: {"id": 1, "Name": "fred", "name": "john"}
   - Addtibute names with odd characters: colons, semicolons, parens, =, etc
-- Two Schema Types:
+
+- **Two Schema Types**
+
   - **Well-defined**
-    - Default option for SQL (CORE) API accounts
+    - Default option for CosmosDB/SQL API accounts
     - The schema, with **datatypes**, grows are documents are added
       - Non-conforming attributes are ignored
-        - doc1: {"id": "1", "a":123}      <-- "a" is an integer, added to schema
-        - doc2: {"id": "2", "a": "str"}   <-- "a" isn't an integer, ignored
+        - doc1: {"id": "1", "a": 123}      <-- "a" is an integer, added to schema
+        - doc2: {"id": "2", "a": "str"}    <-- "a" isn't an integer, is ignored
+
   - **Full Fidelity**
-    - Default option for Azure Cosmos DB API for Mongo accounts
+    - Default option for CosmosDB/Mongo API accounts
     - None of the above dataname normalization or datatype enforcement
     - Can be optionally be used by the SQL API
       - az cosmosdb create ... --analytical-storage-schema-type "FullFidelity" 
