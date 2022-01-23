@@ -15,7 +15,7 @@ integration via **Synapse Link**
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo** 
 
 - A **client program** reads a data file, and **Loads JSON documents to CosmosDB**
-  - See example DotnetConsoleApp for bulk-loading CosmosDB/SQL
+  - See example [DotnetConsoleApp](../DotnetConsoleApp/readme.md) for bulk-loading CosmosDB/SQL
     - NuGet library: Microsoft.Azure.Cosmos 3.20.1
   - See example JavaConsoleApp for loading CosmosDB/SQL
     - MavenCentral library: org.mongodb:mongodb-driver-sync:4.1.1
