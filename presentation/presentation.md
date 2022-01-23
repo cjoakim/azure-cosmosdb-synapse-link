@@ -17,9 +17,9 @@ integration via **Synapse Link**
 - A **client program** reads a data file, and **Loads JSON documents to CosmosDB**
   - See example [DotnetConsoleApp](../DotnetConsoleApp/readme.md) for bulk-loading CosmosDB/SQL
     - NuGet library: Microsoft.Azure.Cosmos 3.20.1
-  - See example JavaConsoleApp for loading CosmosDB/SQL
+  - See example [JavaConsoleApp](../JavaConsoleApp/readme.md) for loading CosmosDB/SQL
     - MavenCentral library: org.mongodb:mongodb-driver-sync:4.1.1
-  - See example PythonConsoleApp for loading CosmosDB/SQL
+  - See example [PythonConsoleApp](../PythonConsoleApp/readme.md) for loading CosmosDB/SQL
     - PyPi library: pymongo 4.0.1
   - See the dataset_generation/ directory where "fake" data is generated with Python
     - products, stores, customers, sales
