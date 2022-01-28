@@ -1,0 +1,23 @@
+Jinja2
+# SQLAlchemy
+arrow
+azure-cosmos
+# azure-eventhub
+# azure-mgmt-resource
+azure-storage-blob
+# azure-storage-file-datalake
+docopt
+flake8
+# gremlinpython
+humanize
+m26
+# matplotlib
+# numpy
+openpyxl
+pandas
+# pymongo
+pytest
+pytest-cov
+pytz
+# redis
+requests

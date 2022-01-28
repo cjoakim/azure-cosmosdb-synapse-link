@@ -1,0 +1,35 @@
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ l
+-rw-r--r--   1 cjoakim  staff  33953492 May  7  2021 loader_movie_to_person_edges.csv
+-rw-r--r--@  1 cjoakim  staff   3809979 May  7  2021 loader_movie_vertices.csv
+-rw-r--r--   1 cjoakim  staff  32571001 May  7  2021 loader_person_to_movie_edges.csv
+-rw-r--r--   1 cjoakim  staff   5559544 May  7  2021 loader_person_vertices.csv
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ wc loader_movie_vertices.csv
+   72254  207758 3809979 loader_movie_vertices.csv
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ wc loader_person_vertices.csv
+  133490  273734 5559544 loader_person_vertices.csv
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ wc loader_movie_to_person_edges.csv
+  276552  276552 33953492 loader_movie_to_person_edges.csv
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ wc loader_person_to_movie_edges.csv
+  276552  276552 32571001 loader_person_to_movie_edges.csv
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ head -2 loader_movie_vertices.csv
+Id,Pk,Label,Title,Year:int,Minutes:int
+tt0015724,tt0015724,Movie,Dama de noche,1993,102
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ head -2 loader_person_vertices.csv
+Id,Pk,Label,Name
+nm0844752,nm0844752,Person,Rafael Sánchez Navarro
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ head -2 loader_movie_to_person_edges.csv
+EdgeId,EdgePk,EdgeLabel,FromVertexId,FromVertexPk,FromVertexLabel,ToVertexId,ToVertexPk,ToVertexLabel,epoch:double
+tt0015724-nm0844752,tt0015724-nm0844752,has_person,tt0015724,tt0015724,Movie,nm0844752,nm0844752,Person,1620420702.180296
+
+[~/github/azure-cosmosdb-gremlin-bulkloader-sample-data/imdb]$ head -2 loader_person_to_movie_edges.csv
+EdgeId,EdgePk,EdgeLabel,FromVertexId,FromVertexPk,FromVertexLabel,ToVertexId,ToVertexPk,ToVertexLabel,epoch:double
+nm0844752-tt0015724,nm0844752-tt0015724,is_in,nm0844752,nm0844752,Person,tt0015724,tt0015724,Movie,1620420703.6033332
+
