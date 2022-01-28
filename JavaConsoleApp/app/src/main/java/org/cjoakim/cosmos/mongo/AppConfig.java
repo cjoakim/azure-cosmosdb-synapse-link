@@ -32,14 +32,19 @@ public class AppConfig {
         }
     }
 
-    public static boolean isVerbose() {
+    public static boolean booleanArg(String flagArg) {
 
         for (int i = 0; i < commandLineArgs.length; i++) {
-            if (commandLineArgs[i].equalsIgnoreCase("--verbose")) {
+            if (commandLineArgs[i].equalsIgnoreCase(flagArg)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static boolean isVerbose() {
+
+        return booleanArg("--verbose");
     }
 
     public static String getEnvVar(String name) {

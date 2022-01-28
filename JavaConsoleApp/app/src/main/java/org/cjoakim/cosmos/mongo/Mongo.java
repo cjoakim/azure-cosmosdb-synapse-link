@@ -5,6 +5,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.json.JsonWriterSettings;
 import org.bson.types.ObjectId;
 
 import java.util.HashMap;
@@ -20,12 +21,14 @@ public class Mongo {
     // Instance variables:
     private MongoClient mongoClient;
     private MongoDatabase currentDatabase;
-    MongoCollection<Document> currentCollection;
+    private MongoCollection<Document> currentCollection;
+    private JsonWriterSettings jws;
 
     public Mongo() throws Exception {
 
         super();
         mongoClient = MongoClients.create(AppConfig.getMongoConnectionString());
+        jws = JsonWriterSettings.builder().indent(true).build();
     }
 
     public void setDatabase(String name) {
@@ -48,16 +51,26 @@ public class Mongo {
         return this.currentCollection.insertOne(doc);
     }
 
-    public FindIterable<Document> findByPk(String pk) {
+    public FindIterable<Document> findByPk(String pk, boolean explain) {
 
         Bson pkFilter = Filters.eq("pk", pk);
+
+        if (explain) {
+            Document doc = this.currentCollection.find(pkFilter).explain();
+            System.out.println(doc.toJson(jws));
+        }
         return this.currentCollection.find(pkFilter);
     }
 
-    public Document findByIdPk(String id, String pk) {
+    public Document findByIdPk(String id, String pk, boolean explain) {
 
-        Bson idFilter = Filters.eq("_id", new ObjectId(id));
+        Bson idFilter = Filters.eq("_id", id); //new ObjectId(id));
         Bson pkFilter = Filters.eq("pk", pk);
+
+        if (explain) {
+            Document doc = this.currentCollection.find(Filters.and(idFilter, pkFilter)).explain();
+            System.out.println(doc.toJson(jws));
+        }
         return this.currentCollection.find(Filters.and(idFilter, pkFilter)).first();
     }
 

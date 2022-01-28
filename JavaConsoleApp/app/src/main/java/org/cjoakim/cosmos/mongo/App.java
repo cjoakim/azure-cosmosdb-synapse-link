@@ -57,7 +57,7 @@ public class App {
                         dbname = args[1];
                         cname  = args[2];
                         pk     = args[3];
-                        findByPk(dbname, cname, pk);
+                        findByPk(dbname, cname, pk, AppConfig.booleanArg("--explain"));
                         break;
 
                     case "find_by_id_pk":
@@ -65,7 +65,7 @@ public class App {
                         cname  = args[2];
                         id     = args[3];
                         pk     = args[4];
-                        findByIdPk(dbname, cname, id, pk);
+                        findByIdPk(dbname, cname, id, pk, AppConfig.booleanArg("--explain"));
                         break;
 
                     default:
@@ -110,12 +110,13 @@ public class App {
         }
     }
 
-    private static void findByPk(String dbname, String cname, String pk) throws Exception {
+    private static void findByPk(String dbname, String cname, String pk, boolean explain)
+            throws Exception {
 
         Mongo m = new Mongo();
         m.setDatabase(dbname);
         m.setCollection(cname);
-        FindIterable<Document> documents = m.findByPk(pk);
+        FindIterable<Document> documents = m.findByPk(pk, explain);
         MongoCursor<Document> cursor = documents.iterator();
         while (cursor.hasNext()) {
             log(cursor.next().toJson());
@@ -125,12 +126,13 @@ public class App {
         }
     }
 
-    private static void findByIdPk(String dbname, String cname, String id, String pk) throws Exception {
+    private static void findByIdPk(String dbname, String cname, String id, String pk, boolean explain)
+            throws Exception {
 
         Mongo m = new Mongo();
         m.setDatabase(dbname);
         m.setCollection(cname);
-        Document doc = m.findByIdPk(id, pk);
+        Document doc = m.findByIdPk(id, pk, explain);
         if (doc == null) {
             log("zero documents");
         }
