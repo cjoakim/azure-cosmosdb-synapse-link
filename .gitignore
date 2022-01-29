@@ -11,6 +11,8 @@ PythonConsoleApp/venv/
 dataset_generation/data/products/*.json
 dataset_generation/data/retail/*.json
 
+synapse/graphframes/data/*.csv
+
 **/.gradle/
 **/.idea/
 **/build/
