@@ -42,6 +42,26 @@ public class AppConfig {
         return false;
     }
 
+    public static String flagArg(String flagArg) {
+
+        for (int i = 0; i < commandLineArgs.length; i++) {
+            if (commandLineArgs[i].equalsIgnoreCase(flagArg)) {
+                return commandLineArgs[i + 1];
+            }
+        }
+        return null;
+    }
+
+    public static long longFlagArg(String flagArg, long defaultValue) {
+
+        try {
+            return Long.parseLong(flagArg(flagArg));
+        }
+        catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
     public static boolean isVerbose() {
 
         return booleanArg("--verbose");

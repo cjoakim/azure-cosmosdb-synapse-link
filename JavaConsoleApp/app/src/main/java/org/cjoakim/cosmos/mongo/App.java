@@ -86,6 +86,11 @@ public class App {
     private static void loadContainer(String dbname, String cname, String pkattr, String infile) {
 
         try {
+            boolean stream = AppConfig.booleanArg("--stream");
+            boolean noLoad = AppConfig.booleanArg("--noLoad");
+            long sleepMs = AppConfig.longFlagArg("--sleepMs", 0);  // default to 0 mmms sleep
+            log("stream: " + stream + " sleepMs: " + sleepMs);
+
             Mongo m = new Mongo();
             m.setDatabase(dbname);
             m.setCollection(cname);
@@ -93,6 +98,11 @@ public class App {
             Scanner scanner = new Scanner(new File(infile));
             ObjectMapper mapper = new ObjectMapper();
             while (scanner.hasNextLine()) {
+                if (stream) {
+                    if (sleepMs > 0) {
+                        Thread.sleep(sleepMs);
+                    }
+                }
                 String jsonLine = scanner.nextLine();
                 Map<String, Object> map = mapper.readValue(jsonLine.strip(), Map.class);
                 String pk = map.get(pkattr).toString();
@@ -101,7 +111,9 @@ public class App {
                 //log(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map));
                 Document doc = new Document(map);
                 log(doc.toJson());
-                m.insertDoc(doc);
+                if (!noLoad) {
+                    m.insertDoc(doc);
+                }
             }
             scanner.close();
         }
