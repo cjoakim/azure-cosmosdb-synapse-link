@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ad-hoc script to add a container to the CosmosDB database.
-# Chris Joakim, Microsoft, October 2021
+# Chris Joakim, Microsoft, February 2022
 
 source ./config.sh
 

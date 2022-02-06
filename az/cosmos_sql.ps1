@@ -1,6 +1,6 @@
 
 # Provision an Azure Cosmos/SQL DB account with the az CLI.
-# Chris Joakim, Microsoft, October 2021
+# Chris Joakim, Microsoft, February 2022
 
 # /cosmos_sql.ps1
 

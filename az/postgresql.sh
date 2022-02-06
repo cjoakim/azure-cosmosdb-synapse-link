@@ -2,8 +2,7 @@
 
 # Bash script with AZ CLI to automate the creation/deletion of an
 # Azure PostgreSQL account.
-# Chris Joakim, Microsoft, October 2021
-#
+# Chris Joakim, Microsoft, February 2022
 
 # az login
 

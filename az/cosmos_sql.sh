@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Provision an Azure Cosmos/SQL DB account with the az CLI.
-# Chris Joakim, Microsoft, October 2021
+# Note, the database and containers are not created in this script.
+# Instead, see DotnetConsoleApp/recreate_demo_db.sh in this repo,
+# where the database and containers are created with C# SDK code.
+# Chris Joakim, Microsoft, February 2022
 
 source ./config.sh
 

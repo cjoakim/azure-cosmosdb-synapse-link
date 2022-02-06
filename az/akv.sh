@@ -6,7 +6,7 @@
 # The Synapse workspace managed service identity will need to be granted GET Secrets permission to the Azure Key Vault. 
 # See https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-secure-credentials-with-tokenlibrary?pivots=programming-language-python
 #
-# Chris Joakim, Microsoft, October 2021
+# Chris Joakim, Microsoft, February 2022
 
 source ./config.sh
 
@@ -24,6 +24,8 @@ create() {
         --subscription $AZURE_SUBSCRIPTION_ID \
         > tmp/akv_rg_create.json
 
+    sleep 20
+    
     echo 'creating AKV acct: '$akv_name
     az keyvault create \
         --name $akv_name \
@@ -85,13 +87,13 @@ info() {
     az keyvault secret show \
         --name  AZURE-STORAGE-ACCOUNT \
         --vault-name $akv_name \
-        --subscription $subscription
+        --subscription $AZURE_SUBSCRIPTION_ID
         > tmp/akv_secret_show_AZURE-STORAGE-ACCOUNT.json
 }
 
 pause() {
-    echo 'pause/sleep 60...'
-    sleep 60
+    echo 'pause/sleep 20...'
+    sleep 20
 }
 
 display_usage() {

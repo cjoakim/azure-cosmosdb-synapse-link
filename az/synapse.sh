@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Provision Azure Synapse Workspace, and related services, with the az CLI.
-# Chris Joakim, Microsoft, August 2021
+# Chris Joakim, Microsoft, February 2022
 
 source ./config.sh
 

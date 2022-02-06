@@ -2,7 +2,7 @@
 
 # Interact with a Spark cluster in Azure Synapse.
 # See https://docs.microsoft.com/en-us/cli/azure/synapse/spark/session
-# Chris Joakim, Microsoft, August 2021
+# Chris Joakim, Microsoft, February 2022
 
 source ./config.sh
 

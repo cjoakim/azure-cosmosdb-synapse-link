@@ -2,7 +2,7 @@
 
 # Bash script with AZ CLI to automate the creation/deletion of my
 # Azure Cosmos/Mongo DB.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft, February 2022
 #
 # See https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 # See https://docs.microsoft.com/en-us/azure/cosmos-db/scripts/cli/mongodb/create
@@ -36,8 +36,10 @@ create() {
         --enable-multiple-write-locations false \
         > tmp/cosmos_mongo_acct_create.json
 
-    create_db   
-    #create_collections
+    sleep 20 
+    create_db 
+    sleep 20 
+    create_collections
 }
 
 recreate_all() {
