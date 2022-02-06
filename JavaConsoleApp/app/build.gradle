@@ -74,7 +74,14 @@ task loadSales1(type: JavaExec) {
 task loadSales2(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'load_container', 'demo', 'sales', 'sale_id', 'data/sales2.json'
+    args 'load_container', 'demo', 'sales', 'sale_id', 'data/sales2.json', '--stream', '--sleepMs', '500'
+}
+
+// $ gradle previewSales2
+task previewSales2(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.cjoakim.cosmos.mongo.App'
+    args 'load_container', 'demo', 'sales', 'sale_id', 'data/sales2.json', '--stream', '--sleepMs', '500', '--noLoad'
 }
 
 // $ gradle findByPk
@@ -82,6 +89,7 @@ task findByPk(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
     args 'find_by_pk', 'demo', 'stores', '2', '--explainnn'
+}
 
 // $ gradle findByIdPk
 task findByIdPk(type: JavaExec) {
@@ -102,4 +110,3 @@ tasks.register('uberJar', Jar) {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
 }
-
