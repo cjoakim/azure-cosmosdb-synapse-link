@@ -2,6 +2,9 @@
 Usage:
     python main.py ipynb_to_md <infile>
     python main.py ipynb_to_md cosmos_mongo_sales_processing.ipynb
+    -
+    python main.py notebooks_to_md <infile>
+    python main.py notebooks_to_md tmp/notebooks_list.txt
 """
 
 __author__  = 'Chris Joakim'
@@ -52,6 +55,11 @@ def ipynb_to_md(basename):
 
     FS.write_lines(md_outfile, md_lines)
 
+def notebooks_to_md(listfile):
+    lines = FS.read_lines(listfile)
+    for line in lines:
+        basename = line.strip().split('/')[-1]
+        ipynb_to_md(basename)
 
 def write(outfile, s, verbose=True):
     with open(outfile, 'w') as f:
@@ -73,7 +81,9 @@ if __name__ == "__main__":
         if func == 'ipynb_to_md':
             basename = sys.argv[2]
             ipynb_to_md(basename)
-
+        elif func == 'notebooks_to_md':
+            listfile = sys.argv[2]
+            notebooks_to_md(listfile)
         else:
             print_options('Error: invalid function: {}'.format(func))
     else:
