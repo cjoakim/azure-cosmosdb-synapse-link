@@ -1,7 +1,7 @@
 #!/bin/bash
 
 dbname="demo"
-db_rus="10000"
+db_rus="4000"
 
 echo '==='
 echo 'deleting database ...'

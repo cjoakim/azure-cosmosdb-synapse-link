@@ -13,7 +13,7 @@ export subscription=$AZURE_SUBSCRIPTION_ID
 #
 export akv_region=$primary_region
 export akv_rg=$primary_rg
-export akv_name="cjoakimslkv"
+export akv_name="cjoakimslkv2"
 export akv_sku="standard"
 #
 export la_wsp_region=$primary_region
