@@ -2,7 +2,7 @@
 
 # Bulk-load CosmosDB/SQL database with the generated "ecommerce retail" dataset
 # consisting of customers, products, sales, and line items.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft, February 2022
 
 mkdir -p tmp/
 date > tmp/load_times.txt
@@ -25,8 +25,10 @@ dotnet run count_documents demo sales
 
 echo 'done'
 
-# Output with 2022/01/17 dataset:
+# Output with 2022/02/06 dataset:
+# Sun Feb  6 11:50:49 EST 2022
+# Sun Feb  6 11:56:05 EST 2022
 # CountDocuments demo customers -> 10000
-# CountDocuments demo products -> 22918
+# CountDocuments demo products -> 21167
 # CountDocuments demo stores -> 100
-# CountDocuments demo sales -> 100738
+# CountDocuments demo sales -> 110025
