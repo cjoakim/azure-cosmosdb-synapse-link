@@ -8,10 +8,10 @@ JavaConsoleApp/app/data/
 PythonConsoleApp/data/
 PythonConsoleApp/venv/
 
-dataset_generation/data/products/*.json
-dataset_generation/data/retail/*.json
+DatasetGeneration/data/products/*.json
+DatasetGeneration/data/retail/*.json
 
-synapse/graphframes/data/*.csv
+Synapse/graphframes/data/*.csv
 
 **/.gradle/
 **/.idea/
