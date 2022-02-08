@@ -11,6 +11,7 @@ PythonConsoleApp/venv/
 DatasetGeneration/data/products/*.json
 DatasetGeneration/data/retail/*.json
 
+Synapse/conf/spark_conf.txt
 Synapse/graphframes/data/*.csv
 
 **/.gradle/
