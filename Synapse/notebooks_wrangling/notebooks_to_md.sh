@@ -2,7 +2,7 @@
 
 # Parse the *.ipynb files in the ../notebooks/ directory into
 # more readable markdown content.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 listfile="tmp/notebooks_list.txt"
 ls ../notebooks/*.ipynb > $listfile

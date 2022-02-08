@@ -1,5 +1,5 @@
 -- DDL to create the orders table in the Azure PostgreSQL demo database.
--- Chris Joakim, Microsoft, October 2021
+-- Chris Joakim, Microsoft
 
 -- orders
 -- pk|doctype|order_id|customer_id|order_date|item_count|version|order_total|delivery_count

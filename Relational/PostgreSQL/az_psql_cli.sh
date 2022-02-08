@@ -2,7 +2,7 @@
 
 # Bash script to connect to an Azure PostgreSQL server with the psql
 # client program using your AZURE_CSL_PG_xxx environment variables.
-# Chris Joakim, Microsoft, October 2021
+# Chris Joakim, Microsoft
 
 pw=`printenv AZURE_CSL_PG_PASS`
 echo $pw | pbcopy

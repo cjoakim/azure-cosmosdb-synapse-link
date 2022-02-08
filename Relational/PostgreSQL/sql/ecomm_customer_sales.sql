@@ -1,6 +1,6 @@
 -- DDL to create the customer_sales table in the Azure PostgreSQL
 -- demo database.
--- Chris Joakim, Microsoft, February 2022
+-- Chris Joakim, Microsoft
 
 -- The schema for the source DataFrame in Azure Synapse Spark looks like this:
 -- root

@@ -1,5 +1,5 @@
 -- DDL to create the package_and_version table in the Azure PostgreSQL demo database.
--- Chris Joakim, Microsoft, February 2021
+-- Chris Joakim, Microsoft
 
 drop table packages;
 

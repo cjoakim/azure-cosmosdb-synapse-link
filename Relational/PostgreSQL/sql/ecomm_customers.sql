@@ -1,5 +1,5 @@
 -- DDL to create the customers table in the Azure PostgreSQL demo database.
--- Chris Joakim, Microsoft, October 2021
+-- Chris Joakim, Microsoft
 
 -- customers
 -- pk|customer_id|name|first|last|street|city|state|zip
