@@ -2,9 +2,9 @@
 
 # Copy the generated retail dataset zip file to the Xxx/data/ directories
 # and unzip it there.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft, February 2022
 
-zipfile="dataset_generation/data/retail/retail_dataset.zip"
+zipfile="DatasetGeneration/data/retail/retail_dataset.zip"
 basename="retail_dataset.zip"
 
 echo '==='
