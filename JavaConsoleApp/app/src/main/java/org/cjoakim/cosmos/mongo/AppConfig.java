@@ -5,7 +5,7 @@ package org.cjoakim.cosmos.mongo;
  * such as environment variables, command-line arguments, and computed filesystem
  * locations.
  *
- * Chris Joakim, Microsoft, January 2022
+ * Chris Joakim, Microsoft
  */
 
 public class AppConfig {

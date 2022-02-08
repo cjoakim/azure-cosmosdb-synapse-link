@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Execute the SQL queries in file sql/queries.txt with DotNet SDK.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 mkdir -p out
 rm out/q*.json

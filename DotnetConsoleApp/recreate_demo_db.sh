@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Delete and recreate the demo database and its containers.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 dbname="demo"
 db_rus="4000"

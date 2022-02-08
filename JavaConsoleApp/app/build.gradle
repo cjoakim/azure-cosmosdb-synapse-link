@@ -1,7 +1,7 @@
 /**
  * Gradle application configuration file.
  * Gradle is a simpler alternative to Apache Maven.
- * Chris Joakim, Microsoft, January 2022
+ * Chris Joakim, Microsoft
  */
 
 plugins {

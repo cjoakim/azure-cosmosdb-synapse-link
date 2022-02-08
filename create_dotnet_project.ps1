@@ -1,6 +1,6 @@
 
 # Use the dotnet CLI to bootstrap a dotnet project.
-# Chris Joakim, Microsoft, August 2021
+# Chris Joakim, Microsoft
 
 app_name="DotnetConsoleApp"
 

@@ -1,5 +1,5 @@
 # Delete the Azure Resource Group associated with this project.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 echo "deleting resource group: "$Env:cosmos_sql_rg
 

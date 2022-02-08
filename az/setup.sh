@@ -2,7 +2,7 @@
 
 # Execute this script first to setup your az installation.
 # See https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 source ./config.sh
 

@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * This class implements CosmosDB/Mongo database operations
  *
- * Chris Joakim, Microsoft, January 2022
+ * Chris Joakim, Microsoft
  */
 
 public class Mongo {

@@ -1,7 +1,7 @@
 // Instances of this class represent a generic and minimal document in CosmosDB,
 // containing 'id' and 'pk' attributes.
 //
-// Chris Joakim, Microsoft, August 2021
+// Chris Joakim, Microsoft
 
 namespace CosmosSL {
     

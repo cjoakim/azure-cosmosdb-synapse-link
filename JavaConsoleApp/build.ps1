@@ -1,6 +1,6 @@
 
 # Compile the application with the Gradle build tool.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft
 
 ./gradlew app:build
 

@@ -2,7 +2,7 @@
 
 # Copy the generated retail dataset zip file to the Xxx/data/ directories
 # and unzip it there.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 zipfile="DatasetGeneration/data/retail/retail_dataset.zip"
 basename="retail_dataset.zip"

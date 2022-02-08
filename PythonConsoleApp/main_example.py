@@ -5,7 +5,7 @@ Usage:
 
 __author__  = 'Chris Joakim'
 __license__ = "MIT"
-__version__ = "November 2021"
+__version__ = "February 2022"
 
 import json
 import os

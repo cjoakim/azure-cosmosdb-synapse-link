@@ -3,7 +3,7 @@
 # Generate simulated and correlated "ecommerce retail" datasets 
 # consisting of products, stores, customers, orders, and line items.
 # These are for loading into CosmosDB with the DotnetConsoleApp.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 mkdir -p data/retail
 rm data/retail/*.*

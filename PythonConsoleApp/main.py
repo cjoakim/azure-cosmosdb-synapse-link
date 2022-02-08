@@ -12,7 +12,7 @@ Usage:
 __author__  = 'Chris Joakim'
 __email__   = "chjoakim@microsoft.com"
 __license__ = "MIT"
-__version__ = "January 2022"
+__version__ = "February 2022"
 
 import json
 import os

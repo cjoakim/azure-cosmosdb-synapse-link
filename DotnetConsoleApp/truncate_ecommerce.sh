@@ -2,7 +2,7 @@
 
 # Delete all documents from the five containers.
 # Display document counts both before and after the deletions.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 
 echo 'count_documents before ...'

@@ -1,7 +1,7 @@
 # PowerShell script to set environment variables for provisioning.
 # NOTE: Please do a change-all on this script to change "cjoakim" to YOUR ID!
 #
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 $Env:cosmos_sql_region="eastus"
 $Env:cosmos_sql_rg="cjoakimsl"               # sl = Cosmos-Synapse-Link

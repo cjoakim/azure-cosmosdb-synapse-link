@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create a zip file creating the resulting generated dataset.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft
 
 echo 'creating dataset.zip ...'
 cd data/retail

@@ -2,7 +2,7 @@
 
 # Bulk-load CosmosDB/SQL database with the generated "ecommerce retail" dataset
 # consisting of customers, products, sales, and line items.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 mkdir -p tmp/
 date > tmp/load_times.txt

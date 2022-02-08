@@ -2,7 +2,7 @@
 
 # Slice the generated sales.json into two files - one with sales prior
 # to 2022-01-26, and one with sales on or after 2022-01-26.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft
 
 infile="data/products/sales.json"
 file1="data/products/sales1.json"

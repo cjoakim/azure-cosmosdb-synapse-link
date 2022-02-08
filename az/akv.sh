@@ -6,7 +6,7 @@
 # The Synapse workspace managed service identity will need to be granted GET Secrets permission to the Azure Key Vault. 
 # See https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-secure-credentials-with-tokenlibrary?pivots=programming-language-python
 #
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 source ./config.sh
 

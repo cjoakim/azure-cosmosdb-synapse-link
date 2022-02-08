@@ -2,7 +2,7 @@
 
 # Bash script with AZ CLI to automate the creation/deletion of a
 # Azure Log Analytics Workspace.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 #
 # See https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 

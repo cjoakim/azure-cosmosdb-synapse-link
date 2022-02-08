@@ -4,7 +4,7 @@
 # Note, the database and containers are not created in this script.
 # Instead, see DotnetConsoleApp/recreate_demo_db.sh in this repo,
 # where the database and containers are created with C# SDK code.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 source ./config.sh
 

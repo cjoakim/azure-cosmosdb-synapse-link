@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Compile and package the application with the Gradle build tool.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft
 
 echo 'clean ...'
 ./gradlew clean --quiet

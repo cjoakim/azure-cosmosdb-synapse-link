@@ -1,5 +1,5 @@
 # Provision Azure Synapse Workspace, and related services, with the az CLI.
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 echo 'create rg ...'
 az group create `

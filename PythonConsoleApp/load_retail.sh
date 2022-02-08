@@ -2,7 +2,7 @@
 
 # Load the CosmosDB/Mongo database with the generated "ecommerce retail" dataset
 # consisting of customers, products, sales, and line items.
-# Chris Joakim, Microsoft, January 2022
+# Chris Joakim, Microsoft
 
 source venv/bin/activate
 python --version

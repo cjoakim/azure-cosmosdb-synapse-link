@@ -5,7 +5,7 @@
 # NOTE: Please do a change-all edit on this script to change "cjoakim" 
 # to YOUR ID!!!
 #
-# Chris Joakim, Microsoft, February 2022
+# Chris Joakim, Microsoft
 
 export primary_region="eastus"
 export primary_rg="cjoakimsl"

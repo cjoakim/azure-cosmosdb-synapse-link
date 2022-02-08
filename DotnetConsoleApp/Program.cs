@@ -1,4 +1,4 @@
-﻿// Chris Joakim, Microsoft, January 2022
+﻿// Chris Joakim, Microsoft
 
 namespace CosmosSL {
     
