@@ -1,0 +1,6 @@
+spark.azurepg.jdbc.connstring jdbc:postgresql://myserver.postgres.database.azure.com:5432/demo?user=user@myserver&password=xxxYYYzzz&sslmode=require
+spark.azurepg.jdbc.driver     org.postgresql.Driver
+spark.azurepg.jdbc.server     myserver
+spark.azurepg.jdbc.database   demo
+spark.azurepg.jdbc.user       user@myserver
+spark.azurepg.jdbc.pass       xxxYYYzzz
