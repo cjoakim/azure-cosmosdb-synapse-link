@@ -11,8 +11,8 @@ Setup notes for Azure Synapse, the Spark Pool, and Azure PostgreSQL.
 See https://docs.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-azure-portal-add-libraries regarding first adding additional
 packages/libraries to your Synapse Workspace, then to your Spark Pools.
 
-These jar files are available on 
-[Maven Central](https://search.maven.org/), but are also in this repo in the
+The three jar files in the screen shot below are available on 
+[Maven Central](https://search.maven.org/), but they are also in this repo in the
 Synapse/libraries/ directory.
 
 In the example below, I'm adding three additional packages/libraries
