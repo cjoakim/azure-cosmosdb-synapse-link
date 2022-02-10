@@ -12,11 +12,29 @@ Setup notes for Azure Synapse, the Spark Pool, and Azure PostgreSQL.
     <img src="img/spark-workspace-packages.png" width="90%">
 </p>
 
+---
+
 ### Spark Pool Packages 
+
+Upload a Python **requirements.txt** file for **PySpark**, if necessary.
+For example, this file can look like the following:
+
+```
+graphframes==0.6
+```
+
+Also add the necessary **Workspace Package** libraries (jar files) to your
+Spark Pool as necessary.  These jar files are available on 
+[Maven Central](https://search.maven.org/), but are also in this repo in the
+Synapse/libraries/ directory.
+
+File **postgresql-42.3.2.jar** is the JDBC Driver for Azure PostgreSQL.
 
 <p align="center">
     <img src="img/spark-pool-packages.png" width="90%">
 </p>
+
+---
 
 ### Spark Pool Configuration
 
