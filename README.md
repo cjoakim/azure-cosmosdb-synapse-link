@@ -6,7 +6,8 @@ integration via **Synapse Link**
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
 - [Presentation](presentation/presentation.md)
-- [Provisioning and Setup](presentation/setup.md)
+- [Provisioning and Setup Client Apps](presentation/setup_client.md)
+- [Setup Synapse, Spark Pools, Libraries, PostgreSQL](presentation/setup_synapse.md)
 
 ---
 

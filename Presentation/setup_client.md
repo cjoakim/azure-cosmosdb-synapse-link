@@ -1,4 +1,4 @@
-# azure-cosmosdb-synapse-link: Demonstration Setup
+# Provisioning and Setup Client Apps
 
 ## Laptop/Workstation/VM Requirements
 
