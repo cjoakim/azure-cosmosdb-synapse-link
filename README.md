@@ -5,13 +5,13 @@ integration via **Synapse Link**
 
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
-- [Presentation](presentation/presentation.md)
-- [Provisioning and Setup Client Apps](presentation/setup_client.md)
-- [Setup Synapse, Spark Pools, Libraries, PostgreSQL](presentation/setup_synapse.md)
+- [Presentation](Presentation/presentation.md)
+- [Provisioning and Setup Client Apps](Presentation/setup_client.md)
+- [Setup Synapse, Spark Pools, Libraries, PostgreSQL](Presentation/setup_synapse.md)
 
 ---
 
 <p align="center">
-    <img src="presentation/img/synapse-analytics-cosmos-db-architecture.png" width="100%">
+    <img src="Presentation/img/synapse-analytics-cosmos-db-architecture.png" width="100%">
 </p>
 
