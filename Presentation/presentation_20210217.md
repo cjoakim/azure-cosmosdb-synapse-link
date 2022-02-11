@@ -14,15 +14,27 @@
   - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
 - Configure and utilize **Azure Synapse Link** (SL)
   - HTAP - Hybrid Transaction Analytical Processing
-- **Spark Notebook** in Azure Synapse to aggregate the SL sales data
+- **Spark Notebook**
+  - Read the Azure Synapse sales data
+  - Aggregate the sales by customer
+  - Write the aggregated totals to Azure Blob Storage
+  - Write the aggregated totals to Azure PostgreSQL with JDBC
+- **Azure Data Studio**
+  - Query the Azure Azure PostgreSQL database
+  - Reporting, PowerBI
 
 ## Themes
 
 - MongoDB
 - Synapse Link
 - HTAP
-- Open-Source and Standard tooling - Python, Java, 3T, Spark 
+- Open-Source and Standard tooling - Python, Java, 3T, Spark
+- Free Microsoft Tooling - Azure Data Studio, Azure Storage Explorer
 - bash shell
+
+---
+
+## Architecture
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
