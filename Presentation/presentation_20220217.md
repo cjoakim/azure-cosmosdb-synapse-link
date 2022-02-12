@@ -9,7 +9,7 @@
 ## Outline of Presentation
 
 - **Architecture**
-- **Dataset Generation with Python and Faker**
+- **Dataset Generation with Python and Faker, Document Design**
 - **Load a CosmosDB/Mongo API database with Java**
 - **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
 - **Configure and utilize Azure Synapse Link (SL)**
@@ -29,6 +29,11 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
 - **Polyglot programming** - python, java, spark, scala, etc
 - **Polyglot architecture** - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
 
+### Note
+
+- Not covered today: Provisioning the Azure resources, see the az directory
+- Not covered today: CosmosDB/SQL and Synapse Link, also in this repo
+
 ---
 
 ## Presentation
@@ -41,7 +46,7 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
 
 ---
 
-- **Dataset Generation with Python and Faker**
+- **Dataset Generation with Python and Faker, Document Design**
   - https://faker.readthedocs.io/en/master/index.html
   - DatasetGeneration/retail_data_gen.py, line 84 create_stores()
   - sales, line items
@@ -65,8 +70,9 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
 
 - **Configure and utilize Azure Synapse Link (SL)**
   - HTAP - Hybrid Transaction Analytical Processing
-  - Beautiful integration of the Azure PaaS services
-  - "Painless ETL"
+  - Beautiful integration of the Azure PaaS services - "Painless ETL"
+  - See CosmosDB Account in Azure Portal
+  - See Linked Services in Synapse in Azure Portal
   - Schema Types - Well Defined (CosmosDB/SQL), Full Fidelity (CosmosDB/Mongo)
   - [Synapse Setup](setup_synapse.md) 
 
