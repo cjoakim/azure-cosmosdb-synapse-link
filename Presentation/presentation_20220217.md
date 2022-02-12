@@ -8,6 +8,7 @@
 
 ## Outline of Presentation
 
+- **Architecture**
 - **Dataset Generation with Python and Faker**
 - **Load a CosmosDB/Mongo API database with Java**
 - **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
@@ -17,26 +18,26 @@
 
 ## Themes
 
-- MongoDB
-- Synapse Link
-- HTAP
+- MongoDB and Azure CosmosDB
+- Azure Synapse Link
+- HTAP - Hybrid Transaction Analytical Processing
 - Open-Source and Standard tooling - Python, Java, 3T, Spark
-- Free Microsoft Tooling - Azure Data Studio, Azure Storage Explorer
+- Free Microsoft Tooling - Azure Data Studio, Azure Storage Explorer, VSC
 - bash shell - for linux, macOS, Windows WSL (Windows Subsystem for Linux)
 - Polyglot programming - python, java, spark, scala, etc
 - Polyglot architecture - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
 
 ---
 
-## Architecture
+## Presentation
+
+- **Architecture**
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
 </p>
 
 ---
-
-## Presentation
 
 - **Dataset Generation with Python and Faker**
   - https://faker.readthedocs.io/en/master/index.html
