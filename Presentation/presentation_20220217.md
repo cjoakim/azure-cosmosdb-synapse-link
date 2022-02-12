@@ -1,6 +1,7 @@
 # Cosmos DB Live TV, 2022/02/17
 
 > Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB
+
 > Mark Brown, Microsoft, Principal Program Manager, CosmosDB
 
 ## Outline of Presentation
