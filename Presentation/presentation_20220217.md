@@ -9,7 +9,7 @@
 - **Dataset Generation with Python and Faker**
 - **Load a CosmosDB/Mongo API database with Java**
 - **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
-- **Configure and utilize **Azure Synapse Link (SL)**
+- **Configure and utilize Azure Synapse Link (SL)**
 - **Azure Synapse Spark Notebook - Aggregations**  
 - **Azure Data Studio with PostgreSQL**
 
