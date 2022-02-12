@@ -16,16 +16,18 @@
 - **Azure Synapse Spark Notebook - Aggregations**  
 - **Azure Data Studio with PostgreSQL**
 
+See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentation/presentation_20220217.md
+
 ## Themes
 
-- MongoDB and Azure CosmosDB
-- Azure Synapse Link
-- HTAP - Hybrid Transaction Analytical Processing
-- Open-Source and Standard tooling - Python, Java, 3T, Spark
-- Free Microsoft Tooling - Azure Data Studio, Azure Storage Explorer, VSC
+- **MongoDB and Azure CosmosDB/Mongo API**
+- **Azure Synapse Link**
+- **HTAP** - Hybrid Transaction Analytical Processing
+- **Open-Source and Standard tooling** - Python, Java, 3T, Spark
+- **Free Microsoft Tooling** - Azure Data Studio, Azure Storage Explorer, VSC
 - bash shell - for linux, macOS, Windows WSL (Windows Subsystem for Linux)
-- Polyglot programming - python, java, spark, scala, etc
-- Polyglot architecture - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
+- **Polyglot programming** - python, java, spark, scala, etc
+- **Polyglot architecture** - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
 
 ---
 
