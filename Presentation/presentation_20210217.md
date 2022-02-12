@@ -5,20 +5,28 @@
 
 ## Outline of Presentation
 
-- Dataset Generation with **Python and Faker**
+- **Dataset Generation with Python and Faker**
+  - https://faker.readthedocs.io/en/master/index.html
   - sales, line items
-- Load a **CosmosDB/Mongo** API database with **Java**
+  - ./retail_data_gen.sh
+  - ./display_sale.sh
+
+- **Load a CosmosDB/Mongo API database with Java**
   - document and container design - pk, doctype
   - partition key joins
-- Query that CosmosDB/Mongo data with **Studio 3T** 
+
+- **Query that CosmosDB/Mongo data with Studio 3T** 
   - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
-- Configure and utilize **Azure Synapse Link** (SL)
+
+- **Configure and utilize **Azure Synapse Link (SL)**
   - HTAP - Hybrid Transaction Analytical Processing
+
 - **Spark Notebook**
   - Read the Azure Synapse sales data
   - Aggregate the sales by customer
   - Write the aggregated totals to Azure Blob Storage
   - Write the aggregated totals to Azure PostgreSQL with JDBC
+  
 - **Azure Data Studio**
   - Query the Azure Azure PostgreSQL database
   - Reporting, PowerBI

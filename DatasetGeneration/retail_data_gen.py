@@ -142,8 +142,8 @@ def create_sales_data(start_date, end_date, avg_count_day, avg_item_count):
             day_count = day_count + 1
             # {'seq': 756, 'date': '2022-01-26', 'daynum': 3, 'dow': 'Wed'}
             day_sales_count = randomize_count(avg_count_day, 0.4)
-            print('generating {} sales for {} {}'.format(
-                day_sales_count, day['date'], day['dow']))
+            # print('generating {} sales for {} {}'.format(
+            #     day_sales_count, day['date'], day['dow']))
 
             for sale_idx in range(day_sales_count):
                 sale_obj = dict()

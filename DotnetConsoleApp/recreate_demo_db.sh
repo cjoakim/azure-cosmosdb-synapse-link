@@ -3,7 +3,7 @@
 # Delete and recreate the demo database and its containers.
 # Chris Joakim, Microsoft
 
-dbname="demo"
+dbname="demo2"
 db_rus="4000"
 
 echo '==='
