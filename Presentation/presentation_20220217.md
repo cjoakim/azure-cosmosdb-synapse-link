@@ -7,39 +7,11 @@
 ## Outline of Presentation
 
 - **Dataset Generation with Python and Faker**
-  - https://faker.readthedocs.io/en/master/index.html
-  - DatasetGeneration/retail_data_gen.py, line 84 create_stores()
-  - sales, line items
-  - ./retail_data_gen.sh
-  - ./display_sale.sh
-  - document and container design - pk, doctype, schemaless
-  - partition key joins
-
 - **Load a CosmosDB/Mongo API database with Java**
-  - gradle loadSales2
-  - see JavaConsoleApp/app/build.gradle
-  - org.mongodb:mongodb-driver-sync:4.4.1 on mavenCentral()
-  - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
-  - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
-
-- **Query that CosmosDB/Mongo data with Studio 3T and Java** 
-  - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
-  - db.getCollection("sales").find({})
-  - db.getCollection("sales").find({pk:"1"})
-  - gradle findSaleByPk
-
+- **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
 - **Configure and utilize **Azure Synapse Link (SL)**
-  - HTAP - Hybrid Transaction Analytical Processing
-
-- **Spark Notebook**
-  - Read the Azure Synapse sales data
-  - Aggregate the sales by customer
-  - Write the aggregated totals to Azure Blob Storage
-  - Write the aggregated totals to Azure PostgreSQL with JDBC
-  
-- **Azure Data Studio**
-  - Query the Azure Azure PostgreSQL database
-  - Reporting, PowerBI
+- **Azure Synapse Spark Notebook - Aggregations**  
+- **Azure Data Studio with PostgreSQL**
 
 ## Themes
 
@@ -59,6 +31,46 @@
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
 </p>
+
+
+## Presentation
+
+- **Dataset Generation with Python and Faker**
+  - https://faker.readthedocs.io/en/master/index.html
+  - DatasetGeneration/retail_data_gen.py, line 84 create_stores()
+  - sales, line items
+  - ./retail_data_gen.sh
+  - ./display_sale.sh
+  - document and container design - pk, doctype, schemaless
+  - partition key joins
+
+- **Load a CosmosDB/Mongo API database with Java**
+  - gradle loadSales2
+  - see JavaConsoleApp/app/build.gradle
+  - org.mongodb:mongodb-driver-sync:4.4.1 on mavenCentral()
+  - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
+  - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
+
+- **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
+  - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
+  - db.getCollection("sales").find({})
+  - db.getCollection("sales").find({pk:"1"})
+  - gradle findSaleByPk
+
+- **Configure and utilize **Azure Synapse Link (SL)**
+  - HTAP - Hybrid Transaction Analytical Processing
+  - Beautiful integration of the Azure PaaS services
+  - "Painless ETL"
+
+- **Azure Synapse Spark Notebook - Aggregations** 
+  - Read the Azure Synapse sales data
+  - Aggregate the sales by customer
+  - Write the aggregated totals to Azure Blob Storage
+  - Write the aggregated totals to Azure PostgreSQL with JDBC
+  
+- **Azure Data Studio with PostgreSQL**
+  - Query the Azure Azure PostgreSQL database
+  - Reporting, PowerBI
 
 ## GitHub Repository Map
 
