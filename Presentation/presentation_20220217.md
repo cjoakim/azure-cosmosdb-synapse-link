@@ -31,8 +31,9 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
 
 ### Note
 
-- Not covered today: Provisioning the Azure resources, see the az directory
-- Not covered today: CosmosDB/SQL and Synapse Link, also in this repo
+- Not covered today
+  - Provisioning the Azure resources, see the az directory
+  - CosmosDB/SQL and Synapse Link, also in this repo
 
 ---
 
