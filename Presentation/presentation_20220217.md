@@ -23,7 +23,9 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
 - **MongoDB and Azure CosmosDB/Mongo API**
 - **Azure Synapse Link**
 - **HTAP** - Hybrid Transaction Analytical Processing
-- **Open-Source and Standard tooling** - Python, Java, 3T, Spark
+- **Open-Source and Standard tooling**
+  - Python, Java, 3T, Spark
+  - Also mongoexport / momgoexport, mongodump / mongorestore, Matlab
 - **Free Microsoft Tooling** - Azure Data Studio, Azure Storage Explorer, VSC
 - bash shell - for linux, macOS, Windows WSL (Windows Subsystem for Linux)
 - **Polyglot programming** - python, java, spark, scala, etc
