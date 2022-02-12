@@ -8,16 +8,25 @@
 
 - **Dataset Generation with Python and Faker**
   - https://faker.readthedocs.io/en/master/index.html
+  - DatasetGeneration/retail_data_gen.py, line 84 create_stores()
   - sales, line items
   - ./retail_data_gen.sh
   - ./display_sale.sh
-
-- **Load a CosmosDB/Mongo API database with Java**
-  - document and container design - pk, doctype
+  - document and container design - pk, doctype, schemaless
   - partition key joins
 
-- **Query that CosmosDB/Mongo data with Studio 3T** 
+- **Load a CosmosDB/Mongo API database with Java**
+  - gradle loadSales2
+  - see JavaConsoleApp/app/build.gradle
+  - org.mongodb:mongodb-driver-sync:4.4.1 on mavenCentral()
+  - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
+  - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
+
+- **Query that CosmosDB/Mongo data with Studio 3T and Java** 
   - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
+  - db.getCollection("sales").find({})
+  - db.getCollection("sales").find({pk:"1"})
+  - gradle findSaleByPk
 
 - **Configure and utilize **Azure Synapse Link (SL)**
   - HTAP - Hybrid Transaction Analytical Processing
@@ -39,7 +48,9 @@
 - HTAP
 - Open-Source and Standard tooling - Python, Java, 3T, Spark
 - Free Microsoft Tooling - Azure Data Studio, Azure Storage Explorer
-- bash shell
+- bash shell - linux, macOS, Windows WSL (Windows Subsystem for Linux)
+- Polyglot programming - python, java, spark, scala, etc
+- Polyglot architecture - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
 
 ---
 

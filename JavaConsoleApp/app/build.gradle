@@ -84,18 +84,18 @@ task previewSales2(type: JavaExec) {
     args 'load_container', 'demo2', 'sales', 'sale_id', 'data/sales2.json', '--stream', '--sleepMs', '500', '--noLoad'
 }
 
-// $ gradle findByPk
-task findByPk(type: JavaExec) {
+// $ gradle findSaleByPk
+task findSaleByPk(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'find_by_pk', 'demo2', 'stores', '2', '--explainnn'
+    args 'find_by_pk', 'demo2', 'sales', '2', '--explainnn'
 }
 
 // $ gradle findByIdPk
 task findByIdPk(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'find_by_id_pk', 'demo2', 'stores', '61eda4d890f84f521abae769', '2', '--explainnn'
+    args 'find_by_id_pk', 'demo2', 'sales', '61eda4d890f84f521abae769', '2', '--explainnn'
 }
 
 tasks.register('uberJar', Jar) {
