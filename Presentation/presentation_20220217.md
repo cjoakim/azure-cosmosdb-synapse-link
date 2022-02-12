@@ -76,7 +76,8 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - Write the aggregated totals to Azure Blob Storage as CSV
   - Download the CSV with Azure Storage Explorer
   - Write the aggregated totals to Azure PostgreSQL with JDBC
-  
+  - Synapse/notebooks/cosmos_mongo_sales_processing.ipynb
+
 - **Azure Data Studio with PostgreSQL**
   - Query the Azure Azure PostgreSQL database
   - Reporting, PowerBI
