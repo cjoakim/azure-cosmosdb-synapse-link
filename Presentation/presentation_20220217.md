@@ -66,6 +66,7 @@
   - Beautiful integration of the Azure PaaS services
   - "Painless ETL"
   - Schema Types - Well Defined (CosmosDB/SQL), Full Fidelity (CosmosDB/Mongo)
+  - [Synapse Setup](setup_synapse.md) 
 
 - **Azure Synapse Spark Notebook - Aggregations** 
   - Read the Azure Synapse sales data
