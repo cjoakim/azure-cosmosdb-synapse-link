@@ -4,6 +4,8 @@
 
 > Mark Brown, Microsoft, Principal Program Manager, CosmosDB
 
+---
+
 ## Outline of Presentation
 
 - **Dataset Generation with Python and Faker**
@@ -20,7 +22,7 @@
 - HTAP
 - Open-Source and Standard tooling - Python, Java, 3T, Spark
 - Free Microsoft Tooling - Azure Data Studio, Azure Storage Explorer
-- bash shell - linux, macOS, Windows WSL (Windows Subsystem for Linux)
+- bash shell - for linux, macOS, Windows WSL (Windows Subsystem for Linux)
 - Polyglot programming - python, java, spark, scala, etc
 - Polyglot architecture - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
 
@@ -32,6 +34,7 @@
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
 </p>
 
+---
 
 ## Presentation
 
@@ -57,22 +60,29 @@
   - db.getCollection("sales").find({pk:"1"})
   - gradle findSaleByPk
 
-- **Configure and utilize **Azure Synapse Link (SL)**
+- **Configure and utilize Azure Synapse Link (SL)**
   - HTAP - Hybrid Transaction Analytical Processing
   - Beautiful integration of the Azure PaaS services
   - "Painless ETL"
+  - Schema Types - Well Defined (CosmosDB/SQL), Full Fidelity (CosmosDB/Mongo)
 
 - **Azure Synapse Spark Notebook - Aggregations** 
   - Read the Azure Synapse sales data
   - Aggregate the sales by customer
-  - Write the aggregated totals to Azure Blob Storage
+  - Write the aggregated totals to Azure Blob Storage as CSV
+  - Download the CSV with Azure Storage Explorer
   - Write the aggregated totals to Azure PostgreSQL with JDBC
   
 - **Azure Data Studio with PostgreSQL**
   - Query the Azure Azure PostgreSQL database
   - Reporting, PowerBI
 
+---
+
 ## GitHub Repository Map
+
+Note: I use this repo to present and demonstrate **both** CosmosDB/SQL
+with Synapse Link as well as CosmosDB/Mongo with Synapse Link.
 
 ```
 ├── DatasetGeneration   <-- Python/Faker code to create sales data
