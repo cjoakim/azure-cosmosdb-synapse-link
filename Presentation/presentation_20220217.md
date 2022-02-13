@@ -87,9 +87,23 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - Write the aggregated totals to Azure PostgreSQL with JDBC
   - Synapse/notebooks/cosmos_mongo_sales_processing.ipynb
 
+<p align="center">
+    <img src="img/sales-processing-notebook-header.png" width="100%" border="1">
+</p>
+
 - **Azure Data Studio with PostgreSQL**
   - Query the Azure Azure PostgreSQL database
   - Reporting, PowerBI
+
+```
+select count(customer_id) from customer_sales
+
+select * from customer_sales order by customer_id
+```
+
+<p align="center">
+    <img src="img/azure-data-studio-customer-sales.png" width="100%" border="1">
+</p>
 
 ---
 
