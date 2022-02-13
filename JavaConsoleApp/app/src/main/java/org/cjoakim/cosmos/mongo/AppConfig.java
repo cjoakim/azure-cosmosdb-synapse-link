@@ -22,7 +22,9 @@ public class AppConfig {
         for (int i = 0; i < commandLineArgs.length; i++) {
             System.out.println("  arg " + i + " -> " + commandLineArgs[i]);
         }
-        log("AppConfig mongoConnectionString: " + getMongoConnectionString());
+        if (extended) {
+            log("AppConfig mongoConnectionString: " + getMongoConnectionString());
+        }
     }
 
     public static void setCommandLineArgs(String[] args) {

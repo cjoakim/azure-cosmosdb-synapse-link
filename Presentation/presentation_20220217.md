@@ -58,6 +58,12 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - document and container design - pk, doctype, schemaless
   - partition key joins
 
+<p align="center">
+    <img src="img/retail_data_gen.png" width="90%" border="5">
+</p>
+
+---
+
 - **Load a CosmosDB/Mongo API database with Java**
   - gradle loadSales2
   - see JavaConsoleApp/app/build.gradle
@@ -65,11 +71,31 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
   - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
 
+<p align="center">
+    <img src="img/load_retail.png" width="90%" border="5">
+</p>
+
+---
+
 - **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
   - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
   - db.getCollection("sales").find({})
   - db.getCollection("sales").find({pk:"1"})
   - gradle findSaleByPk
+
+<p align="center">
+    <img src="img/studio-3t-find-sales.png" width="90%" border="5">
+</p>
+
+<p align="center">
+  &nbsp;
+</p>
+
+<p align="center">
+    <img src="img/gradle-findSaleByPk.png" width="90%" border="5">
+</p>
+
+---
 
 - **Configure and utilize Azure Synapse Link (SL)**
   - HTAP - Hybrid Transaction Analytical Processing
@@ -78,6 +104,20 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - See Linked Services in Synapse in Azure Portal
   - Schema Types - Well Defined (CosmosDB/SQL), Full Fidelity (CosmosDB/Mongo)
   - [Synapse Setup](setup_synapse.md) 
+
+<p align="center">
+    <img src="img/synapse-link-feature-on.png" width="90%" border="5">
+</p>
+
+<p align="center">
+  &nbsp;
+</p>
+
+<p align="center">
+    <img src="img/analytical-storage-ttl.png" width="90%" border="5">
+</p>
+
+---
 
 - **Azure Synapse Spark Notebook - Aggregations** 
   - Read the Azure Synapse sales data
@@ -90,6 +130,8 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
 <p align="center">
     <img src="img/sales-processing-notebook-header.png" width="90%" border="5">
 </p>
+
+---
 
 - **Azure Data Studio with PostgreSQL**
   - Query the Azure Azure PostgreSQL database

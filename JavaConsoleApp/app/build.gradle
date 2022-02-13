@@ -88,7 +88,7 @@ task previewSales2(type: JavaExec) {
 task findSaleByPk(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.cjoakim.cosmos.mongo.App'
-    args 'find_by_pk', 'demo2', 'sales', '2', '--explainnn'
+    args 'find_by_pk', 'demo', 'sales', '1', '--explainnn'
 }
 
 // $ gradle findByIdPk
