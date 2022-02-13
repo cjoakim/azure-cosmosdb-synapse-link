@@ -16,7 +16,7 @@
 - **Azure Synapse Spark Notebook - Aggregations**  
 - **Azure Data Studio with PostgreSQL**
 
-See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentation/presentation_20220217.md
+This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentation/presentation_20220217.md
 
 ## Themes
 
@@ -50,6 +50,10 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
 ---
 
 - **Dataset Generation with Python and Faker, Document Design**
+  - Why?  To create randomized and representative data for development
+    - Similar to [Lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum), but for Documents
+    - https://www.nuget.org/packages/Faker.Net 
+    - https://rubygems.org/gems/factory_girl/versions/4.9.0
   - https://faker.readthedocs.io/en/master/index.html
   - DatasetGeneration/retail_data_gen.py, line 84 create_stores()
   - sales, line items
@@ -64,14 +68,20 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
     <img src="img/retail_data_gen.png" width="90%" border="1">
 </p>
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
+
+<p align="center">
+    <img src="img/display-sale.png" width="90%" border="1">
+</p>
+
 ---
 
 - **Load a CosmosDB/Mongo API database with Java**
-  - gradle loadSales2
   - see JavaConsoleApp/app/build.gradle
   - org.mongodb:mongodb-driver-sync:4.4.1 on mavenCentral()
   - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
   - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
+  - **gradle loadSales2**  <-- load the sales data for Feb 17
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
 
