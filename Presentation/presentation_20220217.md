@@ -58,6 +58,8 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - document and container design - pk, doctype, schemaless
   - partition key joins
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
 <p align="center">
     <img src="img/retail_data_gen.png" width="90%" border="5">
 </p>

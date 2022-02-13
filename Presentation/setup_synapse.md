@@ -81,7 +81,7 @@ spark.azurepg.jdbc.pass       xxxYYYzzz
 ### Azure Synapse Linked Services 
 
 <p align="center">
-    <img src="img/synapse-linked-services-list.png" width="25%">
+    <img src="img/synapse-linked-services-list.png" width="90%">
 </p>
 
 ---
