@@ -73,6 +73,8 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
   - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
+
 <p align="center">
     <img src="img/load_retail.png" width="90%" border="5">
 </p>
@@ -85,13 +87,13 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - db.getCollection("sales").find({pk:"1"})
   - gradle findSaleByPk
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
+
 <p align="center">
     <img src="img/studio-3t-find-sales.png" width="90%" border="5">
 </p>
 
-<p align="center">
-  &nbsp;
-</p>
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
 
 <p align="center">
     <img src="img/gradle-findSaleByPk.png" width="90%" border="5">
@@ -107,13 +109,13 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - Schema Types - Well Defined (CosmosDB/SQL), Full Fidelity (CosmosDB/Mongo)
   - [Synapse Setup](setup_synapse.md) 
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
+
 <p align="center">
     <img src="img/synapse-link-feature-on.png" width="90%" border="5">
 </p>
 
-<p align="center">
-  &nbsp;
-</p>
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
 
 <p align="center">
     <img src="img/analytical-storage-ttl.png" width="90%" border="5">
@@ -128,6 +130,8 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - Download the CSV with Azure Storage Explorer
   - Write the aggregated totals to Azure PostgreSQL with JDBC
   - Synapse/notebooks/cosmos_mongo_sales_processing.ipynb
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
 
 <p align="center">
     <img src="img/sales-processing-notebook-header.png" width="90%" border="5">
@@ -144,6 +148,8 @@ select count(customer_id) from customer_sales
 
 select * from customer_sales order by customer_id
 ```
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
 
 <p align="center">
     <img src="img/azure-data-studio-customer-sales.png" width="90%" border="5">
