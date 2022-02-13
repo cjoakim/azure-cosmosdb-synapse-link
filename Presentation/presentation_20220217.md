@@ -88,12 +88,12 @@ See https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentatio
   - Synapse/notebooks/cosmos_mongo_sales_processing.ipynb
 
 <p align="center">
-    <img src="img/sales-processing-notebook-header.png" width="100%" border="1">
+    <img src="img/sales-processing-notebook-header.png" width="90%" border="5">
 </p>
 
 - **Azure Data Studio with PostgreSQL**
   - Query the Azure Azure PostgreSQL database
-  - Reporting, PowerBI
+  - **For Reporting, PowerBI**
 
 ```
 select count(customer_id) from customer_sales
@@ -102,7 +102,7 @@ select * from customer_sales order by customer_id
 ```
 
 <p align="center">
-    <img src="img/azure-data-studio-customer-sales.png" width="100%" border="1">
+    <img src="img/azure-data-studio-customer-sales.png" width="90%" border="5">
 </p>
 
 ---
