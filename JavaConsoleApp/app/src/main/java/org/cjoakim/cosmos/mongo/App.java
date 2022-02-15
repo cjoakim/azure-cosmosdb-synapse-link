@@ -83,7 +83,7 @@ public class App {
 
     private static void displayAppConfig() {
 
-        AppConfig.display(false);
+        AppConfig.display(true);
     }
 
     private static void loadContainer(String dbname, String cname, String pkattr, String infile) {
