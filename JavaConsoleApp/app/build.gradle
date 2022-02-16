@@ -15,8 +15,8 @@ repositories {
 dependencies {
     implementation 'org.mongodb:mongodb-driver-sync:4.4.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
-    //implementation 'org.slf4j:slf4j-api:1.7.33'
-    //implementation 'org.slf4j:slf4j-simple:1.7.33'
+    implementation 'org.slf4j:slf4j-api:1.7.33'
+    implementation 'org.slf4j:slf4j-simple:1.7.33'
     implementation 'com.google.guava:guava:30.1.1-jre'
 
     testImplementation 'junit:junit:4.13.2'

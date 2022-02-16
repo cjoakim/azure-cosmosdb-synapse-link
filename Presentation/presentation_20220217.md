@@ -77,11 +77,14 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
 ---
 
 - **Load a CosmosDB/Mongo API database with Java**
-  - see JavaConsoleApp/app/build.gradle
-  - org.mongodb:mongodb-driver-sync:4.4.1 on mavenCentral()
+  - see JavaConsoleApp/app/build.gradle 
+  - **org.mongodb:mongodb-driver-sync:4.4.1** on mavenCentral()
   - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
   - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
-  - **gradle loadSales2**  <-- load the sales data for Feb 17
+  - **gradle build**          <-- Compile and jar the project
+  - **gradle uberJar**        <-- Create an "uber jar" with all dependencies
+  - **gradle loadSales2**     <-- load the sales data for Feb 17
+  - **gradle findSaleByPk**   <-- Mongo find() query
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
 
