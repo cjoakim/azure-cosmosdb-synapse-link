@@ -270,8 +270,10 @@ def read_json_objects(infile):
     objects = list()
     it = text_file_iterator(infile)
     for i, line in enumerate(it):
-        obj = json.loads(line.strip())
-        objects.append(obj)        
+        s = line.strip()
+        if len(s) > 3:
+            obj = json.loads(line.strip())
+            objects.append(obj)        
     return objects
 
 def text_file_iterator(infile):
@@ -283,8 +285,7 @@ def text_file_iterator(infile):
 def write_lines(outfile, lines):
     with open(outfile, 'wt') as out:
         for line in lines:
-            out.write(line)
-            out.write(os.linesep)
+            out.write("{}{}".format(line.strip(),os.linesep))
     print('file_written: {}'.format(outfile))
 
 def read_json(infile):
