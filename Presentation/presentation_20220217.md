@@ -164,6 +164,8 @@ gradle findSaleByPk
   - **For Reporting, PowerBI**
 
 ```
+delete from public.customer_sales where pk > 0
+
 select count(customer_id) from customer_sales
 
 select * from customer_sales order by customer_id
