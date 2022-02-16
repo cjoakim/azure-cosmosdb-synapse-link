@@ -96,9 +96,15 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
 
 - **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
   - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
-  - db.getCollection("sales").find({})
-  - db.getCollection("sales").find({pk:"1"})
-  - gradle findSaleByPk
+
+```
+db.getCollection("sales").find({})
+db.getCollection("sales").find({pk:"1"})
+```
+
+```
+gradle findSaleByPk
+```
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
 
