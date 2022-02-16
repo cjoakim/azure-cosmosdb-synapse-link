@@ -83,7 +83,7 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
   - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
   - **gradle build**          <-- Compile and jar the project
   - **gradle uberJar**        <-- Create an "uber jar" with all dependencies
-  - **gradle loadSales2**     <-- load the sales data for Feb 17
+  - **gradle loadSales2**     <-- Load the sales data for Feb 17
   - **gradle findSaleByPk**   <-- Mongo find() query
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>

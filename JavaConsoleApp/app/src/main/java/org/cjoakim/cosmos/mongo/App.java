@@ -96,7 +96,7 @@ public class App {
             long sleepMs = AppConfig.longFlagArg("--sleepMs", 0);  // default to 0 mmms sleep
             log("stream: " + stream + " sleepMs: " + sleepMs);
 
-            Mongo m = new Mongo();
+            Mongo m = new Mongo();   // <-- My "DAO" class
             m.setDatabase(dbname);
             m.setCollection(cname);
 
