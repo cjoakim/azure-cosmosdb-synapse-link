@@ -6,6 +6,7 @@ Usage:
     python retail_data_gen.py create_customers 10000
     python retail_data_gen.py create_sales_data 2020-01-01 2022-01-26 1000 4
     python retail_data_gen.py slice_sales_data 2022-01-26
+    python retail_data_gen.py display_sale 1
 """
 
 __author__  = 'Chris Joakim'
@@ -266,6 +267,21 @@ def slice_sales_data(separator_date):
                 out.write(os.linesep)
         print('file_written: {}'.format(file2))
 
+def display_sale(sale_id):
+    infile = 'data/retail/sales.json'
+    docs = read_json_objects(infile)
+    print("sale doc:")
+    for doc in docs:
+        if doc['doctype'] == 'sale':
+            if doc['sale_id'] == sale_id:
+                print(json.dumps(doc, sort_keys=False, indent=2)) 
+    print("line items:")
+    for doc in docs:
+        if doc['doctype'] == 'line_item':
+            if doc['sale_id'] == sale_id:
+                print(json.dumps(doc, sort_keys=False, indent=2)) 
+
+
 def read_json_objects(infile):
     objects = list()
     it = text_file_iterator(infile)
@@ -331,6 +347,10 @@ if __name__ == "__main__":
         elif func == 'slice_sales_data':
             separator_date = sys.argv[2]
             slice_sales_data(separator_date)
+
+        elif func == 'display_sale':
+            sale_id = int(sys.argv[2])
+            display_sale(sale_id)
 
         else:
             print_options('Error: invalid function: {}'.format(func))

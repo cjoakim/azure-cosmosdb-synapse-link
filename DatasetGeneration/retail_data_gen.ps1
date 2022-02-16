@@ -4,8 +4,8 @@
 # These are for loading into CosmosDB with the DotnetConsoleApp.
 # Chris Joakim, Microsoft
 
-mkdir -p data/retail
-rm data/retail/*.*
+new-item -itemtype directory -force -path data\retail | Out-Null
+rm data/retail/*.json
 
 echo 'activating venv ...'
 .\venv\Scripts\Activate.ps1
