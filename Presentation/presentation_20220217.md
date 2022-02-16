@@ -99,6 +99,7 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
 
 ```
 db.getCollection("sales").find({})
+
 db.getCollection("sales").find({pk:"1"})
 ```
 

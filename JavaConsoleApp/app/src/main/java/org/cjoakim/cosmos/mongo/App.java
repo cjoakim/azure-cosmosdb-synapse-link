@@ -15,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.bson.json.JsonMode;
+import org.bson.json.JsonWriterSettings;
 import org.bson.types.ObjectId;
 
 import java.io.IOException;
@@ -133,8 +135,14 @@ public class App {
         m.setCollection(cname);
         FindIterable<Document> documents = m.findByPk(pk, explain);
         MongoCursor<Document> cursor = documents.iterator();
+
+        JsonWriterSettings jws = JsonWriterSettings.builder()
+                .indent(true)
+                .outputMode(JsonMode.SHELL)
+                .build();
+
         while (cursor.hasNext()) {
-            log(cursor.next().toJson());
+            log(cursor.next().toJson(jws));
         }
         if (AppConfig.isVerbose()) {
             log("RU: " + m.getLastRequestCharge());
