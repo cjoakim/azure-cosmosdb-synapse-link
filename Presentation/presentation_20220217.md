@@ -27,7 +27,6 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
   - Python, Java, 3T, Spark
   - Also mongoexport / momgoexport, mongodump / mongorestore, Matlab
 - **Free Microsoft Tooling** - Azure Data Studio, Azure Storage Explorer, VSC
-- bash shell - for linux, macOS, Windows WSL (Windows Subsystem for Linux)
 - **Polyglot programming** - python, java, spark, scala, etc
 - **Polyglot architecture** - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
 
@@ -55,10 +54,11 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
     - https://www.nuget.org/packages/Faker.Net 
     - https://rubygems.org/gems/factory_girl/versions/4.9.0
   - https://faker.readthedocs.io/en/master/index.html
-  - DatasetGeneration/retail_data_gen.py, line 84 create_stores()
-  - sales, line items
-  - ./retail_data_gen.sh
-  - ./display_sale.sh
+  - See DatasetGeneration/retail_data_gen.py, line 85 create_stores()
+  - PowerShell Scripts:
+    - .\retail_data_gen.ps1
+    - .\retail_data_show.ps1
+    - .\display_sale.ps1
   - document and container design - pk, doctype, schemaless
   - partition key joins
 
