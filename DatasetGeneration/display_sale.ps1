@@ -2,12 +2,8 @@
 # Display a related sale and line_item.
 # Chris Joakim, Microsoft
 
-echo ''
-echo 'sales document; doctype = sale:'
-cat data/retail/sales1.json | select-string -pattern "sale" | Get-Content -Tail 1 | jq 
+.\venv\Scripts\Activate.ps1
 
-echo ''
-echo 'related sales document; doctype = line_item:'
-cat data/retail/sales1.json | select-string -pattern "line_item" | Get-Content -Tail 1 | jq  
+python retail_data_gen.py display_sale 1
 
 echo 'done'
