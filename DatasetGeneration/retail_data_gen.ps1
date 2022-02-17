@@ -17,7 +17,7 @@ python retail_data_gen.py create_customers 10000
 python retail_data_gen.py create_sales_data 2021-01-01 2022-02-17 75 3
 
 python retail_data_gen.py slice_sales_data 2022-02-17
-echo 'removing sales.json, it was just split into two files ...'
+#echo 'removing sales.json, it was just split into two files ...'
 #rm data/retail/sales.json
 
 echo 'creating retail_dataset.zip ...'

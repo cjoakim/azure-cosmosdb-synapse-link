@@ -9,32 +9,31 @@
 ## Outline of Presentation
 
 - **Architecture**
-- **Dataset Generation with Python and Faker, Document Design**
+- **Sales Dataset Generation with Python and Faker, Document Design**
 - **Load a CosmosDB/Mongo API database with Java**
-- **Query that CosmosDB/Mongo data with both Studio 3T and Java** 
+- **Query that CosmosDB/Mongo Sales data with both Studio 3T and Java** 
 - **Configure and utilize Azure Synapse Link (SL)**
-- **Azure Synapse Spark Notebook - Aggregations**  
-- **Azure Data Studio with PostgreSQL**
+- **Azure Synapse Spark Notebook: Aggregations --> PostgreSQL**  
+- **Azure PostgreSQL with Azure Data Studio**
 
 This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentation/presentation_20220217.md
 
 ## Themes
 
 - **MongoDB and Azure CosmosDB/Mongo API**
-- **Azure Synapse Link**
-- **HTAP** - Hybrid Transaction Analytical Processing
+- **HTAP** (Hybrid Transaction Analytical Processing) with **Azure Synapse Link**
 - **Open-Source and Standard tooling**
   - Python, Java, 3T, Spark
   - Also mongoexport / momgoexport, mongodump / mongorestore, Matlab
-- **Free Microsoft Tooling** - Azure Data Studio, Azure Storage Explorer, VSC
-- **Polyglot programming** - python, java, spark, scala, etc
-- **Polyglot architecture** - CosmosDB, Synapse, Spark, Blob, PostgreSQL, etc
+- **Free Microsoft Tooling** - Azure Data Studio, Azure Storage Explorer, Visual Studio Code
+- **Polyglot programming** - python, java, spark, scala, bash, PowerShell, etc
+- **Polyglot architecture** - CosmosDB, Synapse, Spark, Storage, PostgreSQL, etc
 
 ### Note
 
 - Not covered today
-  - Provisioning the Azure resources, see the az directory
-  - CosmosDB/SQL and Synapse Link, also in this repo
+  - Provisioning the Azure resources, see the **az** directory
+  - **CosmosDB/SQL** and Synapse Link, also in this repo
 
 ---
 
@@ -51,9 +50,9 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
 - **Dataset Generation with Python and Faker, Document Design**
   - Why?  To create randomized and representative data for development
     - Similar to [Lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum), but for Documents
+    - https://faker.readthedocs.io/en/master/index.html
     - https://www.nuget.org/packages/Faker.Net 
     - https://rubygems.org/gems/factory_girl/versions/4.9.0
-  - https://faker.readthedocs.io/en/master/index.html
   - See DatasetGeneration/retail_data_gen.py, line 85 create_stores()
   - PowerShell Scripts:
     - .\retail_data_gen.ps1
@@ -77,13 +76,15 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
 ---
 
 - **Load a CosmosDB/Mongo API database with Java**
-  - see JavaConsoleApp/app/build.gradle 
+  - see JavaConsoleApp/app/**build.gradle**
+    - Like a Maven pom.xml plus a Ruby/Rails Rakefile with Tasks
+    - Simple like a DotNet csproj file; Java is fun again!
   - **org.mongodb:mongodb-driver-sync:4.4.1** on mavenCentral()
   - MongoClient, MongoDatabase, MongoCollection, Document, FindIterable
-  - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java
+  - JavaConsoleApp/app/src/main/java/org/cjoakim/cosmos/mongo/Mongo.java (DAO)
   - **gradle build**          <-- Compile and jar the project
   - **gradle uberJar**        <-- Create an "uber jar" with all dependencies
-  - **gradle loadSales2**     <-- Load the sales data for Feb 17
+  - **gradle loadSales2**     <-- Load the sales data for Feb 17.  ~325 docs
   - **gradle findSaleByPk**   <-- Mongo find() query
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="50%"></p>
@@ -98,9 +99,13 @@ This URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Prese
   - use the MongoDB tools you already use - 3T, mongoimport, mongoexport, etc
 
 ```
+db.getCollection("sales").count()
+
 db.getCollection("sales").find({})
 
 db.getCollection("sales").find({pk:"1"})
+
+db.getCollection("sales").find({pk:"30065"})
 ```
 
 ```
