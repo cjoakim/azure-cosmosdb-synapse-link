@@ -10,16 +10,15 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.json.JsonMode;
 import org.bson.json.JsonWriterSettings;
 import org.bson.types.ObjectId;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class App {
@@ -100,27 +99,30 @@ public class App {
             m.setDatabase(dbname);
             m.setCollection(cname);
 
-            Scanner scanner = new Scanner(new File(infile));
+            File file = new File(infile);
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(isr);
             ObjectMapper mapper = new ObjectMapper();
-            while (scanner.hasNextLine()) {
-                if (stream) {
-                    if (sleepMs > 0) {
-                        Thread.sleep(sleepMs);
+            String jsonLine = null;
+            JsonWriterSettings jws = JsonWriterSettings.builder()
+                    .indent(true).outputMode(JsonMode.SHELL).build();
+
+            while ((jsonLine = reader.readLine()) != null) {
+                if (jsonLine.length() > 10) {
+                    Map<String, Object> map = mapper.readValue(jsonLine.trim(), Map.class);
+                    String pk = map.get(pkattr).toString();
+                    map.put("_id", new ObjectId());
+                    map.put("pk", pk);
+                    log(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map));
+                    Document doc = new Document(map);
+                    log(doc.toJson(jws));
+                    if (!noLoad) {
+                        m.insertDoc(doc);
                     }
                 }
-                String jsonLine = scanner.nextLine();
-                Map<String, Object> map = mapper.readValue(jsonLine.strip(), Map.class);
-                String pk = map.get(pkattr).toString();
-                map.put("_id", new ObjectId());
-                map.put("pk", pk);
-                //log(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map));
-                Document doc = new Document(map);
-                log(doc.toJson());
-                if (!noLoad) {
-                    m.insertDoc(doc);
-                }
             }
-            scanner.close();
+            fis.close();
         }
         catch (Exception e) {
             e.printStackTrace();

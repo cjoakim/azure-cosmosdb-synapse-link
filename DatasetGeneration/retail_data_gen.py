@@ -301,7 +301,8 @@ def text_file_iterator(infile):
 def write_lines(outfile, lines):
     with open(outfile, 'wt') as out:
         for line in lines:
-            out.write("{}{}".format(line.strip(),os.linesep))
+            out.write(line.strip())
+            out.write(os.linesep)
     print('file_written: {}'.format(outfile))
 
 def read_json(infile):
