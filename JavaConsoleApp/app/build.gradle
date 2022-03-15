@@ -65,6 +65,12 @@ task loadStores(type: JavaExec) {
     args 'load_container', 'demo', 'stores', 'store_id', 'data/stores.json'
 }
 
+task loadStores2(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.cjoakim.cosmos.mongo.App'
+    args 'load_container', 'demo', 'stores2', 'store_id', 'data/stores.json'
+}
+
 // $ gradle loadSales1
 task loadSales1(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
