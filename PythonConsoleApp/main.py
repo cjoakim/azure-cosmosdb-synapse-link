@@ -12,7 +12,7 @@ Usage:
 __author__  = 'Chris Joakim'
 __email__   = "chjoakim@microsoft.com"
 __license__ = "MIT"
-__version__ = "February 2022"
+__version__ = "April 2022"
 
 import json
 import os
@@ -76,13 +76,15 @@ def load_container(dbname, cname, pkattr, infile):
 
     it = FS.text_file_iterator(infile)
     for i, line in enumerate(it):
-        doc = json.loads(line.strip())
-        doc['id'] = str(uuid.uuid4())
-        doc['pk'] = str(doc[pkattr])
-        print(json.dumps(doc)) #, sort_keys=False, indent=2))
-        print(m.insert_doc(doc))
-        if verbose():
-            print('RU charge: {}'.format(m.last_request_request_charge()))
+        stripped = line.strip()
+        if len(stripped) > 10:
+            doc = json.loads(line.strip())
+            doc['id'] = str(uuid.uuid4())
+            doc['pk'] = str(doc[pkattr])
+            print(json.dumps(doc)) #, sort_keys=False, indent=2))
+            print(m.insert_doc(doc))
+            if verbose():
+                print('RU charge: {}'.format(m.last_request_request_charge()))
 
 def execute_query(dbname, cname, qname):
     spec = query_spec(qname)

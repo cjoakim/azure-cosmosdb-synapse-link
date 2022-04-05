@@ -38,6 +38,7 @@ class Mongo(object):
 
     def set_db(self, dbname):
         self._db = self._client[dbname]
+        print(self._db)
         return self._db 
 
     def set_coll(self, collname):
