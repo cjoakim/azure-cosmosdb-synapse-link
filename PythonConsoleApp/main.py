@@ -70,6 +70,9 @@ def load_container(dbname, cname, pkattr, infile):
     print('load_container, db: {}, cname: {}, pk: {}, infile: {}'.format(
         dbname, cname, pkattr, infile))
 
+    start_epoch = time.time()
+    count = 0
+
     m = Mongo(mongo_opts())
     m.set_db(dbname)
     m.set_coll(cname)
@@ -81,10 +84,14 @@ def load_container(dbname, cname, pkattr, infile):
             doc = json.loads(line.strip())
             doc['id'] = str(uuid.uuid4())
             doc['pk'] = str(doc[pkattr])
+            doc['epoch'] = time.time()
             print(json.dumps(doc)) #, sort_keys=False, indent=2))
             print(m.insert_doc(doc))
+            count = count + 1
             if verbose():
                 print('RU charge: {}'.format(m.last_request_request_charge()))
+
+    print('{} documents written, start_epoch {}'.format(count, start_epoch))
 
 def execute_query(dbname, cname, qname):
     spec = query_spec(qname)
