@@ -28,7 +28,7 @@ from docopt import docopt
 from operator import itemgetter
 
 from pysrc.fs import FS
-from pysrc.mongo import Mongo
+from pysrc.cosmos import Cosmos
 
 def mongo_opts():
     # Obtain the connection string from an environment variable.

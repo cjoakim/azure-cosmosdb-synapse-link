@@ -16,7 +16,7 @@ source venv/bin/activate
 echo 'upgrading pip ...'
 python -m pip install --upgrade pip 
 
-echo 'uinstall pip-tools ...'
+echo 'install pip-tools ...'
 pip install --upgrade pip-tools
 
 echo 'displaying python location and version'
