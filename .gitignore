@@ -3,7 +3,14 @@
 DotnetConsoleApp/data/
 DotnetConsoleApp/data/date_range.json
 
+DotnetSqlConsoleApp/data/
+DotnetSqlConsoleApp/data/date_range.json
+
 JavaConsoleApp/app/data/
+
+JavaMongoConsoleApp/app/data/
+
+JavaSqlConsoleApp/app/data/
 
 PythonConsoleApp/data/
 PythonConsoleApp/venv/
