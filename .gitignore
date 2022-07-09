@@ -8,6 +8,12 @@ JavaConsoleApp/app/data/
 PythonConsoleApp/data/
 PythonConsoleApp/venv/
 
+PythonMongoConsoleApp/data/
+PythonMongoConsoleApp/venv/
+
+PythonSqlConsoleApp/data/
+PythonSqlConsoleApp/venv/
+
 DatasetGeneration/data/products/*.json
 DatasetGeneration/data/retail/*.json
 
