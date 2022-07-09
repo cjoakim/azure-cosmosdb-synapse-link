@@ -5,6 +5,7 @@ Usage:
     python main.py count_documents demo stores
     python main.py load_container dbname cname pkattr infile
     python main.py load_container demo stores store_id data/stores.json --verbose
+
     python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5 
     python main.py execute_query demo stores find_by_pk --pk 2 
     python main.py execute_query demo stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
@@ -13,31 +14,28 @@ Usage:
 __author__  = 'Chris Joakim'
 __email__   = "chjoakim@microsoft.com"
 __license__ = "MIT"
-__version__ = "April 2022"
+__version__ = "July 2022"
 
-import arrow
 import json
 import os
 import pprint
 import sys
 import time
 import uuid
-import xml.sax
+
+import arrow 
 
 from docopt import docopt
-from operator import itemgetter
 
-from pysrc.fs import FS
+from pysrc.bytes import Bytes 
 from pysrc.cosmos import Cosmos
+from pysrc.env import Env
+from pysrc.fs import FS
 
-def mongo_opts():
-    # Obtain the connection string from an environment variable.
-    # See your CosmosDB/Mongo account in Azure Portal for this value.
-    # It will look similar to the following:
-    # mongodb://cjoakimcslcosmosmongo:...<secret>...==@cjoakimcslcosmosmongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cjoakimcslcosmosmongo@
+def cosmos_opts():
     opts = dict()
-    opts['conn_string'] = os.environ['AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING']
-    opts['verbose'] = verbose()
+    opts['url'] = Env.var('AZURE_CSL_COSMOSDB_SQLDB_URI')
+    opts['key'] = Env.var('AZURE_CSL_COSMOSDB_SQLDB_KEY')
     return opts
 
 def verbose():
@@ -48,25 +46,28 @@ def verbose():
 
 def list_databases():
     print('list_databases ...')
-    m = Mongo(mongo_opts())
-    print(m.list_databases())
+    c = Cosmos(cosmos_opts())
+    for db in c.list_databases():
+        print('database: {}'.format(db['id']))   
 
 def list_containers(dbname):
     print('list_containers in {} ...'.format(dbname))
-    m = Mongo(mongo_opts())
-    m.set_db(dbname)
-    print(m.list_collections())
-    if verbose():
-        print('RU charge: {}'.format(m.last_request_request_charge()))
+    c = Cosmos(cosmos_opts())
+    dbproxy = c.set_db(dbname)
+    for con in c.list_containers():
+        print('container: {}'.format(con['id']))   
 
 def count_documents(dbname, cname):
     print('count_documents, db: {}, cname: {}'.format(dbname, cname))
-    m = Mongo(mongo_opts())
-    m.set_db(dbname)
-    m.set_coll(cname)
-    print(m.count_docs({}))
-    if verbose():
-        print('RU charge: {}'.format(m.last_request_request_charge()))
+    c = Cosmos(cosmos_opts())
+    dbproxy = c.set_db(dbname)
+    ctrproxy = c.set_container(cname)
+
+    sql = "select value count(1) from c"
+    print('query; sql: {}'.format(sql))
+    items = c.query_container(cname, sql, True, 1000)
+    for item in items:
+        print(json.dumps(item, sort_keys=False, indent=2))
 
 def load_container(dbname, cname, pkattr, infile):
     print('load_container, db: {}, cname: {}, pk: {}, infile: {}'.format(
@@ -75,25 +76,27 @@ def load_container(dbname, cname, pkattr, infile):
     start_epoch = time.time()
     count = 0
 
-    m = Mongo(mongo_opts())
-    m.set_db(dbname)
-    m.set_coll(cname)
+    c = Cosmos(cosmos_opts())
+    dbproxy = c.set_db(dbname)
+    ctrproxy = c.set_container(cname)
 
     it = FS.text_file_iterator(infile)
     for i, line in enumerate(it):
         stripped = line.strip()
         if len(stripped) > 10:
+            print('---')
             doc = json.loads(line.strip())
             doc['id'] = str(uuid.uuid4())
             doc['pk'] = str(doc[pkattr])
             doc['epoch'] = time.time()
-            print(json.dumps(doc)) #, sort_keys=False, indent=2))
-            print(m.insert_doc(doc))
+            #print(json.dumps(doc))
+            result = c.upsert_doc(doc)
+            print(result)
             count = count + 1
             if verbose():
-                print('RU charge: {}'.format(m.last_request_request_charge()))
+                c.print_last_request_charge()
 
-    print('{} documents written, start_epoch {}'.format(count, start_epoch))
+    print('{} documents written'.format(count))
 
 def stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay):
     print('stream_sales, db: {}, cname: {}, pk: {}, infile: {}, maxdocs: {}, sec_delay: {}'.format(
@@ -102,7 +105,8 @@ def stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay):
     start_epoch = time.time()
     count = 0
 
-    m = Mongo(mongo_opts())
+    c = Cosmos(cosmos_opts())
+
     m.set_db(dbname)
     m.set_coll(cname)
 
@@ -129,16 +133,7 @@ def stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay):
 
 
 def execute_query(dbname, cname, qname):
-    spec = query_spec(qname)
-    print('dbname: {}, cname: {}, query: {}, spec: {}'.format(
-        dbname, cname, qname, spec))
-    m = Mongo(mongo_opts())
-    m.set_db(dbname)
-    m.set_coll(cname)
-    for doc in m.find(spec):
-        print(doc)
-    if verbose():
-        print('RU charge: {}'.format(m.last_request_request_charge()))
+    pass
 
 def query_spec(qname):
     spec = dict()

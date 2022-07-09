@@ -42,7 +42,7 @@ class Cosmos(object):
         self._cname = None
         self._query_metrics = True
         self.reset_record_diagnostics()
-        print(self._opts)
+        #print(self._opts)
         url = opts['url']
         key = opts['key']
         self._client = cosmos_client.CosmosClient(url, {'masterKey': key})
