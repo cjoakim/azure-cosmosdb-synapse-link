@@ -5,6 +5,7 @@ Usage:
     python main.py count_documents demo stores
     python main.py load_container dbname cname pkattr infile
     python main.py load_container demo stores store_id data/stores.json --verbose
+    python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5 
     python main.py execute_query demo stores find_by_pk --pk 2 
     python main.py execute_query demo stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
 """
@@ -14,6 +15,7 @@ __email__   = "chjoakim@microsoft.com"
 __license__ = "MIT"
 __version__ = "April 2022"
 
+import arrow
 import json
 import os
 import pprint
@@ -93,6 +95,38 @@ def load_container(dbname, cname, pkattr, infile):
 
     print('{} documents written, start_epoch {}'.format(count, start_epoch))
 
+def stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay):
+    print('stream_sales, db: {}, cname: {}, pk: {}, infile: {}, maxdocs: {}, sec_delay: {}'.format(
+        dbname, cname, pkattr, infile, maxdocs, sec_delay))
+
+    start_epoch = time.time()
+    count = 0
+
+    m = Mongo(mongo_opts())
+    m.set_db(dbname)
+    m.set_coll(cname)
+
+    it = FS.text_file_iterator(infile)
+    for i, line in enumerate(it):
+        if count < maxdocs:
+            stripped = line.strip()
+            if len(stripped) > 10:
+                print('---')
+                doc = json.loads(line.strip())
+                doc['id'] = str(uuid.uuid4())
+                doc['pk'] = str(doc[pkattr])
+                doc['date'] = arrow.utcnow().format('YYYY-MM-DD')
+                doc['epoch'] = time.time()
+                print(json.dumps(doc))
+                #print(m.insert_doc(doc))
+                count = count + 1
+                if verbose():
+                    print('RU charge: {}'.format(m.last_request_request_charge()))
+                time.sleep(sec_delay)
+
+    print('{} documents written'.format(count))
+
+
 def execute_query(dbname, cname, qname):
     spec = query_spec(qname)
     print('dbname: {}, cname: {}, query: {}, spec: {}'.format(
@@ -158,6 +192,15 @@ if __name__ == "__main__":
             pkattr = sys.argv[4]
             infile = sys.argv[5]
             load_container(dbname, cname, pkattr, infile)
+
+        elif func == 'stream_sales':
+            dbname = sys.argv[2]
+            cname  = sys.argv[3]
+            pkattr = sys.argv[4]
+            infile = sys.argv[5]
+            maxdocs = int(sys.argv[6])
+            sec_delay = float(sys.argv[7])
+            stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay)
 
         elif func == 'execute_query':
             dbname = sys.argv[2]
