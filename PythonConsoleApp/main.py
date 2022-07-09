@@ -118,7 +118,8 @@ def stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay):
                 doc['date'] = arrow.utcnow().format('YYYY-MM-DD')
                 doc['epoch'] = time.time()
                 print(json.dumps(doc))
-                #print(m.insert_doc(doc))
+                result = m.insert_doc(doc)
+                print(result)
                 count = count + 1
                 if verbose():
                     print('RU charge: {}'.format(m.last_request_request_charge()))
