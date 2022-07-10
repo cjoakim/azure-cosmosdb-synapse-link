@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copy the generated retail dataset zip file to the Xxx/data/ directories
+# Copy the generated retail_dataset.zip file to the app-specific Xxx\data\ directories
 # and unzip it there.
 # Chris Joakim, Microsoft
 
@@ -9,9 +9,11 @@ basename="retail_dataset.zip"
 
 echo '==='
 echo 'creating data directories ...'
-mkdir -p DotnetConsoleApp/data/
-mkdir -p JavaConsoleApp/app/data/
-mkdir -p PythonConsoleApp/data/
+mkdir -p DotnetSqlConsoleApp/data/
+mkdir -p JavaMongoConsoleApp/app/data/
+mkdir -p JavaSqlConsoleApp/app/data/
+mkdir -p PythonMongoConsoleApp/data/
+mkdir -p PythonSqlConsoleApp/data/
 
 echo '==='
 echo 'listing zipfile contents ...'
@@ -19,32 +21,50 @@ jar tvf $zipfile
 
 echo '==='
 echo 'copying zip file to target ConsoleApp directories ...'
-cp $zipfile DotnetConsoleApp/data/
-cp $zipfile JavaConsoleApp/app/data/
-cp $zipfile PythonConsoleApp/data/
+cp $zipfile DotnetSqlConsoleApp/data/
+cp $zipfile JavaMongoConsoleApp/app/data/
+cp $zipfile JavaSqlConsoleApp/app/data/
+cp $zipfile PythonMongoConsoleApp/data/
+cp $zipfile PythonSqlConsoleApp/data/
 
 echo '==='
 echo 'unzipping in DotnetConsoleApp ...'
-cd DotnetConsoleApp/data/
+cd DotnetSqlConsoleApp/data/
 unzip -o $basename
 pwd
 ls -al
 cd ../..
 
 echo '==='
-echo 'unzipping in JavaConsoleApp ...'
-cd JavaConsoleApp/app/data/
+echo 'unzipping in JavaMongoConsoleApp ...'
+cd JavaMongoConsoleApp/app/data/
 unzip -o $basename
 pwd
 ls -al
 cd ../../..
 
 echo '==='
-echo 'unzipping in PythonConsoleApp ...'
-cd PythonConsoleApp/data/
+echo 'unzipping in JavaSqlConsoleApp ...'
+cd JavaSqlConsoleApp/app/data/
+unzip -o $basename
+pwd
+ls -al
+cd ../../..
+
+echo '==='
+echo 'unzipping in PythonMongoConsoleApp ...'
+cd PythonMongoConsoleApp/data/
 unzip -o $basename
 pwd
 ls -al
 cd ../..
- 
+
+echo '==='
+echo 'unzipping in PythonSqlConsoleApp ...'
+cd PythonSqlConsoleApp/data/
+unzip -o $basename
+pwd
+ls -al
+cd ../..
+
 echo 'done'

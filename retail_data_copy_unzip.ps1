@@ -31,7 +31,7 @@ echo 'unzipping in DotnetSqlConsoleApp ...'
 cd "DotnetSqlConsoleApp\data\"
 pwd
 jar xvf $basename
-cd ../..
+cd ..\..
 
 echo '==='
 echo 'unzipping in JavaMongoConsoleApp ...'
