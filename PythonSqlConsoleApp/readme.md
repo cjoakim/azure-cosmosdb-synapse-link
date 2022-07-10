@@ -13,9 +13,11 @@ The partition key for each container is **/pk**.
 ### Environment Variables
 
 Set the following environment variable to your CosmosDB connection string.
+You can get these values from in Azure Portal, from the Keys panel of your CosmosDB account.
 
 ```
-AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING=<your connection string from Azure Portal>
+AZURE_CSL_COSMOSDB_SQLDB_URI
+AZURE_CSL_COSMOSDB_SQLDB_KEY
 ```
 
 ### Clone and Go
@@ -77,5 +79,3 @@ where:
   999999          = max documents to be loaded count
   0.5             = pause 0.5 seconds between each write
 ```
-
-Please see the above section on the **AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING** environment variable.
