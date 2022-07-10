@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Load the CosmosDB/Mongo database with the generated "ecommerce retail" dataset
+# Load the CosmosDB/SQL database with the generated "ecommerce retail" dataset
 # consisting of customers, products, sales, and line items.
 # Chris Joakim, Microsoft
 
