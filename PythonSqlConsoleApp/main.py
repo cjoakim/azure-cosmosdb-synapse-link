@@ -5,10 +5,7 @@ Usage:
     python main.py count_documents demo stores
     python main.py load_container dbname cname pkattr infile
     python main.py load_container demo stores store_id data/stores.json --verbose
-
     python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5 
-    python main.py execute_query demo stores find_by_pk --pk 2 
-    python main.py execute_query demo stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
 """
 
 __author__  = 'Chris Joakim'
@@ -106,9 +103,8 @@ def stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay):
     count = 0
 
     c = Cosmos(cosmos_opts())
-
-    m.set_db(dbname)
-    m.set_coll(cname)
+    dbproxy = c.set_db(dbname)
+    ctrproxy = c.set_container(cname)
 
     it = FS.text_file_iterator(infile)
     for i, line in enumerate(it):
@@ -119,21 +115,20 @@ def stream_sales(dbname, cname, pkattr, infile, maxdocs, sec_delay):
                 doc = json.loads(line.strip())
                 doc['id'] = str(uuid.uuid4())
                 doc['pk'] = str(doc[pkattr])
-                doc['date'] = arrow.utcnow().format('YYYY-MM-DD')
                 doc['epoch'] = time.time()
-                print(json.dumps(doc))
-                result = m.insert_doc(doc)
+                #print(json.dumps(doc))
+                result = c.upsert_doc(doc)
                 print(result)
                 count = count + 1
                 if verbose():
-                    print('RU charge: {}'.format(m.last_request_request_charge()))
+                    c.print_last_request_charge()
                 time.sleep(sec_delay)
 
     print('{} documents written'.format(count))
 
 
 def execute_query(dbname, cname, qname):
-    pass
+    print('execute_query is not yet implemented, see count_documents')
 
 def query_spec(qname):
     spec = dict()

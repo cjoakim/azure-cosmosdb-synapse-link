@@ -37,13 +37,15 @@ $ git clone https://github.com/cjoakim/azure-cosmosdb-synapse-link.git
 $ cd azure-cosmosdb-synapse-link
 
 # Unzip the zip file containing several large json files
+
 > .\retail_data_copy_unzip.ps1
  - or -
 $ ./retail_data_copy_unzip.sh
 
-$ cd PythonConsoleApp/
+$ cd PythonSqlConsoleApp/
 
 # Create and activate a python virtual environment, specifying the libraries in requirements.in
+
 $ ./venv.sh    (linux or macOS)
 $ source venv/bin/activate
  - or -
@@ -51,10 +53,11 @@ $ source venv/bin/activate
 > .\venv\Scripts\Activate.ps1
 
 $ python --version
-Python 3.9.10
+Python 3.10.5
 
 # See the available command-line options in main.py
-(venv) PS ...\PythonConsoleApp>  python main.py
+
+(venv) PS ...\PythonSqlConsoleApp> python .\main.py
 Error: no command-line args entered
 Usage:
     python main.py list_databases
@@ -63,8 +66,7 @@ Usage:
     python main.py load_container dbname cname pkattr infile
     python main.py load_container demo stores store_id data/stores.json --verbose
     python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
-    python main.py execute_query demo stores find_by_pk --pk 2
-    python main.py execute_query demo stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
+(
 
 ### Loading the customers, products, stores, and sales containers
 
@@ -76,10 +78,13 @@ See scripts load_retail.ps1 and load_retail.sh
 > python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
 
 where:
-  demo = the database name
-  sales = the container name
-  sale_id = the partition key attribute name in the data, will be used to populate /pk
+  stream_sales    = the program function
+  demo            = the database name
+  sales           = the container name
+  sale_id         = the partition key attribute name in the data, will be used to populate /pk
   data/sales.json = the input file  (see above instructions on unzipping the zip file)
-  999999 = max documents to be loaded count
-  0.5 = pause 0.5 seconds between each write
+  999999          = max documents to be loaded count
+  0.5             = pause 0.5 seconds between each write
 ```
+
+Please see the above section on the **AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING** environment variable.
