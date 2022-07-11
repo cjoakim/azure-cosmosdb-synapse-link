@@ -28,9 +28,13 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
 ## Architecture of Azure Synapse Link
 
 - **Hybrid Transactional and Analytical Processing (HTAP) in Azure**
-  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
-  - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
   - Data flows from CosmosDB to the Analytic Store in approximately 2-minutes
+  - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
+  - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo**, this repo demonstrates both 
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/introduction
+  - https://docs.microsoft.com/en-us/azure/synapse-analytics/
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link
+  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
@@ -38,13 +42,23 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
+## Configure CosmosDB
 
-- The **CosmosDB account** has the **Azure Synapse Link Feature** enabled
-  - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo** 
-  - This GitHub repo has code that demonstrates both cases
-  - https://docs.microsoft.com/en-us/azure/cosmos-db/introduction
-  - https://docs.microsoft.com/en-us/azure/synapse-analytics/
-  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link
+### Enable the Synapse Link Feature
+
+<p align="center">
+    <img src="img/feature-enabled-in-portal.png" width="80%">
+</p>
+
+### Enable Synapse Link per Container
+
+<p align="center">
+    <img src="img/synapse-linked-sales-container.png" width="80%">
+</p>
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
+## Configure Linked Services in Azure Synapse
 
 <p align="center">
     <img src="img/feature-enabled-in-portal.png" width="80%">
