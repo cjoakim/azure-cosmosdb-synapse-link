@@ -135,11 +135,15 @@ df = spark.read\
       - This is relatively expensive to do in CosmosDB, since the customer_id is not the partition key
     - The simulated data was generated with Python and the **faker** library
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
 ### CosmosDB Horizontal Partitions and Partition Keys
 
 <p align="center">
     <img src="img/partitions1.png" width="100%">
 </p>
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
 ### Sample Sale Document
 
@@ -165,7 +169,7 @@ df = spark.read\
 }
 ```
 
-### Sample LineItem Docment
+### Sample LineItem Document
 
 ```
 {
@@ -253,6 +257,27 @@ This **sales_aggregates** container is an efficient **"materialized view"** of t
 <p align="center">
     <img src="img/notebook-cell-4.png" width="100%">
 </p>
+
+### Sample SalesAggregate Document
+
+We can now execute a very efficient **point read query** to read the total sales, orders, and line items
+for a given customer_id, as this data has been aggregated into a **materialized view**.
+
+```
+    {
+        "customer_id": 3320,
+        "id": "f9edbc2b-6b48-40d0-bd7a-4154225e15b8",
+        "pk": 3320,
+        "order_count": 6,
+        "total_dollar_amount": 13591.090000000002,
+        "total_item_count": 15,
+        "_rid": "OpdUAJJt1nrJYAAAAAAAAA==",
+        "_self": "dbs/OpdUAA==/colls/OpdUAJJt1no=/docs/OpdUAJJt1nrJYAAAAAAAAA==/",
+        "_etag": "\"6a0020b5-0000-0100-0000-62cc92070000\"",
+        "_attachments": "attachments/",
+        "_ts": 1657573895
+    }
+```
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
