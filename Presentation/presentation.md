@@ -5,7 +5,7 @@ integration via **Synapse Link**
 
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
-The intent of this GitHub repository is both for **presentation purposes** and **working code examples**.
+The intent of this GitHub repository is both for **presentation purposes** and **working code examples**
 
 URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link
 
@@ -35,16 +35,17 @@ URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link
 
 ## Architecture of Azure Synapse Link
 
-- **Hybrid Transactional and Analytical Processing (HTAP) in Azure**
-  - Data flows from CosmosDB to the Analytic Store in approximately 2-minutes
+- **Hybrid Transactional and Analytical Processing (HTAP) Implementation in Azure**
+  - Data flows from CosmosDB to the Analytic Store in approximately 2-minutes; **no ETL required**
   - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
   - The Analytic Store is **read-only from Azure Synapse**
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo**, this repo demonstrates both 
   - The solution is **very easy to configure and use**
-  - [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
-  - [Azure Synapse Analytics](https://docs.microsoft.com/en-us/azure/synapse-analytics/)
-  - [Azure Synapse Link](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link)
-  - [A Common Use-Case](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases)
+  - References:
+    - [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
+    - [Azure Synapse Analytics](https://docs.microsoft.com/en-us/azure/synapse-analytics/)
+    - [Azure Synapse Link](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link)
+    - [A Common Use-Case](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases)
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
@@ -88,9 +89,8 @@ In Synapse Studio
 This is the resulting list of **Datasets** in Azure Synapse:
 
 <p align="center">
-    <img src="img/synapse-linked-datasets" width="80%">
+    <img src="img/synapse-linked-datasets.png" width="80%">
 </p>
-
 
 ### Spark Notebook Code to Read the Synapse Link Data
 
@@ -103,6 +103,8 @@ df = spark.read\
     .option("spark.cosmos.container", "sales")\
     .load()
 ```
+
+[PySpark Notebook Used in the Demonstration Application](https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Synapse/notebooks/cosmos_sql_sales_processing.ipynb)
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
