@@ -72,13 +72,13 @@ Presentation URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/ma
 ### Enable the Synapse Link Feature on the Account
 
 <p align="center">
-    <img src="img/feature-enabled-in-portal.png" width="80%">
+    <img src="img/feature-enabled-in-portal.png" width="100%">
 </p>
 
 ### Also Enable Synapse Link per Container
 
 <p align="center">
-    <img src="img/synapse-linked-sales-container.png" width="80%">
+    <img src="img/synapse-linked-sales-container.png" width="100%">
 </p>
 
 Note the optional **TTL** functionality in both OLTP and OLAP.
@@ -103,7 +103,7 @@ In Synapse Studio
 This is the resulting list of **Datasets** in Azure Synapse (see the CosmosSqlDemoDB linked service):
 
 <p align="center">
-    <img src="img/synapse-linked-datasets.png" width="80%">
+    <img src="img/synapse-linked-datasets.png" width="100%">
 </p>
 
 ### Spark Notebook Code to Read the Synapse Link Data
@@ -138,7 +138,7 @@ df = spark.read\
 ### CosmosDB Horizontal Partitions and Partition Keys
 
 <p align="center">
-    <img src="img/partitions1.png" width="80%">
+    <img src="img/partitions1.png" width="100%">
 </p>
 
 ### Sample Sale Document
@@ -198,7 +198,7 @@ python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
 ```
 
 <p align="center">
-    <img src="img/python-console-app-streaming-sales.png" width="80%">
+    <img src="img/python-console-app-streaming-sales.png" width="100%">
 </p>
 
 - The CosmosDB data flows into **Synapse Link Analytical Store in near realtime**
@@ -230,20 +230,20 @@ python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
 #### Notebook Cell 1 - Load the SynapseLink Sales Data into a Dataframe
 
 <p align="center">
-    <img src="img/notebook-cell-1.png" width="80%">
+    <img src="img/notebook-cell-1.png" width="100%">
 </p>
 
 #### Notebook Cell 2 -  Display the shape and observed schema of the DataFrame
 
 <p align="center">
-    <img src="img/notebook-cell-2.png" width="80%">
+    <img src="img/notebook-cell-2.png" width="100%">
 </p>
 
 
 #### Notebook Cell 3 - Aggregate Sales by Customer 
 
 <p align="center">
-    <img src="img/notebook-cell-3.png" width="80%">
+    <img src="img/notebook-cell-3.png" width="100%">
 </p>
 
 #### Notebook Cell 4 - Write the customer-aggregated DataFrame to the CosmosDB sales_aggregates container
@@ -251,7 +251,7 @@ python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
 This **sales_aggregates** container is an efficient **"materialized view"** of the sales data.
 
 <p align="center">
-    <img src="img/notebook-cell-4.png" width="80%">
+    <img src="img/notebook-cell-4.png" width="100%">
 </p>
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
