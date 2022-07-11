@@ -7,26 +7,32 @@ integration via **Synapse Link**
 
 The intent of this GitHub repository is both for **presentation purposes** and **working code examples**.
 
+https://github.com/cjoakim/azure-cosmosdb-synapse-link
+
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
 <a name="part1"></a>
 
-## Architecture of Synapse Link, and this Demonstration App
+## What is HTAP?
 
 - **Origins of the term HTAP per Wikipedia**
   - **HTAP** = **Hybrid Transactional Analytical Processing**
   - https://en.wikipedia.org/wiki/Hybrid_transactional/analytical_processing
     - **Garner** in 2014 called it **HTAP**
       - "... architecture that "breaks the wall" between transaction processing and analytics."
-    - **Forrester** calls it **HOAP**
-      - "Hybrid operational and analytical processing"
+    - **Forrester** called it **HOAP**
+      - "Hybrid Operational and Analytical Processing"
+
+<p align="center"><img src="img/spacer-50.png" width="50%></p>
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
+## Architecture of Azure Synapse Link
 
 - **Hybrid Transactional and Analytical Processing (HTAP) in Azure**
   - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
   - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
-  - Data flows from CosmosDB to the Analytic Datastore in approximately 2-minutes
+  - Data flows from CosmosDB to the Analytic Store in approximately 2-minutes
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
