@@ -23,6 +23,13 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
     - **Forrester** called it **HOAP**
       - "Hybrid Operational and Analytical Processing"
 
+### Why use HTAP?
+
+  - It Enables:
+    - Efficient use of the operational database (OLTP)
+    - Efficient analytics and batch processing on copies of the same data
+    - Lower Costs
+
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
 ## Architecture of Azure Synapse Link
@@ -30,6 +37,7 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
 - **Hybrid Transactional and Analytical Processing (HTAP) in Azure**
   - Data flows from CosmosDB to the Analytic Store in approximately 2-minutes
   - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
+  - The Analytic Store is **read-only from Azure Synapse**
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo**, this repo demonstrates both 
   - https://docs.microsoft.com/en-us/azure/cosmos-db/introduction
   - https://docs.microsoft.com/en-us/azure/synapse-analytics/
