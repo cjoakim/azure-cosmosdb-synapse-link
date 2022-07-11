@@ -31,7 +31,8 @@ Presentation URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/ma
     - Efficient use of the operational database (OLTP)
     - Efficient analytics and batch processing on copies of the same data
     - "Painless ETL"
-    - Lower Costs
+    - Use of the right tool for the job; OLTP vs OLAP
+    - **Lower Overall System Costs**
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
