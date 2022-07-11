@@ -12,6 +12,7 @@ integration via **Synapse Link**
 ## Architecture of Synapse Link, and this Demonstration App
 
 - **Origins of the term HTAP per Wikipedia**
+  - **HTAP** = **Hybrid Transactional Analytical Processing**
   - https://en.wikipedia.org/wiki/Hybrid_transactional/analytical_processing
     - **Garner** in 2014 called it **HTAP**
       - "... architecture that "breaks the wall" between transaction processing and analytics."
