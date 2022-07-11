@@ -131,7 +131,7 @@ df = spark.read\
     - The simulated data was generated with Python and the **faker** library
 
 <p align="center">
-    <img src="img/python-console-app-streaming-sales" width="80%">
+    <img src="img/python-console-app-streaming-sales.png" width="80%">
 </p>
 
 - The CosmosDB data flows into **Synapse Link Analytical Store in near realtime**
