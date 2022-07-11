@@ -1,4 +1,4 @@
-# azure-cosmosdb-synapse-link: Presentation
+# Azure CosmosDB with Synapse Link Presentation
 
 Demonstration of **Azure CosmosDB** and **Azure Synapse Analytics**
 integration via **Synapse Link**
@@ -7,7 +7,7 @@ integration via **Synapse Link**
 
 The intent of this GitHub repository is both for **presentation purposes** and **working code examples**.
 
-https://github.com/cjoakim/azure-cosmosdb-synapse-link
+URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
