@@ -137,14 +137,6 @@ df = spark.read\
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
-### CosmosDB Horizontal Partitions and Partition Keys
-
-<p align="center">
-    <img src="img/partitions1.png" width="100%">
-</p>
-
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
 ### Sample Sale Document
 
 ```
@@ -194,6 +186,14 @@ df = spark.read\
     "_ts": 1644166323
 }
 ```
+
+### CosmosDB Horizontal Partitions and Partition Keys
+
+<p align="center">
+    <img src="img/partitions1.png" width="100%">
+</p>
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
 ### Send a Stream of Sales data to CosmosDB with the PythonSqlConsoleApp
 
