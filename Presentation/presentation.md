@@ -11,14 +11,14 @@ integration via **Synapse Link**
 
 ## Architecture of Synapse Link, and this Demonstration App
 
-- **Origins of the term HTAP**
+- **Origins of the term HTAP per Wikipedia**
   - https://en.wikipedia.org/wiki/Hybrid_transactional/analytical_processing
     - **Garner** in 2014 called it **HTAP**
       - "... architecture that "breaks the wall" between transaction processing and analytics."
     - **Forrester** calls it **HOAP**
       - "Hybrid operational and analytical processing"
 
-- **Hybrid Transactional and Analytical Processing (HTAP)**
+- **Hybrid Transactional and Analytical Processing (HTAP) in Azure**
   - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
   - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
 
