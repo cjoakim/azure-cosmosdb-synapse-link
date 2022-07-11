@@ -7,7 +7,9 @@ integration via **Synapse Link**
 
 The intent of this GitHub repository is both for **presentation purposes** and **working code examples**
 
-URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link
+Repository URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link
+
+Presentation URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Presentation/presentation.md
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
@@ -39,8 +41,9 @@ URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link
   - Data flows from CosmosDB to the Analytic Store in approximately 2-minutes; **no ETL required**
   - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
   - The Analytic Store is **read-only from Azure Synapse**
-  - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo**, this repo demonstrates both 
+  - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo**; this repo demonstrates both 
   - The solution is **very easy to configure and use**
+  - Use the **Apache Spark** and/or **SQL** compute engines in Azure Synapse to read the Analytic Store
   - References:
     - [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
     - [Azure Synapse Analytics](https://docs.microsoft.com/en-us/azure/synapse-analytics/)
@@ -49,6 +52,16 @@ URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
+</p>
+
+### Synapse Link data movement and transformation
+
+- Synapse Link performs **both copy AND data transformation (to columnar format)** operations
+- A **columnar datastore** is more suitable for analytical processing
+- The **inserts, updates, and deletes** to your CosmosDB operational data are automatically synced to analytical store
+
+<p align="center">
+  <img src="img/transactional-analytical-data-stores.png" width="100%">
 </p>
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
@@ -86,7 +99,7 @@ In Synapse Studio
               Save
 ```
 
-This is the resulting list of **Datasets** in Azure Synapse:
+This is the resulting list of **Datasets** in Azure Synapse (see the CosmosSqlDemoDB linked service):
 
 <p align="center">
     <img src="img/synapse-linked-datasets.png" width="80%">
@@ -104,10 +117,7 @@ df = spark.read\
     .load()
 ```
 
-[PySpark Notebook Used in the Demonstration Application](https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Synapse/notebooks/cosmos_sql_sales_processing.ipynb)
-
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
 
 ## The Demonstration Application
 
@@ -117,8 +127,12 @@ df = spark.read\
   - See example [PythonMongoConsoleApp](../PythonMongoConsoleApp/readme.md) for loading **CosmosDB/Mongo**
   - See example [PythonSqlConsoleApp](../PythonSqlConsoleApp/readme.md) for loading **CosmosDB/SQL**
   - See the [dataset_generation](../dataset_generation/readme.md) directory
-    - Simulated Products, Stores, Customers, Sales
-    - The simulated data generated with Python and the **faker** library
+    - **Simulated Products, Stores, Customers, and Sales documents with Line Items**
+    - The simulated data was generated with Python and the **faker** library
+
+<p align="center">
+    <img src="img/python-console-app-streaming-sales" width="80%">
+</p>
 
 - The CosmosDB data flows into **Synapse Link Analytical Store in near realtime**
   - Approximately 2-minutes
@@ -142,8 +156,13 @@ df = spark.read\
 - The Synapse Link data can also be queried with **SQL pools** (not in demonstration)
   - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-power-bi
 
-- A **PySpark Notebook** aggregates the Synapse Link Sales data, and writes it back to CosmosDB
- - https://docs.microsoft.com/en-us/azure/synapse-analytics/synapse-link/how-to-query-analytical-store-spark-3
+- A **PySpark Notebook aggregates the Synapse Link Sales data, and writes it back to CosmosDB**
+  - [The PySpark Notebook Used in the Demonstration Application](https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Synapse/notebooks/cosmos_sql_sales_processing.ipynb)
+
+<p align="center">
+    <img src="img/python-console-app-streaming-sales" width="80%">
+</p>
+
 
 - **Desktop Programs** can access **CosmosDB/Mongo**
   - [Mongo shell, Studio 3T, Matlab, etc](cosmos_mongo_desktop_tools.md)
@@ -153,16 +172,6 @@ df = spark.read\
 </p>
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
-
-## Synapse Link data movement and transformation
-
-- Synapse Link performs **both copy AND data transformation (to columnar format)** operations
-- A **columnar datastore** is more suitable for analytical processing
-- The **inserts, updates, and deletes** to your CosmosDB operational data are automatically synced to analytical store
-
-<p align="center"><img src="img/transactional-analytical-data-stores.png" width="100%"></p>
-
-s
 
 ## Synapse Link Details
 
