@@ -172,20 +172,22 @@ python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
     <img src="img/notebook-cell-1.png" width="80%">
 </p>
 
-#### Notebook Cell 2 - Load the SynapseLink Sales Data into a Dataframe
+#### Notebook Cell 2 -  Display the shape and observed schema of the DataFrame
 
 <p align="center">
     <img src="img/notebook-cell-2.png" width="80%">
 </p>
 
 
-#### Notebook Cell 3 - Load the SynapseLink Sales Data into a Dataframe
+#### Notebook Cell 3 - Aggregate Sales by Customer 
 
 <p align="center">
     <img src="img/notebook-cell-3.png" width="80%">
 </p>
 
-#### Notebook Cell 4 - Load the SynapseLink Sales Data into a Dataframe
+#### Notebook Cell 4 - Write the customer-aggregated DataFrame to the CosmosDB sales_aggregates container
+
+This **sales_aggregates** container is an efficient **"materialized view"** of the sales data.
 
 <p align="center">
     <img src="img/notebook-cell-4.png" width="80%">
