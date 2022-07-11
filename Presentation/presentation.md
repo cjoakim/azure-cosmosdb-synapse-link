@@ -130,6 +130,12 @@ df = spark.read\
     - **Simulated Products, Stores, Customers, and Sales documents with Line Items**
     - The simulated data was generated with Python and the **faker** library
 
+### Send a Stream of Sales data to CosmosDB with the PythonSqlConsoleApp
+
+```
+python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
+```
+
 <p align="center">
     <img src="img/python-console-app-streaming-sales.png" width="80%">
 </p>
