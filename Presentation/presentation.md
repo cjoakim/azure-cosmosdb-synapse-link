@@ -23,8 +23,6 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
     - **Forrester** called it **HOAP**
       - "Hybrid Operational and Analytical Processing"
 
-<p align="center"><img src="img/spacer-50.png" width="50%></p>
-
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
 ## Architecture of Azure Synapse Link
