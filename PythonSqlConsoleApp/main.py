@@ -6,6 +6,7 @@ Usage:
     python main.py load_container dbname cname pkattr infile
     python main.py load_container demo stores store_id data/stores.json --verbose
     python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5 
+    python main.py epoch
 """
 
 __author__  = 'Chris Joakim'
@@ -198,6 +199,9 @@ if __name__ == "__main__":
             cname  = sys.argv[3]
             qname  = sys.argv[4]
             execute_query(dbname, cname, qname)
+        
+        elif func == 'epoch':
+            print('current epoch time is: {}'.format(time.time()))
 
         else:
             print_options('Error: invalid function: {}'.format(func))

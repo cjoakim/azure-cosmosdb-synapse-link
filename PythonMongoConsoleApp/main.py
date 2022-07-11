@@ -8,6 +8,7 @@ Usage:
     python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5 
     python main.py execute_query demo stores find_by_pk --pk 2 
     python main.py execute_query demo stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
+    python main.py epoch
 """
 
 __author__  = 'Chris Joakim'
@@ -209,6 +210,8 @@ if __name__ == "__main__":
             qname  = sys.argv[4]
             execute_query(dbname, cname, qname)
 
+        elif func == 'epoch':
+            print('current epoch time is: {}'.format(time.time()))
         else:
             print_options('Error: invalid function: {}'.format(func))
     else:
