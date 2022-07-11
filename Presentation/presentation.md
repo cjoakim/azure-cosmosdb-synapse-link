@@ -30,6 +30,10 @@ integration via **Synapse Link**
   - https://docs.microsoft.com/en-us/azure/synapse-analytics/
   - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link
 
+<p align="center">
+    <img src="img/feature-enabled-in-portal.png" width="80%">
+</p>
+
 - A **Client Console Application** reads a data file, and **Loads JSON documents to CosmosDB**
   - See example [DotnetConsoleApp](../DotnetConsoleApp/readme.md) for bulk-loading **CosmosDB/SQL**
     - NuGet library: Microsoft.Azure.Cosmos 3.20.1
