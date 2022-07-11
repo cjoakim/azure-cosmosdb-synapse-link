@@ -28,6 +28,7 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
   - It Enables:
     - Efficient use of the operational database (OLTP)
     - Efficient analytics and batch processing on copies of the same data
+    - "Painless ETL"
     - Lower Costs
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
@@ -39,10 +40,11 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
   - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
   - The Analytic Store is **read-only from Azure Synapse**
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo**, this repo demonstrates both 
-  - https://docs.microsoft.com/en-us/azure/cosmos-db/introduction
-  - https://docs.microsoft.com/en-us/azure/synapse-analytics/
-  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link
-  - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
+  - The solution is **very easy to configure and use**
+  - [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/introduction)
+  - [Azure Synapse Analytics](https://docs.microsoft.com/en-us/azure/synapse-analytics/)
+  - [Azure Synapse Link](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link)
+  - [A Common Use-Case](https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases)
 
 <p align="center">
     <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
@@ -52,27 +54,60 @@ https://github.com/cjoakim/azure-cosmosdb-synapse-link
 
 ## Configure CosmosDB
 
-### Enable the Synapse Link Feature
+### Enable the Synapse Link Feature on the Account
 
 <p align="center">
     <img src="img/feature-enabled-in-portal.png" width="80%">
 </p>
 
-### Enable Synapse Link per Container
+### Also Enable Synapse Link per Container
 
 <p align="center">
     <img src="img/synapse-linked-sales-container.png" width="80%">
 </p>
 
+Note the optional **TTL** functionality in both OLTP and OLAP.
+
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
-## Configure Linked Services in Azure Synapse
+## Configure a Linked Service in Azure Synapse
+
+First, create a **Linked Service** in Azure Synapse.  This is the sequence of steps in the UI:
+
+```
+In Synapse Studio
+  Linked Services -->
+    New Linked Service -->
+      Select CosmosDB -->
+        Select your Subscription -->
+          Select your Database -->
+            Test Connection -->
+              Save
+```
+
+This is the resulting list of **Datasets** in Azure Synapse:
 
 <p align="center">
-    <img src="img/feature-enabled-in-portal.png" width="80%">
+    <img src="img/synapse-linked-datasets" width="80%">
 </p>
 
+
+### Spark Notebook Code to Read the Synapse Link Data
+
+Right-mouse a dataset (i.e. - sales) to produce an initial working notebook:
+
+```
+df = spark.read\
+    .format("cosmos.olap")\
+    .option("spark.synapse.linkedService", "CosmosSqlDemoDb")\
+    .option("spark.cosmos.container", "sales")\
+    .load()
+```
+
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
+
+## The Demonstration Application
 
 - A **Client Console Application** reads a data file, and **Loads JSON documents to CosmosDB**
   - See example [DotnetSqlConsoleApp](../DotnetSqlConsoleApp/readme.md) for bulk-loading **CosmosDB/SQL**
