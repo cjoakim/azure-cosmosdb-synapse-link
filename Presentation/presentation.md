@@ -165,16 +165,30 @@ python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
 - A **PySpark Notebook aggregates the Synapse Link Sales data, and writes it back to CosmosDB**
   - [The PySpark Notebook Used in the Demonstration Application](https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Synapse/notebooks/cosmos_sql_sales_processing.ipynb)
 
+
+#### Notebook Cell 1 - Load the SynapseLink Sales Data into a Dataframe
+
 <p align="center">
-    <img src="img/python-console-app-streaming-sales.png" width="80%">
+    <img src="img/notebook-cell-1.png" width="80%">
+</p>
+
+#### Notebook Cell 2 - Load the SynapseLink Sales Data into a Dataframe
+
+<p align="center">
+    <img src="img/notebook-cell-2.png" width="80%">
 </p>
 
 
-- **Desktop Programs** can access **CosmosDB/Mongo**
-  - [Mongo shell, Studio 3T, Matlab, etc](cosmos_mongo_desktop_tools.md)
+#### Notebook Cell 3 - Load the SynapseLink Sales Data into a Dataframe
 
 <p align="center">
-    <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
+    <img src="img/notebook-cell-3.png" width="80%">
+</p>
+
+#### Notebook Cell 4 - Load the SynapseLink Sales Data into a Dataframe
+
+<p align="center">
+    <img src="img/notebook-cell-4.png" width="80%">
 </p>
 
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
