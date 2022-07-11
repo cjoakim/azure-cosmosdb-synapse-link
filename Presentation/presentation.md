@@ -166,7 +166,7 @@ python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5
   - [The PySpark Notebook Used in the Demonstration Application](https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/main/Synapse/notebooks/cosmos_sql_sales_processing.ipynb)
 
 <p align="center">
-    <img src="img/python-console-app-streaming-sales" width="80%">
+    <img src="img/python-console-app-streaming-sales.png" width="80%">
 </p>
 
 
