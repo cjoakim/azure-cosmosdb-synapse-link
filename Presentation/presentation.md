@@ -3,7 +3,7 @@
 Demonstration of **Azure CosmosDB** and **Azure Synapse Analytics**
 integration via **Synapse Link**
 
-**Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
+**Chris Joakim, Microsoft, Global Black Belt (GBB) for NoSQL/CosmosDB**, chjoakim@microsoft.com
 
 The intent of this GitHub repository is both for **presentation purposes** and **working code examples**
 
@@ -20,7 +20,7 @@ Presentation URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/ma
 - **Origins of the term HTAP per Wikipedia**
   - **HTAP** = **Hybrid Transactional Analytical Processing**
   - https://en.wikipedia.org/wiki/Hybrid_transactional/analytical_processing
-    - **Garner** in 2014 called it **HTAP**
+    - **Gartner** in 2014 coined the phrase **HTAP**
       - "... architecture that "breaks the wall" between transaction processing and analytics."
     - **Forrester** called it **HOAP**
       - "Hybrid Operational and Analytical Processing"
@@ -58,8 +58,8 @@ Presentation URL: https://github.com/cjoakim/azure-cosmosdb-synapse-link/blob/ma
 ### Synapse Link data movement and transformation
 
 - Synapse Link performs **both copy AND data transformation (to columnar format)** operations
-- A **columnar datastore** is more suitable for analytical processing
-- The **inserts, updates, and deletes** to your CosmosDB operational data are automatically synced to analytical store
+- A **columnar datastore**, similar to Apache Parquet, is more suitable for analytical processing
+- The **inserts, updates, and deletes** to your CosmosDB operational data are automatically synced to the analytical store
 
 <p align="center">
   <img src="img/transactional-analytical-data-stores.png" width="100%">
@@ -129,7 +129,67 @@ df = spark.read\
   - See example [PythonSqlConsoleApp](../PythonSqlConsoleApp/readme.md) for loading **CosmosDB/SQL**
   - See the [dataset_generation](../dataset_generation/readme.md) directory
     - **Simulated Products, Stores, Customers, and Sales documents with Line Items**
+    - Both the **Sale** and **LineItem** documents are written to the **same container: Sales**
+      - The sale_id is the **partition key value**, not the customer_id
+    - **Use-Case is to Aggregate the Sales by Customer**
+      - This is relatively expensive to do in CosmosDB, since the customer_id is not the partition key
     - The simulated data was generated with Python and the **faker** library
+
+### CosmosDB Horizontal Partitions and Partition Keys
+
+<p align="center">
+    <img src="img/partitions1.png" width="80%">
+</p>
+
+### Sample Sale Document
+
+```
+{
+    "pk": 106,
+    "id": "aad1d9b6-58df-4b2b-840d-e79f776544a7",
+    "sale_id": 106,
+    "doctype": "sale",
+    "date": "2021-01-02",
+    "dow": "sat",
+    "customer_id": 3320,
+    "store_id": 67,
+    "item_count": 2,
+    "total_cost": 2000.65,
+    "doc_epoch": 1644166322264,
+    "doc_time": "2022/02/06-16:52:02",
+    "_rid": "OpdUANVwen0CAAAAAAAAAA==",
+    "_self": "dbs/OpdUAA==/colls/OpdUANVwen0=/docs/OpdUANVwen0CAAAAAAAAAA==/",
+    "_etag": "\"95051d3a-0000-0100-0000-61fffcb30000\"",
+    "_attachments": "attachments/",
+    "_ts": 1644166323
+}
+```
+
+### Sample LineItem Docment
+
+```
+{
+    "pk": 106,
+    "id": "7b7a8f27-f784-4915-9b65-3d8fb81d8264",
+    "sale_id": 106,
+    "doctype": "line_item",
+    "date": "2021-01-02",
+    "line_num": 1,
+    "customer_id": 3320,
+    "store_id": 67,
+    "upc": "1357012779868",
+    "price": 852.67,
+    "qty": 1,
+    "cost": 852.67,
+    "doc_epoch": 1644166322264,
+    "doc_time": "2022/02/06-16:52:02",
+    "_rid": "OpdUANVwen0DAAAAAAAAAA==",
+    "_self": "dbs/OpdUAA==/colls/OpdUANVwen0=/docs/OpdUANVwen0DAAAAAAAAAA==/",
+    "_etag": "\"95051e3a-0000-0100-0000-61fffcb30000\"",
+    "_attachments": "attachments/",
+    "_ts": 1644166323
+}
+```
 
 ### Send a Stream of Sales data to CosmosDB with the PythonSqlConsoleApp
 
