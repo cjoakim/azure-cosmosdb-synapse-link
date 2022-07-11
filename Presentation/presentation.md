@@ -5,6 +5,8 @@ integration via **Synapse Link**
 
 **Chris Joakim, Microsoft, Global Black Belt NoSQL/CosmosDB**, chjoakim@microsoft.com
 
+The intent of this GitHub repository is both for **presentation purposes** and **working code examples**.
+
 <p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
 
 <a name="part1"></a>
@@ -19,9 +21,19 @@ integration via **Synapse Link**
     - **Forrester** calls it **HOAP**
       - "Hybrid operational and analytical processing"
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
 - **Hybrid Transactional and Analytical Processing (HTAP) in Azure**
   - https://docs.microsoft.com/en-us/azure/cosmos-db/synapse-link-use-cases
   - Azure Cosmos DB guarantees **performance isolation** between the transactional and analytical workloads
+  - Data flows from CosmosDB to the Analytic Datastore in approximately 2-minutes
+
+<p align="center">
+    <img src="img/synapse-analytics-cosmos-db-architecture.png" width="100%">
+</p>
+
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
 
 - The **CosmosDB account** has the **Azure Synapse Link Feature** enabled
   - The account can be either **CosmosDB/SQL** or **CosmosDB/Mongo** 
@@ -34,13 +46,13 @@ integration via **Synapse Link**
     <img src="img/feature-enabled-in-portal.png" width="80%">
 </p>
 
+<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+
 - A **Client Console Application** reads a data file, and **Loads JSON documents to CosmosDB**
-  - See example [DotnetConsoleApp](../DotnetConsoleApp/readme.md) for bulk-loading **CosmosDB/SQL**
-    - NuGet library: Microsoft.Azure.Cosmos 3.20.1
-  - See example [JavaConsoleApp](../JavaConsoleApp/readme.md) for loading **CosmosDB/Mongo**
-    - MavenCentral library: org.mongodb:mongodb-driver-sync:4.1.1
-  - See example [PythonConsoleApp](../PythonConsoleApp/readme.md) for loading **CosmosDB/Mongo**
-    - PyPi library: pymongo 4.0.1
+  - See example [DotnetSqlConsoleApp](../DotnetSqlConsoleApp/readme.md) for bulk-loading **CosmosDB/SQL**
+  - See example [JavaMongoConsoleApp](../JavaMongoConsoleApp/readme.md) for loading **CosmosDB/Mongo**
+  - See example [PythonMongoConsoleApp](../PythonMongoConsoleApp/readme.md) for loading **CosmosDB/Mongo**
+  - See example [PythonSqlConsoleApp](../PythonSqlConsoleApp/readme.md) for loading **CosmosDB/SQL**
   - See the [dataset_generation](../dataset_generation/readme.md) directory
     - Simulated Products, Stores, Customers, Sales
     - The simulated data generated with Python and the **faker** library
@@ -87,7 +99,7 @@ integration via **Synapse Link**
 
 <p align="center"><img src="img/transactional-analytical-data-stores.png" width="100%"></p>
 
-<p align="center"><img src="img/horizonal-line-1.jpeg" width="95%"></p>
+s
 
 ## Synapse Link Details
 
