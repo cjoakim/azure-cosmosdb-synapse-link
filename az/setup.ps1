@@ -2,6 +2,8 @@
 # See https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 # Chris Joakim, Microsoft
 
+.\config.ps1
+
 mkdir -p tmp/
 
 echo 'interactive az login ...'

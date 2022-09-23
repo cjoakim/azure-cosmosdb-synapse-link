@@ -1,6 +1,8 @@
 # Provision Azure Synapse Workspace, and related services, with the az CLI.
 # Chris Joakim, Microsoft
 
+.\config.ps1
+
 echo 'create rg ...'
 az group create `
     --location $Env:synapse_region `

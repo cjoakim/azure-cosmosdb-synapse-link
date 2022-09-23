@@ -8,21 +8,21 @@
 # Chris Joakim, Microsoft
 
 export primary_region="eastus"
-export primary_rg="cjoakimsl"
+export primary_rg="chjoakimsl"
 export subscription=$AZURE_SUBSCRIPTION_ID
 #
 export akv_region=$primary_region
 export akv_rg=$primary_rg
-export akv_name="cjoakimslkv2"
+export akv_name="chjoakimslkv2"
 export akv_sku="standard"
 #
 export la_wsp_region=$primary_region
 export la_wsp_rg=$primary_rg
-export la_wsp_name="cjoakimslla"
+export la_wsp_name="chjoakimslla"
 #
 export cosmos_sql_region=$primary_region
 export cosmos_sql_rg=$primary_rg
-export cosmos_sql_acct_name="cjoakimslcosmossql"
+export cosmos_sql_acct_name="chjoakimslcosmossql"
 export cosmos_sql_acct_consistency="Session"    # {BoundedStaleness, ConsistentPrefix, Eventual, Session, Strong}
 export cosmos_sql_acct_kind="GlobalDocumentDB"  # {GlobalDocumentDB, MongoDB, Parse}
 export cosmos_sql_dbname="demo"
@@ -33,7 +33,7 @@ export cosmos_sql_sl_ttl="220903200"            # 7-years, in seconds (60 * 60 *
 #
 export cosmos_mongo_region=$primary_region
 export cosmos_mongo_rg=$primary_rg
-export cosmos_mongo_acct_name="cjoakimslcosmosmongo"
+export cosmos_mongo_acct_name="chjoakimslcosmosmongo"
 export cosmos_mongo_acct_consistency="Session"    # {BoundedStaleness, ConsistentPrefix, Eventual, Session, Strong}
 export cosmos_mongo_acct_kind="MongoDB"  # {GlobalDocumentDB, MongoDB, Parse}
 export cosmos_mongo_version="4.0"
@@ -43,8 +43,8 @@ export cosmos_mongo_db_throughput="4000"
 export postgresql_region=$primary_region
 export postgresql_rg=$primary_rg
 export postgresql_version="11"
-export postgresql_acct_name="cjoakimslpg"
-export postgresql_server="cjoakimslpgsrv"
+export postgresql_acct_name="chjoakimslpg"
+export postgresql_server="chjoakimslpgsrv"
 export postgresql_dbname="demo"
 export postgresql_admin_user="cjoakim"
 export postgresql_admin_pass=$AZURE_CSL_PG_PASS
@@ -54,7 +54,7 @@ export postgresql_port=5432
 #
 export synapse_region=$primary_region
 export synapse_rg=$primary_rg
-export synapse_name="cjoakimslsynapse"
+export synapse_name="chjoakimslsynapse"
 export synapse_stor_kind="StorageV2"            # {BlobStorage, BlockBlobStorage, FileStorage, Storage, StorageV2}]
 export synapse_stor_sku="Standard_LRS"          # {Premium_LRS, Premium_ZRS, Standard_GRS, Standard_GZRS, , Standard_RAGRS, Standard_RAGZRS, Standard_ZRS]
 export synapse_stor_access_tier="Hot"           # Cool, Hot

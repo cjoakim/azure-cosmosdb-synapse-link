@@ -2,7 +2,7 @@
 # Provision an Azure Cosmos/SQL DB account with the az CLI.
 # Chris Joakim, Microsoft
 
-# /cosmos_sql.ps1
+.\config.ps1
 
 echo 'creating rg: '$Env:cosmos_sql_rg
 az group create `
@@ -31,12 +31,24 @@ az cosmosdb sql database create `
     --max-throughput $Env:cosmos_sql_db_throughput `
     > tmp/cosmos_sql_db_create.json
 
+# containers: products, stores, customers, sales, sales_aggregates
+
 echo 'creating cosmos container: '$Env:cosmos_sql_cname
 az cosmosdb sql container create `
     --resource-group $Env:cosmos_sql_rg `
     --account-name $Env:cosmos_sql_acct_name `
     --database-name $Env:cosmos_sql_dbname `
-    --name $Env:cosmos_sql_cname `
+    --name products `
+    --subscription $Env:AZURE_SUBSCRIPTION_ID `
+    --partition-key-path $Env:cosmos_sql_pk_path `
+    --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
+
+echo 'creating cosmos container: stores'
+az cosmosdb sql container create `
+    --resource-group $Env:cosmos_sql_rg `
+    --account-name $Env:cosmos_sql_acct_name `
+    --database-name $Env:cosmos_sql_dbname `
+    --name stores `
     --subscription $Env:AZURE_SUBSCRIPTION_ID `
     --partition-key-path $Env:cosmos_sql_pk_path `
     --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
@@ -51,24 +63,23 @@ az cosmosdb sql container create `
     --partition-key-path $Env:cosmos_sql_pk_path `
     --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
 
-echo 'creating cosmos container: products'
+echo 'creating cosmos container: sales'
 az cosmosdb sql container create `
     --resource-group $Env:cosmos_sql_rg `
     --account-name $Env:cosmos_sql_acct_name `
     --database-name $Env:cosmos_sql_dbname `
-    --name products `
+    --name sales `
     --subscription $Env:AZURE_SUBSCRIPTION_ID `
     --partition-key-path $Env:cosmos_sql_pk_path `
     --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
 
-echo 'creating cosmos container: orders'
+echo 'creating cosmos container: sales_aggregates'
 az cosmosdb sql container create `
     --resource-group $Env:cosmos_sql_rg `
     --account-name $Env:cosmos_sql_acct_name `
     --database-name $Env:cosmos_sql_dbname `
-    --name orders `
+    --name sales_aggregates `
     --subscription $Env:AZURE_SUBSCRIPTION_ID `
-    --partition-key-path $Env:cosmos_sql_pk_path `
-    --analytical-storage-ttl $Env:cosmos_sql_sl_ttl
-        
+    --partition-key-path $Env:cosmos_sql_pk_path
+
 echo 'done'

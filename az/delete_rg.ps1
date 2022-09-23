@@ -1,6 +1,8 @@
 # Delete the Azure Resource Group associated with this project.
 # Chris Joakim, Microsoft
 
+.\config.ps1
+
 echo "deleting resource group: "$Env:cosmos_sql_rg
 
 az group delete `
