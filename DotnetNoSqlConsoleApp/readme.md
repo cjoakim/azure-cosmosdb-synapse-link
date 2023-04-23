@@ -1,4 +1,4 @@
-# DotnetConsoleApp
+# DotnetNoSqlConsoleApp
 
 ## Quick Setup
 
