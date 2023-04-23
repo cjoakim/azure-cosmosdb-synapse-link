@@ -4,7 +4,7 @@
 
 - Either the Windows, Linux, or macOS operating system
 - [git source control system](https://git-scm.com/)
-- DotNet 6, Java 11, or Python 3 - per your chosen CosmosDB API and Programming Language
+- DotNet 6+, Java 11+, or Python 3 - per your chosen CosmosDB API and Programming Language
 
 ## Clone this GitHub Repository
 
@@ -23,7 +23,7 @@ It is recommended that you provision these Azure Resources with either the
 
 - **Azure CosmosDB/SQL OR CosmosDB/Mongo Account**
   - With database named **demo** with 10,000 shared Request Units (RU)
-  - With containers named **customers, products, stores, sales, sales_aggregates** with partition key **/pk**
+  - With containers named **customers, products, stores, sales, views** with partition key **/pk**
   - both the account and the containers should have the **Analytical Store Enabled**
 
 - **Azure Synapse**
@@ -31,33 +31,6 @@ It is recommended that you provision these Azure Resources with either the
 
 - **Azure Monitor**
   - Configure your CosmosDB account to log to this instance
-
-
-### az CLI Provisioning Scripts
-
-See the **az/** directory in this repo for working bash shell scripts.
-
-Edit the **az/config** script per your configuration and naming conventions.
-
-Ths syntax of the az commands is identical in **Windows PowerShell** although
-ps1 scripts are not fully implemented in this repo at this time.  You can
-create these as necessary, modeled after the bash *.sh scripts.
-
-#### Example Use
-
-```
-$ ./cosmos_mongo.sh create              <-- creates the CosmosDB/Mongo account and database
-$ ./cosmos_mongo.sh create_collections  <-- creates the CosmosDB/Mongo containers/collections with indexing
-
-$ ./cosmos_sql.sh create   <-- creates just the CosmosDB account; the Dotnet code will create the database and containers
-
-$ ./synapse.sh create pause create_spark_pool pause info   <-- creates the Azure Synapse resources
-
-$ ./la_wsp.sh create       <-- creates the Log Analytics workspace; aka Azure Monitor
-```
-
-There are some other provisioning az scripts in this directory, such as for **Azure PostgreSQL**,
-but these are not currently integrated into this demonstration application.
 
 ## Environment Varibles
 
@@ -70,13 +43,13 @@ AZURE_SUBSCRIPTION_ID                   <-- used in az CLI provisioning scripts
 AZURE_SYNAPSE_USER                      <-- used in az/synapse* provisioning scripts
 AZURE_SYNAPSE_PASS                      <-- used in az/synapse* provisioning scripts
 
-AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING    <-- for CosmosDB/SQL & DotNet
-AZURE_CSL_COSMOSDB_SQLDB_KEY            <-- for CosmosDB/SQL & DotNet
-AZURE_CSL_COSMOSDB_SQLDB_URI            <-- for CosmosDB/SQL & DotNet
-AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS   <-- for CosmosDB/SQL & DotNet
-AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE      <-- for CosmosDB/SQL & DotNet Bulk Loading
+AZURE_COSMOSDB_NOSQL_CONN_STRING1       <-- for CosmosDB/SQL & DotNet
+AZURE_COSMOSDB_NOSQL_RW_KEY1            <-- for CosmosDB/SQL & DotNet
+AZURE_COSMOSDB_NOSQL_URI                <-- for CosmosDB/SQL & DotNet
+AZURE_COSMOSDB_NOSQL_REGIONS            <-- for CosmosDB/SQL & DotNet
+AZURE_COSMOSDB_NOSQL_BULK_BATCH_SIZE    <-- for CosmosDB/SQL & DotNet Bulk Loading
 
-AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING  <-- for CosmosDB/Mongo & Java or Python
+AZURE_COSMOSDB_MONGODB_CONN_STRING      <-- for CosmosDB/Mongo & Java or Python
 ```
 
 ## Standard Generated Dataset 

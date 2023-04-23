@@ -24,7 +24,7 @@ each is **/pk**.
 Set the following environment variable to your CosmosDB connection string.
 
 ```
-AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING=<your connection string from Azure Portal>
+AZURE_COSMOSDB_MONGODB_CONN_STRING=<your connection string from Azure Portal>
 ```
 
 ### Clone and Go

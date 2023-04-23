@@ -11,7 +11,7 @@ package org.cjoakim.cosmos.mongo;
 public class AppConfig {
 
     // Constants, environment variable names:
-    public static final String AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING  = "AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING";
+    public static final String AZURE_COSMOSDB_MONGODB_CONN_STRING  = "AZURE_COSMOSDB_MONGODB_CONN_STRING";
 
     // Class variables:
     private static String[] commandLineArgs = new String[0];
@@ -76,7 +76,7 @@ public class AppConfig {
 
     public static String getMongoConnectionString() {
 
-        return System.getenv(AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING);
+        return System.getenv(AZURE_COSMOSDB_MONGODB_CONN_STRING);
     }
 
     private static void log(String msg) {

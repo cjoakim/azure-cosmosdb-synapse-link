@@ -35,9 +35,9 @@ def mongo_opts():
     # Obtain the connection string from an environment variable.
     # See your CosmosDB/Mongo account in Azure Portal for this value.
     # It will look similar to the following:
-    # mongodb://cjoakimcslcosmosmongo:...<secret>...==@cjoakimcslcosmosmongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cjoakimcslcosmosmongo@
+    # mongodb://gbbcjmongo:<password>@gbbcjmongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@gbbcjmongo@
     opts = dict()
-    opts['conn_string'] = os.environ['AZURE_CSL_COSMOSDB_MONGODB_CONN_STRING']
+    opts['conn_string'] = os.environ['AZURE_COSMOSDB_MONGODB_CONN_STRING']
     opts['verbose'] = verbose()
     return opts
 
