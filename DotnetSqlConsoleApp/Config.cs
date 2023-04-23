@@ -14,11 +14,11 @@ namespace CosmosSL {
     public class Config {
         
         // Constants; environment variable names:
-        public const string AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING  = "AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING";
-        public const string AZURE_CSL_COSMOSDB_SQLDB_KEY          = "AZURE_CSL_COSMOSDB_SQLDB_KEY";
-        public const string AZURE_CSL_COSMOSDB_SQLDB_URI          = "AZURE_CSL_COSMOSDB_SQLDB_URI";
-        public const string AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS = "AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS";
-        public const string AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE    = "AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE";
+        public const string AZURE_COSMOSDB_NOSQL_CONN_STRING1     = "AZURE_COSMOSDB_NOSQL_CONN_STRING1";
+        public const string AZURE_COSMOSDB_NOSQL_RW_KEY1          = "AZURE_COSMOSDB_NOSQL_RW_KEY1";
+        public const string AZURE_COSMOSDB_NOSQL_URI              = "AZURE_COSMOSDB_NOSQL_URI";
+        public const string AZURE_COSMOSDB_NOSQL_PREF_REGIONS     = "AZURE_COSMOSDB_NOSQL_PREF_REGIONS";
+        public const string AZURE_COSMOSDB_NOSQL_BULK_BATCH_SIZE  = "AZURE_COSMOSDB_NOSQL_BULK_BATCH_SIZE";
         
         // Constants; command-line and keywords:
         public const string VERBOSE_FLAG                          = "--verbose";
@@ -58,19 +58,19 @@ namespace CosmosSL {
         }
 
         public string GetCosmosConnString() {
-            return GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_CONN_STRING, null);
+            return GetEnvVar(AZURE_COSMOSDB_NOSQL_CONN_STRING1, null);
         }
 
         public string GetCosmosUri() {
-            return GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_URI, null);
+            return GetEnvVar(AZURE_COSMOSDB_NOSQL_URI, null);
         }
 
         public string GetCosmosKey() {
-            return GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_KEY, null);
+            return GetEnvVar(AZURE_COSMOSDB_NOSQL_RW_KEY1, null);
         }
         
         public string[] GetCosmosPreferredRegions() {
-            string delimList = GetEnvVar(AZURE_CSL_COSMOSDB_SQLDB_PREF_REGIONS, null);
+            string delimList = GetEnvVar(AZURE_COSMOSDB_NOSQL_PREF_REGIONS, null);
             if (delimList == null) {
                 return new string[] { };
             }
@@ -117,7 +117,7 @@ namespace CosmosSL {
         }
 
         public int BulkBatchSize() {
-            string val = GetEnvVar(AZURE_CSL_COSMOSDB_BULK_BATCH_SIZE, null);
+            string val = GetEnvVar(AZURE_COSMOSDB_NOSQL_BULK_BATCH_SIZE, null);
             int defaultValue = 100;
             if (val == null) {
                 return defaultValue;

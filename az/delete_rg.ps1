@@ -13,3 +13,4 @@ az group delete `
     > tmp/delete_rg.json
 
 echo 'done'
+echo 'next step: az group list | grep gbb'
