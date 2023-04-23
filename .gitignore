@@ -6,6 +6,9 @@ DotnetConsoleApp/data/date_range.json
 DotnetSqlConsoleApp/data/
 DotnetSqlConsoleApp/data/date_range.json
 
+DotnetNoSqlConsoleApp/data/
+DotnetNoSqlConsoleApp/data/date_range.json
+
 JavaConsoleApp/app/data/
 
 JavaMongoConsoleApp/app/data/
@@ -20,6 +23,8 @@ PythonMongoConsoleApp/venv/
 
 PythonSqlConsoleApp/data/
 PythonSqlConsoleApp/venv/
+PythonNoSqlConsoleApp/data/
+PythonNoSqlConsoleApp/venv/
 
 DatasetGeneration/data/products/*.json
 DatasetGeneration/data/retail/*.json

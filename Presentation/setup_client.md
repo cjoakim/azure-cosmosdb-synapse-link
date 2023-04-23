@@ -79,9 +79,9 @@ from this process - the zip file mentioned above.
 
 **This repo has working Console Application Client code for the following combinations:**
 
-- [CosmosDB/SQL API with DotNet 6](../DotnetConsoleApp/readme.md)
-- [CosmosDB/Mongo API with Java 11](../JavaConsoleApp/readme.md)
-- [CosmosDB/Mongo API with Python 3](../PythonConsoleApp/readme.md)
+- [CosmosDB/SQL API with DotNet 6](../DotnetNoSqlConsoleApp/readme.md)
+- [CosmosDB/Mongo API with Java 11+](../JavaMongoConsoleApp/readme.md)
+- [CosmosDB/Mongo API with Python 3](../PythonMongoConsoleApp/readme.md)
 
 See the appropriate readme.md files in one of these directories to proceed.
 They each implement similar functionality to load CosmosDB with the generated dataset,
