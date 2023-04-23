@@ -1,20 +1,20 @@
 """
 Usage:
     python main.py list_databases
-    python main.py list_containers demo
-    python main.py count_documents demo stores
+    python main.py list_containers retail
+    python main.py count_documents retail stores
     python main.py load_container dbname cname pkattr infile
-    python main.py load_container demo stores store_id data/stores.json --verbose
-    python main.py stream_sales demo sales sale_id data/sales1.json 999999 0.5 
-    python main.py execute_query demo stores find_by_pk --pk 2 
-    python main.py execute_query demo stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
+    python main.py load_container retail stores store_id data/stores.json --verbose
+    python main.py stream_sales retail sales sale_id data/sales1.json 999999 0.5 
+    python main.py execute_query retail stores find_by_pk --pk 2 
+    python main.py execute_query retail stores find_by_pk_id --pk 2 --id 61e6d8407a0af4624aaf0212 --verbose
     python main.py epoch
 """
 
 __author__  = 'Chris Joakim'
 __email__   = "chjoakim@microsoft.com"
 __license__ = "MIT"
-__version__ = "April 2022"
+__version__ = "April 2023"
 
 import arrow
 import json

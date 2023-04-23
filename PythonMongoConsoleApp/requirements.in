@@ -1,7 +1,7 @@
 Jinja2
 arrow
-azure-cosmos
 azure-storage-blob
+dnspython
 docopt
 flake8
 humanize
