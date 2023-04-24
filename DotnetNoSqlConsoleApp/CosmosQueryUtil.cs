@@ -1,5 +1,7 @@
 // Chris Joakim, Microsoft
 
+using System.Runtime.CompilerServices;
+
 namespace CosmosSL {
 
     using System;
@@ -83,6 +85,17 @@ namespace CosmosSL {
                 await this.currentContainer.DeleteItemAsync<GenericDocument>(
                     doc.id, new PartitionKey(doc.pk));
             return response;
+        }
+
+        public async Task<dynamic> PointRead(string id, string pk)
+        {
+            ItemResponse<dynamic> resp = await this.currentContainer.ReadItemAsync<dynamic>(
+                id: id,
+                partitionKey: new PartitionKey(pk)
+            );
+            double ru = resp.RequestCharge;
+            Console.WriteLine($"PointRead request units: {ru}");
+            return resp.Resource;
         }
     }
 }

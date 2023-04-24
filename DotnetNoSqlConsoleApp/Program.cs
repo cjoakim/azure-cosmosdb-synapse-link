@@ -68,6 +68,9 @@ namespace CosmosSL {
                     case "execute_queries":
                         await ExecuteQueries();
                         break;
+                    case "point_read":
+                        await PointRead();
+                        break;
                     default:
                         PrintCliExamples($"invalid cliFunction: {cliFunction}");
                         break;
@@ -385,6 +388,22 @@ namespace CosmosSL {
             Console.WriteLine($"CountDocuments {dbname} {cname} -> {count}"); 
         }
 
+        private static async Task PointRead()
+        {
+            string dbname = cliArgs[1];
+            string cname  = cliArgs[2];
+            string id     = cliArgs[3];
+            string pk     = cliArgs[4];
+            
+            cosmosClient = CosmosClientFactory.RegularClient();
+            CosmosQueryUtil util = new CosmosQueryUtil(cosmosClient, config.IsVerbose());
+            await util.SetCurrentDatabase(dbname);
+            await util.SetCurrentContainer(cname);
+            dynamic doc = await util.PointRead(id, pk);
+            Console.WriteLine($"PointRead, doc: -> {doc}");
+        }
+        
+        
         private static async Task ExecuteQueries() {
             string dbname = cliArgs[1];
             string cname  = cliArgs[2];
