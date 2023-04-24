@@ -116,6 +116,8 @@ namespace CosmosSL {
             Console.WriteLine("---");
             Console.WriteLine("dotnet run execute_queries <dbname> <cname> <queries-file>");
             Console.WriteLine("dotnet run execute_queries demo customer_sales sql/customer_sales.txt");
+            Console.WriteLine("---");
+            Console.WriteLine("dotnet run point_read <dbname> <cname> <id> <pk>");
             Console.WriteLine("");
         }
         private static async Task ListDatabases() {
