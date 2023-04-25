@@ -12,7 +12,7 @@ python main.py load_container retail stores    store_id    data/stores.json
 python main.py load_container retail sales     sale_id     data/sales1.json
 
 # execute during demonstration:
-# python main.py load_container demo sales     sale_id     data/sales2.json
+# python main.py load_container retail sales sale_id data/sales2.json
 
 python main.py count_documents retail customers
 python main.py count_documents retail products
