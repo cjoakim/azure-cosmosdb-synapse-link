@@ -35,7 +35,9 @@ Synapse/graphframes/data/*.csv
 
 **/.gradle/
 **/.idea/
+**/.vscode/
 **/build/
+**/node_modules
 **/out/
 **/tmp/
 **/venv/
