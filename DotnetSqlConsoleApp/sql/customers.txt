@@ -1,2 +1,0 @@
-qcust0 | SELECT COUNT(1) FROM c
-qcust1 | SELECT * FROM c where c.pk = '0057613672377'

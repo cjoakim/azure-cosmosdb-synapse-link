@@ -1,2 +1,0 @@
-qorders0 | SELECT COUNT(1) FROM c
-qorders1 | SELECT * FROM c where c.pk = 11
